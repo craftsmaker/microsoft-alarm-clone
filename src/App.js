@@ -1,11 +1,14 @@
 import React from 'react';
-import { Link } from "react-router-dom"
-import logo from './logo.svg';
+import "./style.css";
 
 function App() {
   return (
-    <div className="App">
-      <p>Alarm APP made from zero</p>
+    <div className="container">
+    	<Menu/>
+    	<main>
+      		<p>Menu</p>
+    	</main>
+    	<Footer/>
     </div>
   );
 }
