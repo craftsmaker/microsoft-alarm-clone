@@ -3,6 +3,10 @@
 	padding: 0;
 }
 
+li {
+	list-style-type: none;
+}
+
 .container {
 	display: flex;
 	flex-direction: column;
@@ -12,11 +16,47 @@
 }
 
 main {
-	height: 80vh;
+	height: 200%;
 	background-color: black;
 }
 
-header,
+header {
+	background-color: rgb(30,30,30);
+	display: flex;
+	flex-direction: column;
+}
+
+header div {
+	display: flex;
+	flex-direction: row;
+}
+
+header p {
+	width: 90%;
+	margin: 10px;
+}
+
+header ul {
+	display: flex;
+	flex-direction: row;
+}
 footer{
 	background-color: rgb(30,30,30);
+	height: 10%;
+}
+footer ul {
+	display: flex;
+	flex-direction: row;
+}
+
+.button {
+	border: none;
+	background-color: red;
+	padding: 16px 20px;
+	cursor: pointer;
+	text-align: center;
+}
+
+.button:hover {
+	background-color: blue;
 }
