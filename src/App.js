@@ -1,12 +1,13 @@
 import React from 'react';
 import "./style.css";
+import ClockMenu from "./ClockMenu";
 
 function App() {
   return (
     <div className="container">
     	<Menu/>
     	<main>
-      		<p>Menu</p>
+      		<ClockMenu/>
     	</main>
     	<Footer/>
     </div>
@@ -16,15 +17,15 @@ function App() {
 function Menu(){
 	return (
 		<header>
-			<div>
+			<div id="window-menu">
 				<p>Alarmes e Relógio</p>
 				<ul>
-					<li><button className="button">B1</button></li>
-					<li><button className="button">B2</button></li>
-					<li><button className="button">B3</button></li>
+					<li><button className="button"><p>__</p></button></li>
+					<li><button className="button">max</button></li>
+					<li><button className="button" id="close">X</button></li>
 				</ul>
 			</div>
-			<div>
+			<div id="alarm-menu">
 				<ul>
 					<li><button className="button">Alarme</button></li>
 					<li><button className="button">Temporizador</button></li>
@@ -40,7 +41,7 @@ function Footer(){
 	return (
 		<footer>
 			<ul>
-				<li><button className="button">+</button></li>
+				<li><button className="button" id="plus"><p>+</p></button></li>
 				<li><button className="button">ST</button></li>
 				<li><button className="button">Pin</button></li>
 				<li><button className="button">...</button></li>
