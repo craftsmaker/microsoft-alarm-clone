@@ -115,3 +115,11 @@ footer #plus p{
 	background-color: rgb(100,100,100);
 	color: white;
 }
+
+.clocks {
+	display: flex;
+}
+
+.clock {
+	padding: 20px;
+}
