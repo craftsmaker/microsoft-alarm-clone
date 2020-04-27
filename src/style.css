@@ -65,10 +65,12 @@ header #window-menu #close:hover{
 
 header #alarm-menu .button{
 	font-size: 0.9em;
+	color: rgb(150,150,150);
+	padding: 12px 20px;
 }
 
-header #alarm-menu .button {
-	padding: 12px 20px;
+header #alarm-menu .button:hover {
+	color: white;
 }
 
 main {
@@ -108,16 +110,19 @@ footer #plus p{
 	border: none;
 	background-color: inherit;
 	text-align: center;
-	color: rgb(200,200,200);
+	color: white;
 }
 
 .button:hover {
 	background-color: rgb(100,100,100);
-	color: white;
 }
 
-.clocks {
+.clocks > ul {
 	display: flex;
+}
+
+.clocks button{
+	width: 100%;
 }
 
 .clock {

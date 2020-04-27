@@ -1,15 +1,18 @@
-import React from 'react';
+import React,{useState} from 'react';
 import "./style.css";
 import ClockMenu from "./ClockMenu";
 
 function App() {
+  const [timer,setTimer] = useState({});
+  console.log("timer:",timer)
+ 
   return (
     <div className="container">
     	<Menu/>
     	<main>
-      		<ClockMenu/>
+      		<ClockMenu value={timer} onChange={setTimer}/>
     	</main>
-    	<Footer/>
+    	<Footer onChange={setTimer}/>
     </div>
   );
 }
@@ -27,9 +30,9 @@ function Menu(){
 			</div>
 			<div id="alarm-menu">
 				<ul>
-					<li><button className="button">Alarme</button></li>
-					<li><button className="button">Temporizador</button></li>
-					<li><button className="button">Relógio</button></li>
+					<li><button className="button"><i className="fas fa-clock" style={{color: "white"}}></i>Alarme</button></li>
+					<li><button className="button"><i className="fas fa-clock" style={{color: "white"}}></i>Relógio</button></li>
+					<li><button style={{color: "white"}} className="button">Temporizador</button></li>
 					<li><button className="button">Cronômetro</button></li>
 				</ul>
 			</div>
@@ -37,11 +40,12 @@ function Menu(){
 	)
 }
 
-function Footer(){
+function Footer(props){
+	const setTimer = props.onChange;
 	return (
 		<footer>
 			<ul>
-				<li><button className="button" id="plus"><p>+</p></button></li>
+				<li><button className="button" id="plus" onClick={() => setTimer({type:"handleClick"})}><p>+</p></button></li>
 				<li><button className="button">ST</button></li>
 				<li><button className="button">Pin</button></li>
 				<li><button className="button">...</button></li>
