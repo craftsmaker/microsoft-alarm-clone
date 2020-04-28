@@ -67,6 +67,8 @@ header #alarm-menu .button{
 	font-size: 0.9em;
 	color: rgb(150,150,150);
 	padding: 12px 20px;
+	height: 3em;
+	position: relative;
 }
 
 header #alarm-menu .button:hover {
@@ -118,7 +120,9 @@ footer #plus p{
 }
 
 .clocks > ul {
+	width: 100%;
 	display: flex;
+	flex-wrap: wrap;
 }
 
 .clocks button{
@@ -127,4 +131,20 @@ footer #plus p{
 
 .clock {
 	padding: 20px;
+}
+
+.clock:hover{
+	background-color: rgb(30,30,30);
+}
+
+.clock p {
+	text-align: center;
+}
+
+.clock ul{
+	display: flex;
+}
+
+.clock ul i:hover{
+	background-color: rgba(50,50,50,5);
 }

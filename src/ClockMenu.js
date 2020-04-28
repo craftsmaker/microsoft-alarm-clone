@@ -29,7 +29,11 @@ export default function ClockMenu(props) {
 	function handleClick(){
 		const object = {
 			id: (clocks.length + 1).toString(),
-			timer: parseInt((Math.random() * 100).toString(),10)
+			timer: {
+				hours: parseInt((Math.random() * 24).toString(),10),
+				minutes: parseInt((Math.random() * 60).toString(),10),
+				seconds: parseInt((Math.random() * 60).toString(),10)
+			}
 		}
 
 		setClocks([...clocks,object])
@@ -41,7 +45,6 @@ export default function ClockMenu(props) {
 			<div className="clocks">
 				<ul>
 					{clocks.map(clock => 
-
 						<li key={clock.id}><Clock  timer={clock.timer}/></li>
 					)}
 				</ul>
@@ -57,7 +60,7 @@ export default function ClockMenu(props) {
 }
 
 function Clock(props){
-	const timer = props.timer // minutes
+	const timer = props.timer // object {hours,minutes,seconds}
 
 	function handlePlay(){
 
@@ -73,11 +76,11 @@ function Clock(props){
 
 	return(
 		<div className="clock">
-			<p>{timer}</p>
+			<p>{timer.hours}:{timer.minutes}:{timer.seconds}</p>
 			<ul>
-				<li>Reboot</li>
-				<li><i className="fas fa-clock" style={{color: "white"}}></i></li>
-				<li>Resize</li>
+				<li><i className="material-icons" style={{position:"relative",top:15}}>replay</i></li>
+				<li><i className="material-icons" style={{fontSize: 60, color: "white", borderRadius: "100%"}}>play_circle_filled</i></li>
+				<li><i className="material-icons" style={{position:"relative",top:15}}>fullscreen</i></li>
 			</ul>
 		</div>
 	);
