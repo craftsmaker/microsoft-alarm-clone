@@ -1,6 +1,6 @@
 import React,{useState} from "react";
-import Menu from "./Menu";
-import Footer from "./Footer";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 import {Link,useHistory} from "react-router-dom";
 import {connect} from "react-redux";
 
@@ -22,7 +22,7 @@ function Add({modules,dispatch}){
 
 	return (
 		<div className="container">
-			<Menu/>
+			<Header/>
 			<main>
 				<form onSubmit={handleSubmit}>
 					<input type="text" placeholder="Hora" value={hours} onChange={e => setHours(e.target.value)}/>
@@ -37,6 +37,6 @@ function Add({modules,dispatch}){
 	)
 }
 
-export default connect(state=>({
+export default connect(state => ({
 	modules: state
 }))(Add)

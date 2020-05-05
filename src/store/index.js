@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 
 
 function reducer(state = INITIAL_STATE,action){
-	console.log(action.type);
+	
 	let sizeOfClocks = String([...state.clocks].length + 1)
 	switch(action.type)
 	{

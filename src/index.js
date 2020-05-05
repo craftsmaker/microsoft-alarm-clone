@@ -4,7 +4,7 @@ import {HashRouter,Route} from "react-router-dom"
 import {Provider} from "react-redux";
 
 import App from "./App"
-import Add from "./Add"
+import Add from "./screens/Add"
 import store from "./store"
 
 ReactDOM.render(
