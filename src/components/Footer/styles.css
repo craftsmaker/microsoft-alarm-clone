@@ -1,0 +1,29 @@
+footer {
+	background-color: rgb(30,30,30);
+	height: 10%;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+footer ul {
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+}
+
+footer .button {
+	padding: 0 2em;
+	height: 100%;
+}
+
+footer #plus {
+	color: white;
+}
+
+footer #plus p{
+	cursor: inherit;
+}
+
+footer #plus p{
+	font-size: 3em;
+}

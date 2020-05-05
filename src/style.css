@@ -19,98 +19,17 @@ li {
 	height: 100vh;
 	color: white;
 	overflow: hidden;
-}
-
-header {
-	background-color: rgb(30,30,30);
-	display: flex;
-	flex-direction: column;
-	color: white;
-}
-
-header div {
-	display: flex;
-	flex-direction: row;
-}
-
-header p {
-	width: 90%;
-	margin: 10px;
-}
-
-header ul {
-	display: flex;
-	flex-direction: row;
-	height: 100%;
-}
-
-header ul p {
-	width: 100%;
-	margin: 0;
-	position: relative;
-	bottom: 5px;
-}
-
-header .button {
-	padding: 16px 20px;
-}
-
-header #window-menu .button:hover{
-	background-color: blue;
-}
-
-header #window-menu #close:hover{
-	background-color: red;
-}
-
-header #alarm-menu .button{
-	font-size: 0.9em;
-	color: rgb(150,150,150);
-	padding: 12px 20px;
-	height: 3em;
 	position: relative;
 }
 
-header #alarm-menu .button:hover {
-	color: white;
-}
 
 main {
-	height: 130%;
+	height: 97vh;
 	background-color: black;
-	padding: 2em;
 }
 
 main .button {
 	padding: 16px 20px;
-}
-
-footer {
-	background-color: rgb(30,30,30);
-	height: 10%;
-}
-footer ul {
-	display: flex;
-	flex-direction: row;
-	height: 100%;
-}
-
-footer .button {
-	padding: 0 2em;
-	height: 100%;
-}
-
-footer #plus {
-	text-decoration: none;
-	color: white;
-}
-
-footer #plus p{
-	cursor: inherit;
-}
-
-footer #plus p{
-	font-size: 3em;
 }
 
 .button {
@@ -118,47 +37,10 @@ footer #plus p{
 	background-color: inherit;
 	text-align: center;
 	color: white;
-	
 	padding: 0;
 }
 
 
 .button:hover {
 	background-color: rgb(100,100,100);
-}
-
-.clocks > ul {
-	width: 100%;
-	display: flex;
-	flex-wrap: wrap;
-}
-
-.clocks button{
-	width: 100%;
-}
-
-.clock {
-	padding: 20px;
-}
-
-.clock:hover{
-	background-color: rgb(30,30,30);
-}
-
-.clock p {
-	text-align: center;
-}
-
-.clock ul{
-	display: flex;
-}
-
-.clock ul i:hover{
-	background-color: rgba(50,50,50,5);
-}
-
-footer{
-	position: absolute;
-	bottom: 0;
-	width: 100%;
 }

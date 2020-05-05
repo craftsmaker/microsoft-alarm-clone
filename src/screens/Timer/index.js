@@ -1,6 +1,8 @@
 import React,{useEffect} from "react";
 import {connect} from "react-redux";
-
+import "./styles.css";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 
 function Timer({modules,dispatch}){
 	useEffect(() => {
@@ -14,19 +16,31 @@ function Timer({modules,dispatch}){
 	
 	if (modules.clocks.length !== 0){
 		return (
-			<div className="clocks">
-				<ul>
-					{modules.clocks.map((clock) => 
-						<li key={clock.id}><Clock  timer={clock.timer}/></li>
-					)}
-				</ul>
+			<div className="container">
+				<main>
+					<Header/>
+					<div className="clocks">
+						<ul>
+							{modules.clocks.map((clock) => 
+								<li key={clock.id}><Clock  timer={clock.timer}/></li>
+							)}
+						</ul>
+					</div>
+					<Footer/>
+				</main>
 			</div>
 		);
 	}
 
 	return (
-		<div className="clocks">
-
+		<div className="container">
+			<Header/>
+			<main>
+				<div className="clocks">
+					
+				</div>
+			</main>
+			<Footer/>
 		</div>
 	);
 }
