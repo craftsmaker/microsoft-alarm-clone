@@ -25,13 +25,13 @@ function Add({modules,dispatch}){
 		<div className="container">
 			<Header/>
 			<main id="add-container">
-				<div>
+				<div id="notifications-container">
 					<p>
 						The notifications will only show up if the computer is active.
 						<a href="#">More info</a>
 					</p>
 				</div>
-				<div>
+				<div id="time-container">
 					<h1>NEW TIMER</h1>
 					<form onSubmit={handleSubmit}>
 						<input type="text" placeholder="Hora" value={hours} onChange={e => setHours(e.target.value)}/>
@@ -41,7 +41,7 @@ function Add({modules,dispatch}){
 					</form>
 					<Link to="/">Back</Link>
 				</div>
-				<div>
+				<div id="name-container">
 					<h2>TIMER NAME</h2>
 					<h1>Timer (x)</h1>
 				</div>

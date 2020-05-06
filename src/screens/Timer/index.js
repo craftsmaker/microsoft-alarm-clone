@@ -7,8 +7,14 @@ import Footer from "../../components/Footer";
 function Timer({modules,dispatch}){
 	useEffect(() => {
 		if (localStorage.length > modules.clocks.length){
-			// function getDataFromlocalStorage
-			let clocks = Object.keys(localStorage).map((value,index) => {return {id: index + 1, timer: JSON.parse(localStorage[index + 1])}});
+			function getDataFromLocalStorage(){
+				return Object.keys(localStorage)
+					.map((value,index) => {
+						return {id: index + 1, timer: JSON.parse(localStorage[index + 1])}
+					})
+				
+			}
+			let clocks = getDataFromLocalStorage();
 			dispatch({type: "ADD_CLOCKS", clocks: clocks})
 		}
 		// Compare modules.clock with values in storage
@@ -17,17 +23,17 @@ function Timer({modules,dispatch}){
 	if (modules.clocks.length !== 0){
 		return (
 			<div className="container">
-				<main>
-					<Header/>
-					<div className="clocks">
-						<ul>
-							{modules.clocks.map((clock) => 
-								<li key={clock.id}><Clock  timer={clock.timer}/></li>
-							)}
-						</ul>
-					</div>
-					<Footer/>
-				</main>
+				<Header/>
+					<main>
+						<div className="clocks">
+							<ul>
+								{modules.clocks.map((clock) => 
+									<li key={clock.id}><Clock  timer={clock.timer}/></li>
+								)}
+							</ul>
+						</div>
+					</main>
+				<Footer/>
 			</div>
 		);
 	}

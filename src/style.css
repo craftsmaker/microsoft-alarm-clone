@@ -44,3 +44,13 @@ main .button {
 .button:hover {
 	background-color: rgb(100,100,100);
 }
+
+a{
+	text-decoration: none;
+	font-size: 0.8em;
+	font-family: "Roboto"
+}
+
+h1,h2,h3,h4,h5,h6{
+	font-size: 1em;
+}

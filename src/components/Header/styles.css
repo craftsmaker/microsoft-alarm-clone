@@ -1,53 +1,63 @@
-header {
-	background-color: rgb(30,30,30);
+header{
 	display: flex;
 	flex-direction: column;
-	color: white;
+	flex-basis: 100;
+	flex-shrink: 0;
+	flex-grow: 1;
+	background-color: rgb(30,30,30);
 }
 
-header div {
+header div#window-menu{
+	display: flex;
+}
+
+header div#alarm-menu{
 	display: flex;
 	flex-direction: row;
+	flex-grow: 1;
+	flex-basis: 60px;
+	flex-shrink: 0;
 }
 
-header p {
-	width: 90%;
-	margin: 10px;
-}
 
-header ul {
+header div#window-menu > div{
 	display: flex;
-	flex-direction: row;
-	height: 100%;
+	flex-grow: 1;
+	padding: 8px;
 }
 
-header ul p {
-	width: 100%;
-	margin: 0;
-	position: relative;
-	bottom: 5px;
+header div#window-menu ul{
+	display: flex;
+	flex-grow: 0; /* default */
+}
+header div#window-menu p{
+	font-size: 0.8em;
+
 }
 
-header .button {
-	padding: 16px 20px;
+header div#window-menu ul li button{
+	padding: 10px 15px;
 }
 
-header #window-menu .button:hover{
-	background-color: blue;
+header div#alarm-menu ul{
+	display: flex;
+	flex-grow: 1;
 }
 
-header #window-menu #close:hover{
-	background-color: red;
+header div#alarm-menu ul li{
+	display: flex;
+	flex-grow: 1;
 }
 
-header #alarm-menu .button{
-	font-size: 0.9em;
-	color: rgb(150,150,150);
-	padding: 12px 20px;
-	height: 3em;
-	position: relative;
+header div#alarm-menu ul a{
+	display: flex;
+	flex-grow: 1;
+	flex-shrink: 1;
+	justify-content: center;
+	align-items: center;
 }
 
-header #alarm-menu .button:hover {
-	color: white;
+header div#alarm-menu #alarm-menu-placeholder{
+	display: flex;
+	flex-grow: 10;
 }
