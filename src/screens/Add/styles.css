@@ -1,7 +1,76 @@
 #add-container{
 	display: flex;
-	flex-direction: column;
-	border: 2px solid blue;
 	flex-grow: 1;
 	flex-shrink: 1;
+	flex-direction: column;
+}
+
+#notifications-container{
+	display: flex;
+	flex-grow: 1;
+	flex-shrink: 0;
+	
+}
+
+#timer-container{
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	
+}
+
+#name-container{
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	flex-shrink: 0;
+}
+
+#timer-container form{
+	display: flex;
+	flex-grow: 1;
+	height: 40vh;
+	padding: 10px;
+	
+}
+#timer-container form div{
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	align-items: center;
+	overflow: hidden;
+	position: relative;
+}
+#timer-container div{
+	display: flex;
+	flex-grow: 1;
+}
+#timer-container form > div{
+	border: 1px solid white;
+	background-color: rgb(30,30,30);
+}
+#timer-container form div .arrowDown{
+	display: flex;
+	flex-grow: 0;
+	background-color: rgba(30,30,30,0);
+	height: 60px;
+	width: 100%;
+	color: rgba(255,255,255,0);
+}
+
+#timer-container form div .arrowDown:hover,
+#timer-container form div .arrowUp:hover{
+	background-color: rgba(40,40,40,1);
+	color: rgba(255,255,255,1);
+}
+
+#timer-container form div .arrowUp{
+	display: flex;
+	flex-grow: 0;
+	top: 0;
+	background-color: rgba(30,30,30,0);
+	height: 60px;
+	width: 100%;
+	z-index: 1;
+	color: rgba(255,255,255,0);
 }

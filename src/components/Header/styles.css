@@ -1,7 +1,6 @@
 header{
 	display: flex;
 	flex-direction: column;
-	flex-basis: 100;
 	flex-shrink: 0;
 	flex-grow: 1;
 	background-color: rgb(30,30,30);

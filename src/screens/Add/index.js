@@ -3,12 +3,19 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import {Link,useHistory} from "react-router-dom";
 import {connect} from "react-redux";
+import {RiArrowUpSLine,RiArrowDownSLine} from "react-icons/ri";
 import "./styles.css";
 
 function Add({modules,dispatch}){
 	const [hours,setHours] = useState("");
 	const [minutes,setMinutes] = useState("");
 	const [seconds,setSeconds] = useState("");
+
+
+	let i = 0,TIME = [];
+	for (; i <= 60; i++){
+		TIME.push(i);
+	}
 
 	const history = useHistory();
 
@@ -31,20 +38,46 @@ function Add({modules,dispatch}){
 						<a href="#">More info</a>
 					</p>
 				</div>
-				<div id="time-container">
+				<div id="timer-container">
 					<h1>NEW TIMER</h1>
-					<form onSubmit={handleSubmit}>
-						<input type="text" placeholder="Hora" value={hours} onChange={e => setHours(e.target.value)}/>
-						<input type="text" placeholder="Minuto" value={minutes} onChange={e => setMinutes(e.target.value)}/>
-						<input type="text" placeholder="Seconds" value={seconds} onChange={e =>setSeconds(e.target.value)}/>
-						<button type="submit">Submit</button>
-					</form>
+					<div>
+						<form onSubmit={handleSubmit}>
+							<div>
+								<RiArrowUpSLine className="arrowUp"/>
+								<div>
+									{TIME.map((value,index) => (
+										<p key={index}>{value}</p>
+									))}
+								</div>
+								<RiArrowDownSLine className="arrowDown"/>
+							</div>
+							<div>
+								<RiArrowUpSLine className="arrowUp"/>
+								<div>
+									{TIME.map((value,index) => (
+										<p key={index}>{value}</p>
+									))}
+								</div>
+								<RiArrowDownSLine className="arrowDown"/>
+							</div>
+							<div>
+								<RiArrowUpSLine className="arrowUp"/>
+								<div>
+									{TIME.map((value,index) => (
+										<p key={index}>{value}</p>
+									))}
+								</div>
+								<RiArrowDownSLine className="arrowDown"/>
+							</div>
+						</form>
+					</div>
 					<Link to="/">Back</Link>
 				</div>
 				<div id="name-container">
 					<h2>TIMER NAME</h2>
 					<h1>Timer (x)</h1>
 				</div>
+				<div style={{height: "180px"}}/>
 			</main>
 			<Footer/>
 		</div>
