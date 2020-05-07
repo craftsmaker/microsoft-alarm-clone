@@ -26,6 +26,8 @@ li {
 
 main {
 	background-color: black;
+	display: flex;
+	flex-grow: 1;
 }
 
 main .button {
