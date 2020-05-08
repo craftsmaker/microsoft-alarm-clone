@@ -1,6 +1,4 @@
 import React,{useState, useRef, useEffect} from "react";
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
 import {Link,useHistory} from "react-router-dom";
 import {connect} from "react-redux";
 import {RiArrowUpSLine,RiArrowDownSLine} from "react-icons/ri";
@@ -45,6 +43,46 @@ function Add({modules,dispatch}){
 		}
 	}
 
+	function pointerOver(e){
+		console.log(`Place: (${e.tiltX},${e.tiltY})`);
+		if (e.target.id === "secondsArrowUp"){
+			let secondsArrowDown = document.getElementById("secondsArrowDown");
+			secondsArrowDown.style.backgroundColor = "rgba(40,40,40,1)";
+			secondsArrowDown.style.color = "rgba(255,255,255,1)";
+			e.target.style.backgroundColor = "rgba(40,40,40,1)";
+			e.target.style.color = "rgba(255,255,255,1)";
+		}
+
+		if (e.target.id === "secondsArrowDown"){
+			let secondsArrowUp = document.getElementById("secondsArrowUp");
+			secondsArrowUp.style.backgroundColor = "rgba(40,40,40,1)";
+			secondsArrowUp.style.color = "rgba(255,255,255,1)";
+			e.target.style.backgroundColor = "rgba(40,40,40,1)";
+			e.target.style.color = "rgba(255,255,255,1)";
+		}
+		
+	}
+
+	function pointerOut(e){
+		console.log(e.clientX);
+		if (e.target.id === "secondsArrowUp" && (e.clientX < 550 || e.clientX > 560)){
+			let secondsArrowDown = document.getElementById("secondsArrowDown");
+			secondsArrowDown.style.backgroundColor = "rgba(30,30,30,0)";
+			secondsArrowDown.style.color = "rgba(255,255,255,0)";
+			e.target.style.backgroundColor = "rgba(30,30,30,0)";
+			e.target.style.color = "rgba(255,255,255,0)";
+		}
+
+		if (e.target.id === "secondsArrowDown" && (e.clientX < 550 || e.clientX > 560)){
+			let secondsArrowUp = document.getElementById("secondsArrowUp");
+			secondsArrowUp.style.backgroundColor = "rgba(30,30,30,0)";
+			secondsArrowUp.style.color = "rgba(255,255,255,0)";
+			e.target.style.backgroundColor = "rgba(30,30,30,0)";
+			e.target.style.color = "rgba(255,255,255,0)";
+		}
+		
+	}
+
 	let i = 0,TIME = [];
 	for (; i <= 60; i++){
 		TIME.push(i);
@@ -63,7 +101,6 @@ function Add({modules,dispatch}){
 
 	return (
 		<div className="container">
-			<Header/>
 			<main id="add-container">
 				<div id="notifications-container">
 					<p>
@@ -85,6 +122,7 @@ function Add({modules,dispatch}){
 										return <p key={index} id={"0"+index}>{value}</p>
 									})}
 								</div>
+								<div className="middle-bar"/>
 								<RiArrowDownSLine className="arrowDown" onClick={() => handleHours(hours + 1)}/>
 							</div>
 							<div>
@@ -97,10 +135,11 @@ function Add({modules,dispatch}){
 										return (<p key={index} id={"1"+index}>{value}</p>)
 									})}
 								</div>
+								<div className="middle-bar"/>
 								<RiArrowDownSLine className="arrowDown" onClick={() => handleMinutes(minutes + 1)}/>
 							</div>
 							<div>
-								<RiArrowUpSLine className="arrowUp" onClick={() => handleSeconds(seconds - 1)}/>
+								<RiArrowUpSLine id="secondsArrowUp" className="arrowUp" onClick={() => handleSeconds(seconds - 1)} onPointerOver={pointerOver} onPointerOut={pointerOut} />
 								<div>
 									{TIME.map((value,index) => {
 										if(String(value) === String(seconds)){
@@ -109,7 +148,8 @@ function Add({modules,dispatch}){
 										return <p key={index} id={"2"+index}>{value}</p>
 									})}
 								</div>
-								<RiArrowDownSLine className="arrowDown" onClick={() => handleSeconds(seconds + 1)}/>
+								<div className="middle-bar"/>
+								<RiArrowDownSLine id="secondsArrowDown" className="arrowDown" onClick={() => handleSeconds(seconds + 1)} onPointerOver={pointerOver} onPointerOut={pointerOut}/>
 							</div>
 						</form>
 					</div>
@@ -123,6 +163,12 @@ function Add({modules,dispatch}){
 			</main>
 			<Footer/>
 		</div>
+	)
+}
+
+function Footer(){
+	return (
+		<div/>
 	)
 }
 
