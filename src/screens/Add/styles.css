@@ -31,6 +31,7 @@
 	flex-grow: 1;
 	height: 40vh;
 	padding: 10px;
+	position: relative;
 	
 }
 #timer-container form div{
@@ -58,6 +59,7 @@
 	width: 100%;
 	justify-content: center;
 	z-index: 1;
+	color: white;
 }
 
 #timer-container .middle-bar{
@@ -65,14 +67,15 @@
 	bottom: 50%;
 	height: 20px;
 	width: 100%;
-	background-color: rgba(0,130,200,0.8);
+	background-color: rgba(0,130,200);
+	
 }
 
 #timer-container form div .arrowDown{
 	display: flex;
 	flex-grow: 0;
 	background-color: rgba(30,30,30,0);
-	height: 60px;
+	height: 80px;
 	width: 100%;
 	color: rgba(255,255,255,0);
 }
@@ -82,7 +85,7 @@
 	flex-grow: 0;
 	top: 0;
 	background-color: rgba(30,30,30,0);
-	height: 60px;
+	height: 80px;
 	width: 100%;
 	z-index: 1;
 	color: rgba(255,255,255,0);
