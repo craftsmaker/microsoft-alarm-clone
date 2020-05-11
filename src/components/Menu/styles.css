@@ -1,0 +1,30 @@
+header div#alarm-menu{
+	display: flex;
+	flex-direction: row;
+	flex-grow: 1;
+	flex-basis: 60px;
+	flex-shrink: 0;
+}
+
+header div#alarm-menu ul{
+	display: flex;
+	flex-grow: 1;
+}
+
+header div#alarm-menu ul li{
+	display: flex;
+	flex-grow: 1;
+}
+
+header div#alarm-menu ul a{
+	display: flex;
+	flex-grow: 1;
+	flex-shrink: 1;
+	justify-content: center;
+	align-items: center;
+}
+
+header div#alarm-menu #alarm-menu-placeholder{
+	display: flex;
+	flex-grow: 10;
+}

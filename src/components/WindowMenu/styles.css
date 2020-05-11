@@ -1,0 +1,22 @@
+header div#window-menu{
+	display: flex;
+}
+
+header div#window-menu > div{
+	display: flex;
+	flex-grow: 1;
+	padding: 8px;
+}
+
+header div#window-menu ul{
+	display: flex;
+	flex-grow: 0; /* default */
+}
+header div#window-menu p{
+	font-size: 0.8em;
+
+}
+
+header div#window-menu ul li button{
+	padding: 10px 15px;
+}

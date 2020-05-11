@@ -1,7 +1,9 @@
 import React,{useState, useRef, useEffect} from "react";
-import {Link,useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import {connect} from "react-redux";
 import {RiArrowUpSLine,RiArrowDownSLine} from "react-icons/ri";
+import WindowMenu from "../../components/WindowMenu";
+import Footer from "../../components/Footer";
 import "./styles.css";
 
 function Add({modules,dispatch}){
@@ -176,7 +178,7 @@ function Add({modules,dispatch}){
 		}
 	}
 	
-	let i = 0,hoursList = [], minutesList = [], secondsList = [], TIME = [];
+	let i = 0,hoursList = [], minutesList = [], secondsList = [];
 	const exibited = 10;
 
 	for (i = minutes - exibited; i < minutes + exibited; i++){
@@ -232,6 +234,9 @@ function Add({modules,dispatch}){
 
 	return (
 		<div className="container">
+			<header>
+				<WindowMenu/>
+			</header>
 			<main id="add-container">
 				<div id="notifications-container">
 					<p>
@@ -300,14 +305,12 @@ function Add({modules,dispatch}){
 				</div>
 				<div style={{height: "180px"}}/>
 			</main>
-			<Footer/>
+			<Footer right>
+				<button className="button">Iniciar</button>
+				<button className="button">Cancelar</button>
+				<button className="button">...</button>
+			</Footer>
 		</div>
-	)
-}
-
-function Footer(){
-	return (
-		<div/>
 	)
 }
 
