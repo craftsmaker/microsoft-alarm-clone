@@ -1,22 +1,53 @@
 #add-container{
 	display: flex;
-	flex-grow: 1;
-	flex-shrink: 1;
+	flex: 1 0 600px;
+	min-width: 600px;
 	flex-direction: column;
+	font-family: "Roboto",sans-serif;
+	padding: 10px 25px;
 }
 
 #notifications-container{
 	display: flex;
-	flex-grow: 1;
-	flex-shrink: 0;
-	
+	flex: 1 0 0;
+}
+
+#notifications-container p{
+	color: yellow;
+	font-size: 0.92em;
+}
+
+#notifications-container a{
+	color: rgb(50,140,255);
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+#notifications-container a:hover{
+	color: rgb(160,160,200);
 }
 
 #timer-container{
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
+	padding-top: 20px;
+}
+
+#timer-container h1{
+	letter-spacing: 0.1em;
 	
+}
+#timer-footer{
+	display: flex;
+	flex-direction: row;
+	flex: 1;
+}
+
+#timer-footer li{
+	flex: 1;
+	text-align: center;
+	color: rgb(150,150,150);
 }
 
 #name-container{
@@ -26,13 +57,25 @@
 	flex-shrink: 0;
 }
 
+#name-container{
+	line-height: 2em;
+	font-size: 0.8em;
+	letter-spacing: 0.06em;
+}
+#name-container h1{
+	color: rgb(50,140,255);
+}
+#name-container h1:hover{
+	color: rgb(160,160,200);
+	cursor: text;
+}
+
 #timer-container form{
 	display: flex;
 	flex-grow: 1;
-	height: 40vh;
-	padding: 10px;
+	max-height: 50vh;
+	padding: 10px 0 0 0;
 	position: relative;
-	
 }
 #timer-container form div{
 	flex-direction: column;

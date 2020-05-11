@@ -10,57 +10,59 @@ function Add({modules,dispatch}){
 	const [seconds,setSeconds] = useState(5);
 
 	let hoursReference = useRef(null)	
+	let minutesReference = useRef(null)
+	let secondsReference = useRef(null)
 	useEffect(() => {
 
 		hoursReference.current.scrollIntoView({block: "center", inline: "nearest"})
-		// minutesReference.current.scrollIntoView({block: "center", inline: "nearest"})
-		// secondsReference.current.scrollIntoView({block: "center", inline: "nearest"})
-		// if (minutesReference !== null){
-		// 	minutesReference.current.scrollIntoView({block: "center", inline: "nearest"})
-		// }
-
-		// console.log(hours);
-		// document.getElementById("0" + String(hours)).scrollIntoView({block: "center", inline: "nearest"});
+		minutesReference.current.scrollIntoView({block: "center", inline: "nearest"})
+		secondsReference.current.scrollIntoView({block: "center", inline: "nearest"})
 	})
 
 	function handleMouse(e){
-		if (e.clientY > 115 && e.clientY < 358){
-			const distance = e.clientY - 115;
+		// if (e.clientY > 115 && e.clientY < 358){
+		// 	const distance = e.clientY - 115;
 
-			const number = parseInt(String(distance / e.target.offsetHeight)) - 6
+		// 	const number = parseInt(String(distance / e.target.offsetHeight)) - 6
 
-			const value = hours+number;
-			if (value >= 0)
-			{
-				setHours(value);
-			}
-			else{
-				setHours(60);
-			}
-		}
+		// 	const value = hours+number;
+		// 	if (value >= 0)
+		// 	{
+		// 		setHours(value);
+		// 	}
+		// 	else{
+		// 		setHours(60);
+		// 	}
+		// }
 	}
 
 	function handleHours(value){
-		if (value >= 0 && value < 60)
-		{
+		if (value >= 0 && value <= 60){
 			setHours(value);
-		}
-		else{
+		}else if(value === 61){
+			setHours(0);
+		}else{
 			setHours(60);
 		}
 	}
 
 	function handleMinutes(value){
-		if (!(value < 0) && !(value > 60))
-		{
+		if (value >= 0 && value <= 60){
 			setMinutes(value);
+		}else if(value === 61){
+			setMinutes(0);
+		}else{
+			setMinutes(60);
 		}
 	}
 
 	function handleSeconds(value){
-		if (!(value < 0) && !(value > 60))
-		{
+		if (value >= 0 && value <= 60){
 			setSeconds(value);
+		}else if(value === 61){
+			setSeconds(0);
+		}else{
+			setSeconds(60);
 		}
 	}
 
@@ -173,49 +175,49 @@ function Add({modules,dispatch}){
 			e.target.style.color = "rgba(255,255,255,0)";
 		}
 	}
-
-	console.log("Hours:",hours);
 	
-	let i = 0,hourList = [], TIME = [];
-	const exibited = 10; // valor atual + 5 de hora ou minuto ou segundo
+	let i = 0,hoursList = [], minutesList = [], secondsList = [], TIME = [];
+	const exibited = 10;
 
-	// SIZE OF LIST
-	// AMOUNT OF ITEMS EXIBITIONED
-	// STATE VALUE
-	// SUBIR E DESCER
-
-	// Valor em hora
-
-	for (i = hours - exibited; i < hours + exibited; i++){
-	    if (i <= 60 && i >= 0)
-	    {
-	    	hourList.push(i)
+	for (i = minutes - exibited; i < minutes + exibited; i++){
+	    if (i <= 60 && i >= 0){
+	    	minutesList.push(i)
 	    } else if(i < 0){
-	    	hourList.push(61+i)
+	    	minutesList.push(61+i)
 	    } else {
-	    	hourList.push(i-60)
+	    	minutesList.push(i-60)
 	    }
+	    if (i === 60){
+    		minutesList.push(0);
+    	}
     }
 
-    for (i = 0; i < 30; i++){
-	    TIME.push(i);
+    for (i = seconds - exibited; i < seconds + exibited; i++){
+	    if (i <= 60 && i >= 0){
+	    	secondsList.push(i)
+	    } else if(i < 0){
+	    	secondsList.push(61+i)
+	    } else {
+	    	secondsList.push(i-60)
+	    }
+
+	    if (i === 60){
+    		secondsList.push(0);
+    	}
     }
 
-	// for (; x >= 60; x--){
-
-	// }
-
-	// for (; i <= (LIST_SIZE-n); i++){ //4 - 5 = -1
-	// 	if (i < 0){
-	// 		let x = 60;
-	// 		for (; x >= 0; x--){
-	// 			TIME.unshift(x);
-	// 		}
-	// 	}
-	// 	if (i > 0){
-	// 		TIME.push(i);
-	// 	}
-	// }
+    for (i = hours - exibited; i < hours + exibited; i++){
+	    if (i <= 60 && i >= 0){
+	    	hoursList.push(i);
+	    } else if(i < 0){
+	    	hoursList.push(61+i);
+	    } else {
+	    	hoursList.push(i-60);
+	    }
+	    if (i === 60){
+    		hoursList.push(0);
+    	}
+    }
 
 	const history = useHistory();
 
@@ -228,9 +230,6 @@ function Add({modules,dispatch}){
 		history.push(`/`);
 	}
 
-	// todo p, é exibido de maneira linear, obedencendo a ordem do array dado
-	// a cada negativa na 'barra de seleção', o valor troca com o seu equivalente na posição final
-	// <- 4 = -> 0 -><- 60
 	return (
 		<div className="container">
 			<main id="add-container">
@@ -248,39 +247,40 @@ function Add({modules,dispatch}){
 							<div>
 								<RiArrowUpSLine id="hoursArrowUp" className="arrowUp" onClick={() => handleHours(hours-1)} onPointerOver={pointerOver} onPointerOut={pointerOut}/>
 								<div>
-									{hourList.map((value) => {
-
-										if (String(value) === String(hours)){
-											console.log("AV:",value)
-											return <p ref={hoursReference} key={"0"+	value} id={"0"+value}>{value}</p>
+									{hoursList.map(value => {
+										const stringValue = String(value);
+										if (stringValue === String(hours)){
+											return <p ref={hoursReference} key={"0"+stringValue} id={"0"+stringValue}>{stringValue}</p>
 										}
-										return <p key={"0"+value} id={"0"+value}>{value}</p>
+										return <p key={"0"+stringValue} id={"0"+stringValue}>{stringValue}</p>
 									})}
 								</div>
 								<div className="middle-bar"/>
 								<RiArrowDownSLine id="hoursArrowDown" className="arrowDown" onClick={() => handleHours(hours+1)} onPointerOver={pointerOver} onPointerOut={pointerOut}/>
 							</div>
 							<div>
-								<RiArrowUpSLine id="minutesArrowUp" className="arrowUp" onClick={() => handleMinutes(minutes - 1)} onPointerOver={pointerOver} onPointerOut={pointerOut}/>
+								<RiArrowUpSLine id="minutesArrowUp" className="arrowUp" onClick={() => handleMinutes(minutes-1)} onPointerOver={pointerOver} onPointerOut={pointerOut}/>
 								<div>
-									{TIME.map((value,index) =>{
-										if (String(value) === String(minutes)){
-											return <p key={"1" + index} id={"1"+index} >{value}</p>
+									{minutesList.map(value =>{
+										const stringValue = String(value);
+										if (stringValue=== String(minutes)){
+											return <p ref={minutesReference} key={"1" + stringValue} id={"1"+stringValue} >{stringValue}</p>
 										}
-										return (<p key={"1" + index} id={"1"+index}>{value}</p>)
+										return (<p key={"1" + stringValue} id={"1"+stringValue}>{stringValue}</p>)
 									})}
 								</div>
 								<div id="minutesMiddleBar" className="middle-bar" onClick={() => console.log("HELLO")}/>
-								<RiArrowDownSLine id="minutesArrowDown" className="arrowDown" onClick={() => handleMinutes(minutes + 1)} onPointerOver={pointerOver} onPointerOut={pointerOut}	/>
+								<RiArrowDownSLine id="minutesArrowDown" className="arrowDown" onClick={() => handleMinutes(minutes+1)} onPointerOver={pointerOver} onPointerOut={pointerOut}	/>
 							</div>
 							<div>
-								<RiArrowUpSLine id="secondsArrowUp" className="arrowUp" onClick={() => handleSeconds(seconds - 1)} onPointerOver={pointerOver} onPointerOut={pointerOut} />
+								<RiArrowUpSLine id="secondsArrowUp" className="arrowUp" onClick={() => handleSeconds(seconds-1)} onPointerOver={pointerOver} onPointerOut={pointerOut} />
 								<div>
-									{TIME.map((value,index) => {
-										if(String(value) === String(seconds)){
-											return <p key={"1"+index} id={"2"+index}>{value}</p>
+									{secondsList.map(value => {
+										const stringValue = String(value);
+										if(stringValue === String(seconds)){
+											return <p  ref={secondsReference} key={"1"+ stringValue} id={"2"+stringValue}>{stringValue}</p>
 										}
-										return <p key={"1"+index} id={"2"+index}>{value}</p>
+										return <p key={"2"+stringValue} id={"2"+stringValue}>{stringValue}</p>
 									})}
 								</div>
 								<div className="middle-bar"/>
@@ -288,10 +288,14 @@ function Add({modules,dispatch}){
 							</div>
 						</form>
 					</div>
-					<Link to="/">Back</Link>
+					<ul id="timer-footer">
+						<li>hours</li>
+						<li>minutes</li>
+						<li>seconds</li>
+					</ul>
 				</div>
 				<div id="name-container">
-					<h2>TIMER NAME</h2>
+					<h2>Timer name</h2>
 					<h1>Timer (x)</h1>
 				</div>
 				<div style={{height: "180px"}}/>
