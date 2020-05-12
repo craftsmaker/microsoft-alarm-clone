@@ -17,7 +17,27 @@ li {
 }
 ::-webkit-scrollbar-thumb	{
 	background: rgb(100,100,100);
-};
+}
+
+::-webkit-scrollbar-thumb:hover{
+	background: rgb(130,130,130);
+}
+
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment  {
+	display: block;	
+}
+
+::-webkit-scrollbar-button:start:decrement{
+	background-color: white;
+	background-image: url("assets/arrowup.png");
+	background-size: 100%;
+}
+::-webkit-scrollbar-button:end:increment{
+	background-color: white;
+	background-image: url("assets/arrowdown.png");
+	background-size: 100%;
+}
 
 body{
 	overflow: hidden;
@@ -36,7 +56,7 @@ main {
 	background-color: black;
 	display: flex;
 	flex-direction: column;
-	flex-grow: 4;
+	flex-grow: 10;
 	padding: 10px;
 }
 

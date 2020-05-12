@@ -1,0 +1,74 @@
+#stopwatch-container{
+	display: flex;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+}
+
+#stopwatch-selection{
+	display: flex;
+	flex: 1;
+	justify-content: center;
+}
+
+#stopwatch-buttons {
+	display: flex;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+}
+
+#stopwatch-buttons svg{
+	font-size: 1.4em;
+	margin: 0 10px;
+	padding: 10px;
+}
+
+#stopwatch-buttons svg:hover{
+	background-color: rgb(30,30,30);
+}
+
+#stopwatch{
+	padding: 20px;
+}
+#stopwatch h1{
+	font-size: 3em;
+	text-align: center;
+}
+
+#stopwatch-stops-header{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-left: 15px;
+}
+
+#stopwatch-stops-header h1,
+#stopwatch-stops-header h2{
+	font-size: 0.9em;
+	text-align: justify;
+}
+
+#stopwatch-stops-header h1{
+	color: rgb(150,150,150);
+}
+
+#stopwatch-stops-header h2{
+	color: rgb(100,100,100);
+}
+
+#stopwatch-stops{
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+
+}
+
+#stopwatch-stop{
+	display: flex;
+}
+#stopwatch-stop h3{
+	margin-right: 10px;
+	font-size: 0.8em;
+	color: rgb(100,100,100);
+}

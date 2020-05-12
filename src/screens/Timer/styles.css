@@ -8,7 +8,7 @@
 
 main .clocks{
 	display: flex;
-	flex: 1 0 200px;
+	flex: 1 0 50px;
 	padding: 0 5vw;
 	flex-wrap: wrap;
 	overflow: auto;
