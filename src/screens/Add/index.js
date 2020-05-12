@@ -1,9 +1,12 @@
 import React,{useState, useRef, useEffect} from "react";
 import {useHistory} from "react-router-dom";
 import {connect} from "react-redux";
+import {FaPlay} from "react-icons/fa";
+import {MdClose} from "react-icons/md";
 import {RiArrowUpSLine,RiArrowDownSLine} from "react-icons/ri";
 import WindowMenu from "../../components/WindowMenu";
 import Footer from "../../components/Footer";
+import Notification from "../../components/Notification";
 import "./styles.css";
 
 function Add({modules,dispatch}){
@@ -238,12 +241,7 @@ function Add({modules,dispatch}){
 				<WindowMenu/>
 			</header>
 			<main id="add-container">
-				<div id="notifications-container">
-					<p>
-						The notifications will only show up if the computer is active.
-						<a href="#">More info</a>
-					</p>
-				</div>
+				<Notification/>
 				<div id="timer-container">
 					<h1>NEW TIMER</h1>
 					<div id="timer-childContainer">
@@ -306,8 +304,8 @@ function Add({modules,dispatch}){
 				<div style={{height: "180px"}}/>
 			</main>
 			<Footer right>
-				<button className="button">Iniciar</button>
-				<button className="button">Cancelar</button>
+				<FaPlay className="button" size={12} onClick={handleSubmit}/>
+				<MdClose className="button" color="white" onClick={() => history.push("/")}/>
 				<button className="button">...</button>
 			</Footer>
 		</div>

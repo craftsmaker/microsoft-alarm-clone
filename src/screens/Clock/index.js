@@ -9,7 +9,7 @@ export default function Clock(){
 			<main>
 				<p>Clock Screen</p>
 			</main>
-			<Footer/>
+			<Footer right/>
 		</div>
 	)
 }

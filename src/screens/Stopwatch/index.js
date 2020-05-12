@@ -10,7 +10,7 @@ export default function Clock(){
 			<main>
 				<p>Stopwatch Screen</p>
 			</main>
-			<Footer/>
+			<Footer right/>
 		</div>
 	)
 }

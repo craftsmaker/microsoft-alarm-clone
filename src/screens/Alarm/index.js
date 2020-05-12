@@ -10,7 +10,7 @@ export default function Clock(){
 			<main>
 				<p>Alarm Screen</p>
 			</main>
-			<Footer/>
+			<Footer right/>
 		</div>
 	)
 }

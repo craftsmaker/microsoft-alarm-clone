@@ -1,14 +1,25 @@
-.clocks > ul {
-	width: 100%;
-	display: flex;
-	flex-wrap: wrap;
+.clocks li{
+	flex: 1;
 }
 
 .clocks button{
 	width: 100%;
 }
 
+main .clocks{
+	display: flex;
+	flex: 1 0 200px;
+	padding: 0 5vw;
+	flex-wrap: wrap;
+	overflow: auto;
+}
+
 .clock {
+	display: flex;
+	flex: 0 0 220px;
+	height: 140px;
+	justify-content: center;
+	align-items: center;
 	padding: 20px;
 }
 
@@ -27,3 +38,4 @@
 .clock ul i:hover{
 	background-color: rgba(50,50,50,5);
 }
+

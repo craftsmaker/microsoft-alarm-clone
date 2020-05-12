@@ -20,3 +20,10 @@ header div#window-menu p{
 header div#window-menu ul li button{
 	padding: 10px 15px;
 }
+header div#window-menu ul li button:hover{
+	background-color: blue;
+}
+
+header div#window-menu ul li button#close:hover{
+	background-color: red;
+}

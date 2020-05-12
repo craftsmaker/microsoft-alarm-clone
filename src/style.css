@@ -12,6 +12,13 @@ li {
 	background: none;
 }
 
+::-webkit-scrollbar{
+	background: rgb(30,30,30);
+}
+::-webkit-scrollbar-thumb	{
+	background: rgb(100,100,100);
+};
+
 body{
 	overflow: hidden;
 }
@@ -21,7 +28,6 @@ body{
 	flex-direction: column;
 	height: 100vh;
 	color: white;
-	
 	position: relative;
 }
 
@@ -29,7 +35,9 @@ body{
 main {
 	background-color: black;
 	display: flex;
-	flex-grow: 1;
+	flex-direction: column;
+	flex-grow: 4;
+	padding: 10px;
 }
 
 main .button {

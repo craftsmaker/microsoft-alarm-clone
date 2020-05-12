@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import "./styles.css";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import Notification from "../../components/Notification";
 
 function Timer({modules,dispatch}){
 	useEffect(() => {
@@ -25,15 +26,14 @@ function Timer({modules,dispatch}){
 			<div className="container">
 				<Header/>
 					<main>
+						<Notification/>
 						<div className="clocks">
-							<ul>
-								{modules.clocks.map((clock) => 
-									<li key={clock.id}><Clock  timer={clock.timer}/></li>
-								)}
-							</ul>
+							{modules.clocks.map((clock) => 
+								<Clock key={clock.id}  timer={clock.timer}/>
+							)}
 						</div>
 					</main>
-				<Footer/>
+				<Footer right/>
 			</div>
 		);
 	}
@@ -42,11 +42,12 @@ function Timer({modules,dispatch}){
 		<div className="container">
 			<Header/>
 			<main>
+				<Notification/>
 				<div className="clocks">
 					
 				</div>
 			</main>
-			<Footer/>
+			<Footer right/>
 		</div>
 	);
 }
@@ -56,12 +57,14 @@ function Clock(props){
 
 	return(
 		<div className="clock">
-			<p>{timer.hours}:{timer.minutes}:{timer.seconds}</p>
-			<ul>
-				<li><i className="material-icons" style={{position:"relative",top:15}}>replay</i></li>
-				<li><i className="material-icons" style={{fontSize: 60, color: "white", borderRadius: "100%"}}>play_circle_filled</i></li>
-				<li><i className="material-icons" style={{position:"relative",top:15}}>fullscreen</i></li>
-			</ul>
+			<div id="clock-childContainer">
+				<p style={{textAlign: "center"}}>{timer.hours}:{timer.minutes}:{timer.seconds}</p>
+				<ul>
+					<li><i className="material-icons" style={{position:"relative",top:15}}>replay</i></li>
+					<li><i className="material-icons" style={{fontSize: 60, color: "white", borderRadius: "100%"}}>play_circle_filled</i></li>
+					<li><i className="material-icons" style={{position:"relative",top:15}}>fullscreen</i></li>
+				</ul>
+			</div>
 		</div>
 	);
 }

@@ -1,5 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import {AiFillPushpin} from "react-icons/ai";
+import {BsListCheck} from "react-icons/bs";
 import "./styles.css";
 
 const Footer = ({modules, dispatch,right,children }) => {
@@ -14,8 +16,8 @@ const Footer = ({modules, dispatch,right,children }) => {
 			<footer>
 				<ul style={{justifyContent: position}}>
 					<li><Link  id="plus" to="/add"><button className="button"><p>+</p></button></Link></li>
-					<li><button className="button">ST</button></li>
-					<li><button className="button">Pin</button></li>
+					<li><BsListCheck className="button"/></li>
+					<li><AiFillPushpin className="button"/></li>
 					<li><button className="button">...</button></li>
 				</ul>
 			</footer>
