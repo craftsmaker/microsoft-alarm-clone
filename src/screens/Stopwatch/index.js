@@ -3,6 +3,7 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import {FaPlay} from "react-icons/fa";
 import {IoMdResize,IoMdRefresh} from "react-icons/io";
+import {useStore} from "react-redux";
 import {AiFillFlag} from "react-icons/ai";
 
 import "./styles.css";
@@ -10,7 +11,8 @@ import "./styles.css";
 export default function Clock(){
 	const [time,setTime] = useState({hour:"00",minute:"00",second:"00",microsecond: "00"});
 	const [isEnabled,setIsEnabled] = useState(false);
-
+	const {getState} = useStore();
+	
 	const parseNumberAndString = (string) => {
 		let newNumber = parseInt(string);
 		newNumber++;
@@ -52,11 +54,11 @@ export default function Clock(){
 	}, [isEnabled,time])
 
 	const handlePlay = () => {
-		setIsEnabled(true);
+		setIsEnabled(!isEnabled);
 	}
 
 	const stopPlay = () => {
-		setIsEnabled(false);
+		setTime({...time, hour: "00", second: "00", microsecond: "00"})
 	}
 
 	return(
@@ -68,7 +70,11 @@ export default function Clock(){
 						<div id="stopwatch">
 							<h1>{time.hour}:{time.minute}:{time.second}<p>,{time.microsecond}</p></h1>
 							<div id="stopwatch-buttons">
-								<IoMdRefresh onClick={stopPlay}/>
+								{
+									isEnabled ?
+									<AiFillFlag/> :
+									<IoMdRefresh onClick={stopPlay}/>
+								}
 								<FaPlay size={30} onClick={handlePlay}/>
 								<IoMdResize/>
 							</div>
