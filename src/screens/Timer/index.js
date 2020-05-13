@@ -1,13 +1,16 @@
 import React,{useEffect} from "react";
-import {connect} from "react-redux";
+import {useStore} from "react-redux";
 import "./styles.css";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Notification from "../../components/Notification";
 
-function Timer({modules,dispatch}){
+function Timer(){
+	const {getState,dispatch} = useStore();
+	const {timer} = getState();
+
 	useEffect(() => {
-		if (localStorage.length > modules.clocks.length){
+		if (localStorage.length > timer.clocks.length){
 			function getDataFromLocalStorage(){
 				return Object.keys(localStorage)
 					.map((value,index) => {
@@ -18,17 +21,17 @@ function Timer({modules,dispatch}){
 			let clocks = getDataFromLocalStorage();
 			dispatch({type: "ADD_CLOCKS", clocks: clocks})
 		}
-		// Compare modules.clock with values in storage
+		// Compare timer.clock with values in storage
 	})
 	
-	if (modules.clocks.length !== 0){
+	if (timer.clocks.length !== 0){
 		return (
 			<div className="container">
 				<Header/>
 					<main>
 						<Notification/>
 						<div className="clocks">
-							{modules.clocks.map((clock) => 
+							{timer.clocks.map(clock => 
 								<Clock key={clock.id}  timer={clock.timer}/>
 							)}
 						</div>
@@ -70,6 +73,4 @@ function Clock(props){
 }
 
 
-export default connect(state => ({
-	modules: state
-}))(Timer)
+export default Timer;

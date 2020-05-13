@@ -1,12 +1,42 @@
-import {createStore} from "redux";
+import {createStore,combineReducers} from "redux";
 
-const INITIAL_STATE = {
+const STOPWATCH_STATE = {
+	isActivated: false,
+	hour: "00",
+	minute: "00",
+	second: "00",
+	microsecond: "00"
+}
+
+function stopWatch(state = STOPWATCH_STATE,action){
+	console.log(action.type);
+	switch(action.type)
+	{
+		case "INCREMENT_HOUR":
+			return {...state,hour: action.hour};
+		case "INCREMENT_MINUTE":
+			return {...state,minute: action.minute,second: "00",microsecond: "00"};
+		case "INCREMENT_SECOND":
+			return {...state,second: action.second, minute: "00",microsecond: "00"};
+		case "INCREMENT_MICROSECOND":
+			return {...state,microsecond: action.microsecond};
+		case "RESET_STOPWATCH":
+			return STOPWATCH_STATE;
+		case "ACTIVATE":
+			return {...state, isActivated: true};
+		case "DEACTIVATE":
+			return {...state, isActivated: false};
+		default:
+			return state;
+	}
+}
+
+const TIMER_STATE = {
 	timer: {},
 	clocks: [],
 }
 
-
-function reducer(state = INITIAL_STATE,action){
+function timer(state = TIMER_STATE,action){
 	
 	let sizeOfClocks = String([...state.clocks].length + 1)
 	switch(action.type)
@@ -37,6 +67,7 @@ function reducer(state = INITIAL_STATE,action){
 	}
 }
 
-const store = createStore(reducer);
+
+const store = createStore(combineReducers({timer,stopWatch}),window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 export default store;

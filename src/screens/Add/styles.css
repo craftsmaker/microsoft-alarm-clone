@@ -1,10 +1,12 @@
+
 #add-container{
 	display: flex;
 	flex: 1 0 0;
-	min-width: 600px;
+	min-width: 500px;
 	flex-direction: column;
 	font-family: "Roboto",sans-serif;
 	padding: 10px 25px;
+
 }
 
 
@@ -12,7 +14,8 @@
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
-	padding-top: 20px;
+	max-height: 70vh;
+
 }
 
 #timer-container h1{
@@ -36,6 +39,7 @@
 	flex-direction: column;
 	flex-grow: 1;
 	flex-shrink: 0;
+
 }
 
 #name-container{

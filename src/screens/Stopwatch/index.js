@@ -3,15 +3,20 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import {FaPlay} from "react-icons/fa";
 import {IoMdResize,IoMdRefresh} from "react-icons/io";
-import {useStore} from "react-redux";
+import {useStore,useSelector,useDispatch} from "react-redux";
 import {AiFillFlag} from "react-icons/ai";
 
 import "./styles.css";
 
 export default function Clock(){
 	const [time,setTime] = useState({hour:"00",minute:"00",second:"00",microsecond: "00"});
-	const [isEnabled,setIsEnabled] = useState(false);
-	const {getState} = useStore();
+	// const [isEnabled,setIsEnabled] = useState(false);
+	// const {getState} = useStore();
+	const dispatch = useDispatch();
+	// const {stopWatch} = getState();
+	const stopWatch = useSelector(state => state.stopWatch);
+
+	console.log(stopWatch);
 	
 	const parseNumberAndString = (string) => {
 		let newNumber = parseInt(string);
@@ -28,37 +33,42 @@ export default function Clock(){
 	}
 
 	useEffect(() => {
-		if (isEnabled) {
+		if (stopWatch.isActivated) {
+			console.log("UEF")
 			setTimeout(() => {
-				const [intMicrosecond,stringMicrosecond] = parseNumberAndString(time.microsecond);
+				const [intMicrosecond,stringMicrosecond] = parseNumberAndString(stopWatch.microsecond);
 
 				if (intMicrosecond === 100){
-					const [intSecond,stringSecond] = parseNumberAndString(time.second);
+					const [intSecond,stringSecond] = parseNumberAndString(stopWatch.second);
 
 					if (intSecond === 60){
-						const [intMinute,stringMinute] = parseNumberAndString(time.minute);
+						const [intMinute,stringMinute] = parseNumberAndString(stopWatch.minute);
 
-						setTime({...time, minute: stringMinute,second: "00", microsecond: "00"})
+						// setTime({...time, minute: stringMinute,second: "00", microsecond: "00"})
+						dispatch({type:"INCREMENT_MINUTE", minute:stringMinute})
 					}
 					else{
-						setTime({...time, second: stringSecond, microsecond: "00"})	
+						// setTime({...time, second: stringSecond, microsecond: "00"})	
+						dispatch({type:"INCREMENT_SECOND", second: stringSecond})
 					}
 					
 				}
 				else{
-					setTime({...time, microsecond: stringMicrosecond})
+					// setTime({...time, microsecond: stringMicrosecond})
+					dispatch({type:"INCREMENT_MICROSECOND", microsecond: stringMicrosecond})
 				}
 				
 			}, 10)
 		}
-	}, [isEnabled,time])
+	})
 
 	const handlePlay = () => {
-		setIsEnabled(!isEnabled);
+		stopWatch.isActivated ? dispatch({type: "DEACTIVATE"}) : dispatch({type: "ACTIVATE"})
+		
 	}
 
 	const stopPlay = () => {
-		setTime({...time, hour: "00", second: "00", microsecond: "00"})
+		dispatch({type: "RESET_STOPWATCH"})
 	}
 
 	return(
@@ -68,10 +78,10 @@ export default function Clock(){
 				<div id="stopwatch-container">
 					<div id="stopwatch-selection">
 						<div id="stopwatch">
-							<h1>{time.hour}:{time.minute}:{time.second}<p>,{time.microsecond}</p></h1>
+							<h1>{stopWatch.hour}:{stopWatch.minute}:{stopWatch.second}<p>,{stopWatch.microsecond}</p></h1>
 							<div id="stopwatch-buttons">
 								{
-									isEnabled ?
+									stopWatch.isActivated ?
 									<AiFillFlag/> :
 									<IoMdRefresh onClick={stopPlay}/>
 								}
