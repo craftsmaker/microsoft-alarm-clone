@@ -1,14 +1,9 @@
-
 #add-container{
-	display: flex;
-	flex: 1 0 0;
-	min-width: 500px;
-	flex-direction: column;
 	font-family: "Roboto",sans-serif;
 	padding: 10px 25px;
-
+	border: 2px solid blue;
+	max-height: 85vh;
 }
-
 
 #timer-container{
 	display: flex;

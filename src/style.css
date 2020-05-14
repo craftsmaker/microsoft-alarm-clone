@@ -56,7 +56,7 @@ main {
 	background-color: black;
 	display: flex;
 	flex-direction: column;
-	flex-grow: 6;
+	flex-grow: 10;
 	padding: 10px;
 }
 

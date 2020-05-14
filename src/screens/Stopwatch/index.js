@@ -1,19 +1,15 @@
-import React,{useState,useEffect} from "react";
+import React,{useEffect} from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import {FaPlay} from "react-icons/fa";
 import {IoMdResize,IoMdRefresh} from "react-icons/io";
-import {useStore,useSelector,useDispatch} from "react-redux";
+import {useSelector,useDispatch} from "react-redux";
 import {AiFillFlag} from "react-icons/ai";
 
 import "./styles.css";
 
 export default function Clock(){
-	const [time,setTime] = useState({hour:"00",minute:"00",second:"00",microsecond: "00"});
-	// const [isEnabled,setIsEnabled] = useState(false);
-	// const {getState} = useStore();
 	const dispatch = useDispatch();
-	// const {stopWatch} = getState();
 	const stopWatch = useSelector(state => state.stopWatch);
 
 	console.log(stopWatch);
@@ -34,7 +30,6 @@ export default function Clock(){
 
 	useEffect(() => {
 		if (stopWatch.isActivated) {
-			console.log("UEF")
 			setTimeout(() => {
 				const [intMicrosecond,stringMicrosecond] = parseNumberAndString(stopWatch.microsecond);
 
@@ -42,7 +37,7 @@ export default function Clock(){
 					const [intSecond,stringSecond] = parseNumberAndString(stopWatch.second);
 
 					if (intSecond === 60){
-						const [intMinute,stringMinute] = parseNumberAndString(stopWatch.minute);
+						const [,stringMinute] = parseNumberAndString(stopWatch.minute);
 
 						// setTime({...time, minute: stringMinute,second: "00", microsecond: "00"})
 						dispatch({type:"INCREMENT_MINUTE", minute:stringMinute})
@@ -61,6 +56,10 @@ export default function Clock(){
 			}, 10)
 		}
 	})
+
+	const handleMark = () => {
+		dispatch({type: "ADD_MARK"})
+	}
 
 	const handlePlay = () => {
 		stopWatch.isActivated ? dispatch({type: "DEACTIVATE"}) : dispatch({type: "ACTIVATE"})
@@ -82,7 +81,7 @@ export default function Clock(){
 							<div id="stopwatch-buttons">
 								{
 									stopWatch.isActivated ?
-									<AiFillFlag/> :
+									<AiFillFlag onClick={handleMark}/> :
 									<IoMdRefresh onClick={stopPlay}/>
 								}
 								<FaPlay size={30} onClick={handlePlay}/>
@@ -94,12 +93,16 @@ export default function Clock(){
 								<h1>Voltas</h1>
 								<h2>Parciais</h2>
 							</div>
-							<div id="stopwatch-stop">
-								<h3>3</h3>
-								<div>
-									<p>00:00:01</p>
-								</div>
-							</div>
+							{stopWatch.marks.map((mark,index) => (
+								<div key={index} id="stopwatch-stop">
+									<h3>{index+1}</h3>
+									<div>
+										<p>00:00:01</p>
+										<p>{mark.hour}:{mark.minute}:{mark.second},{mark.microsecond}</p>
+									</div>
+								</div>			
+							))}
+							
 						</div>
 					</div>
 				</div>

@@ -5,7 +5,8 @@ const STOPWATCH_STATE = {
 	hour: "00",
 	minute: "00",
 	second: "00",
-	microsecond: "00"
+	microsecond: "00",
+	marks: []
 }
 
 function stopWatch(state = STOPWATCH_STATE,action){
@@ -22,6 +23,8 @@ function stopWatch(state = STOPWATCH_STATE,action){
 			return {...state,microsecond: action.microsecond};
 		case "RESET_STOPWATCH":
 			return STOPWATCH_STATE;
+		case "ADD_MARK":
+			return {...state, marks: [...state.marks,{hour:state.hour,minute:state.minute,second:state.second,microsecond:state.microsecond}]}
 		case "ACTIVATE":
 			return {...state, isActivated: true};
 		case "DEACTIVATE":

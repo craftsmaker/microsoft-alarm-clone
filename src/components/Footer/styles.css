@@ -1,9 +1,9 @@
 footer {
 	display: flex;
 	flex-direction: column;
-	flex-shrink: 0;
-	flex-grow: 0;
+	flex-grow: 1;
 	background-color: rgb(30,30,30);
+	border: 1px solid red;
 }
 footer ul {
 	display: flex;

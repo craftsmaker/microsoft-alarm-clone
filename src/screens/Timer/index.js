@@ -28,14 +28,14 @@ function Timer(){
 		return (
 			<div className="container">
 				<Header/>
-					<main>
-						<Notification/>
-						<div className="clocks">
-							{timer.clocks.map(clock => 
-								<Clock key={clock.id}  timer={clock.timer}/>
-							)}
-						</div>
-					</main>
+				<main>
+					<Notification/>
+					<div className="clocks">
+						{timer.clocks.map(clock => 
+							<Clock key={clock.id}  timer={clock.timer}/>
+						)}
+					</div>
+				</main>
 				<Footer right/>
 			</div>
 		);
