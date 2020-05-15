@@ -18,4 +18,4 @@ npm start
 ```
 
 ## License
-[MIT]("LICENSE")
+[MIT](LICENSE)
