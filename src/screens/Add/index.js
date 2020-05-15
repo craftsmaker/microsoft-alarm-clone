@@ -229,9 +229,24 @@ function Add({modules,dispatch}){
 	function handleSubmit(e){
 		e.preventDefault();
 		console.log("Submited");
-		
-		
-		dispatch({type:"ADD_TIMER", timer: {hours,seconds,minutes}});
+
+		let newHours = String(hours);
+		let newMinutes = String(minutes);
+		let newSeconds = String(seconds);
+
+		if (hours < 10){
+			newHours = newHours.padStart(2, "0");
+		}
+
+		if (minutes < 10){
+			newMinutes = newMinutes.padStart(2, "0");
+		}
+
+		if (seconds < 10){
+			newSeconds = newSeconds.padStart(2, "0");
+		}
+
+		dispatch({type:"ADD_TIMER", timer: {hours: newHours,minutes: newMinutes,seconds: newSeconds}});
 		history.push(`/`);
 	}
 

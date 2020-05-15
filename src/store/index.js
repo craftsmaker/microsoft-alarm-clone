@@ -35,6 +35,7 @@ function stopWatch(state = STOPWATCH_STATE,action){
 }
 
 const TIMER_STATE = {
+	activeClocksIDs: [],
 	timer: {},
 	clocks: [],
 }
@@ -45,26 +46,82 @@ function timer(state = TIMER_STATE,action){
 	switch(action.type)
 	{
 		case "ADD_TIMER":
+			const timer = {...action.timer,millisecondbyten: "00"};
 			const parsedClocks = 
 			[
 				...state.clocks,
 				{
 					id: sizeOfClocks ,
-					timer: action.timer
+					timer: timer
 				}
 			];
 			
-			console.log(sizeOfClocks,JSON.stringify(action.timer))
-			localStorage.setItem(sizeOfClocks,JSON.stringify(action.timer))
+			localStorage.setItem(sizeOfClocks,JSON.stringify(timer))
 			return {
 				...state,
-				timer: action.timer,
+				timer: timer,
 				clocks: parsedClocks
 		}
 		case "RESET_TIMER":
 			return {...state,timer: {}, clocks: [...state.clocks]};
+		case "ACTIVATE_TIMER":
+			//Ad id in list
+			return {...state, activeClocksIDs: [...state.activeClocksIDs,{id:action.identifier}]}
+		case "DEACTIVATE_TIMER":
+			// remove spefic id from list
+			let activeClocksIDs = [...state.activeClocksIDs],newCopy = [],x = 0;
+			const identifier = action.identifier;
+			// console.log("DEACTIVATED:",activeClocksIDs)
+			for (x of activeClocksIDs){
+				if (x.id !== identifier){
+					newCopy.push(x)
+				}
+			}
+			return {...state, activeClocksIDs: [...newCopy]}
 		case "ADD_CLOCKS":
 			return {...state, timer: {}, clocks: action.clocks}
+		case "DECREMENT_COUNTER":
+			let clocks = [...state.clocks];
+
+			clocks.map(clock => {
+				if([...state.activeClocksIDs].some(value => clock?.id === value?.id)){
+					let {timer} = clock;
+					if(timer.millisecondbyten === "00"){
+						let secondInt = parseInt(timer.seconds);
+
+						if (secondInt < 1){
+							secondInt = 60;
+
+							let minuteInt = parseInt(timer.minutes);
+
+							if (minuteInt < 1){
+								minuteInt = 60
+
+								let hourInt = parseInt(timer.hours);
+
+								if (hourInt < 1)
+									hourInt = 24;
+
+								timer.hours = String(--hourInt).padStart(2,"0");
+							}
+
+							timer.minutes = String(--minuteInt).padStart(2, "0");
+
+						}
+
+						timer.seconds = String(--secondInt).padStart(2,"0");
+
+						timer.millisecondbyten = "100";
+						return timer;
+					}
+					else{
+						let millisecondbytenInt = parseInt(timer.millisecondbyten);
+						timer.millisecondbyten = String(--millisecondbytenInt).padStart(2,"0");
+						return timer;
+					}
+				}
+			})
+			return {...state, clocks};
 		default:
 			return {...state,timer: {}, clocks: [...state.clocks]};
 	}

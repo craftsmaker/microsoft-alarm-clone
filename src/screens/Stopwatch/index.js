@@ -10,10 +10,7 @@ import "./styles.css";
 
 export default function Clock(){
 	const dispatch = useDispatch();
-	const stopWatch = useSelector(state => state.stopWatch);
-
-	console.log(stopWatch);
-	
+	const stopWatch = useSelector(state => state.stopWatch);	
 	const parseNumberAndString = (string) => {
 		let newNumber = parseInt(string);
 		newNumber++;
@@ -69,7 +66,7 @@ export default function Clock(){
 	const stopPlay = () => {
 		dispatch({type: "RESET_STOPWATCH"})
 	}
-
+	
 	return(
 		<div className="container">
 			<Header/>
@@ -93,9 +90,9 @@ export default function Clock(){
 								<h1>Voltas</h1>
 								<h2>Parciais</h2>
 							</div>
-							{stopWatch.marks.map((mark,index) => (
-								<div key={index} id="stopwatch-stop">
-									<h3>{index+1}</h3>
+							{[...stopWatch.marks].reverse().map((mark,index,array) => (
+								<div key={array.length - index} id="stopwatch-stop">
+									<h3>{array.length - index}</h3>
 									<div>
 										<p>00:00:01</p>
 										<p>{mark.hour}:{mark.minute}:{mark.second},{mark.microsecond}</p>
