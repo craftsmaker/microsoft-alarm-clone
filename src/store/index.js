@@ -122,6 +122,21 @@ function timer(state = TIMER_STATE,action){
 				}
 			})
 			return {...state, clocks};
+		case "RESET_COUNTER":
+			const copy = [...state.clocks]
+			let object = {};
+
+			if (action?.identifier){
+				copy.map(clock => {
+					if (clock.id === action.identifier){
+						console.log(JSON.parse(localStorage.getItem(action.identifier)))
+						return clock.timer = JSON.parse(localStorage.getItem(action.identifier));
+						
+					}
+				})
+				console.log(copy);
+			}
+			return {...state, clocks: copy};
 		default:
 			return {...state,timer: {}, clocks: [...state.clocks]};
 	}

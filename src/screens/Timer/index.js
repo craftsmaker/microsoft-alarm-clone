@@ -82,6 +82,10 @@ function Clock({timer, identifier}){
 		}
 	}
 
+	const handleRefresh = () => {
+		dispatch({type: "RESET_COUNTER", identifier: identifier});
+	}
+
 	const handlePlay = () => {
 		// console.log(isRunning);
 		isRunning?
@@ -94,7 +98,7 @@ function Clock({timer, identifier}){
 			<div id="clock-childContainer">
 				<p>{timer.hours}:{timer.minutes}:{timer.seconds}</p>
 				<ul>
-					<li><MdRefresh style={{position:"relative",top:0, padding: 20}}/></li>
+					<li><MdRefresh onClick={handleRefresh} style={{position:"relative",top:0, padding: 20}}/></li>
 					<li><MdPlayArrow onClick={handlePlay} style={{fontSize: 60, color: "white", borderRadius: "100%", marginLeft: 50, marginRight: 50}}/></li>
 					<li><IoMdResize style={{position:"relative",top:0, padding: 20}}/></li>
 				</ul>
