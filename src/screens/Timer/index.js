@@ -26,19 +26,13 @@ function Timer(){
 			dispatch({type: "ADD_CLOCKS", clocks: clocks})
 		}
 		// Compare timer.clock with values in storage
-	})
-
-	useEffect(() => {
-		// Check every element of timer list
-		// setInterval to decrement every 10 ms
-		// who is running
 		if (timer.clocks.length > 0 && timer.activeClocksIDs.length > 0){
 			setTimeout(() => {
 				dispatch({type: "DECREMENT_COUNTER"});
 			},10)
 		}
 	})
-	
+
 	if (timer.clocks.length !== 0){
 		return (
 			<div className="container">

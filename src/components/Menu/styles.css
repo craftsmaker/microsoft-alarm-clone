@@ -2,7 +2,7 @@ header div#alarm-menu{
 	display: flex;
 	flex-direction: row;
 	flex-grow: 1;
-	flex-basis: 60px;
+	flex-basis: 50px;
 	flex-shrink: 0;
 }
 
@@ -22,9 +22,4 @@ header div#alarm-menu ul a{
 	flex-shrink: 1;
 	justify-content: center;
 	align-items: center;
-}
-
-header div#alarm-menu #alarm-menu-placeholder{
-	display: flex;
-	flex-grow: 10;
 }

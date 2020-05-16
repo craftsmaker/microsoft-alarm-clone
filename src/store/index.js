@@ -10,7 +10,7 @@ const STOPWATCH_STATE = {
 }
 
 function stopWatch(state = STOPWATCH_STATE,action){
-	console.log(action.type);
+	// console.log(action.type);
 	switch(action.type)
 	{
 		case "INCREMENT_HOUR":
@@ -86,18 +86,18 @@ function timer(state = TIMER_STATE,action){
 			clocks.map(clock => {
 				if([...state.activeClocksIDs].some(value => clock?.id === value?.id)){
 					let {timer} = clock;
-					if(timer.millisecondbyten === "00"){
+					if(timer.millisecondbyten === "00" && !(timer.hours === "00" && timer.minutes === "00" && timer.seconds === "00")){
 						let secondInt = parseInt(timer.seconds);
+						let hourInt = parseInt(timer.hours);
+						let minuteInt = parseInt(timer.minutes);
+						const {log} = console;
+						log(`${hourInt}:${minuteInt}:${secondInt}`)
 
-						if (secondInt < 1){
+						if (secondInt < 1 && minuteInt > 0){
 							secondInt = 60;
 
-							let minuteInt = parseInt(timer.minutes);
-
-							if (minuteInt < 1){
+							if (minuteInt < 1 && hourInt > 0){
 								minuteInt = 60
-
-								let hourInt = parseInt(timer.hours);
 
 								if (hourInt < 1)
 									hourInt = 24;
@@ -105,18 +105,28 @@ function timer(state = TIMER_STATE,action){
 								timer.hours = String(--hourInt).padStart(2,"0");
 							}
 
+
 							timer.minutes = String(--minuteInt).padStart(2, "0");
 
 						}
-
-						timer.seconds = String(--secondInt).padStart(2,"0");
+						else if (secondInt !== 0)
+							timer.seconds = String(--secondInt).padStart(2,"0");
 
 						timer.millisecondbyten = "100";
 						return timer;
 					}
-					else{
+					else if (!(timer.hours === "00" && timer.minutes === "00" && timer.seconds === "00")){
 						let millisecondbytenInt = parseInt(timer.millisecondbyten);
 						timer.millisecondbyten = String(--millisecondbytenInt).padStart(2,"0");
+						return timer;
+					}
+					else{
+						let copy = [...state.clocks];
+						for (let value of copy){
+							if (value.hours === "00" && value.minutes === "00" && value.seconds === "00" && value.millisecondbyten === "00"){
+								return {timer: JSON.parse(localStorage.getItem(value.id))};
+							}
+						}
 						return timer;
 					}
 				}
@@ -129,12 +139,13 @@ function timer(state = TIMER_STATE,action){
 			if (action?.identifier){
 				copy.map(clock => {
 					if (clock.id === action.identifier){
-						console.log(JSON.parse(localStorage.getItem(action.identifier)))
-						return clock.timer = JSON.parse(localStorage.getItem(action.identifier));
-						
+						clock.timer = JSON.parse(localStorage.getItem(action.identifier))
+						let secondsInt = parseInt(clock.timer.seconds);
+						clock.timer.seconds = String(--secondsInt).padStart(2,"0");
+						clock.timer.millisecondbyten = "100";
+						return clock;
 					}
 				})
-				console.log(copy);
 			}
 			return {...state, clocks: copy};
 		default:
