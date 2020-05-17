@@ -1,5 +1,5 @@
 import React,{useState, useRef, useEffect} from "react";
-import {useHistory} from "react-router-dom";
+import {useHistory,useLocation} from "react-router-dom";
 import {connect} from "react-redux";
 import {FaPlay} from "react-icons/fa";
 import {MdClose} from "react-icons/md";
@@ -10,6 +10,12 @@ import Notification from "../../components/Notification";
 import "./styles.css";
 
 function Add({modules,dispatch}){
+	const {log} = console;
+	const {state} = useLocation();
+
+	if (state?.screen)
+		log(`This is Add with state:${state.screen}`)	
+
 	const [hours,setHours] = useState(5);
 	const [minutes,setMinutes] = useState(5);
 	const [seconds,setSeconds] = useState(5);
@@ -247,7 +253,7 @@ function Add({modules,dispatch}){
 		}
 
 		dispatch({type:"ADD_TIMER", timer: {hours: newHours,minutes: newMinutes,seconds: newSeconds}});
-		history.push(`/`);
+		history.push(`/Timer`);
 	}
 
 	return (

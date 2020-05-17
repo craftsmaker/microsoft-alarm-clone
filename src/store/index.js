@@ -5,7 +5,7 @@ const STOPWATCH_STATE = {
 	hour: "00",
 	minute: "00",
 	second: "00",
-	microsecond: "00",
+	millisecondbyten: "00",
 	marks: []
 }
 
@@ -16,15 +16,15 @@ function stopWatch(state = STOPWATCH_STATE,action){
 		case "INCREMENT_HOUR":
 			return {...state,hour: action.hour};
 		case "INCREMENT_MINUTE":
-			return {...state,minute: action.minute,second: "00",microsecond: "00"};
+			return {...state,minute: action.minute,second: "00",millisecondbyten: "00"};
 		case "INCREMENT_SECOND":
-			return {...state,second: action.second, minute: "00",microsecond: "00"};
-		case "INCREMENT_MICROSECOND":
-			return {...state,microsecond: action.microsecond};
+			return {...state,second: action.second, minute: "00",millisecondbyten: "00"};
+		case "INCREMENT_MILLISECONDBYTEN":
+			return {...state,millisecondbyten: action.millisecondbyten};
 		case "RESET_STOPWATCH":
 			return STOPWATCH_STATE;
 		case "ADD_MARK":
-			return {...state, marks: [...state.marks,{hour:state.hour,minute:state.minute,second:state.second,microsecond:state.microsecond}]}
+			return {...state, marks: [...state.marks,{hour:state.hour,minute:state.minute,second:state.second,millisecondbyten:state.millisecondbyten}]}
 		case "ACTIVATE":
 			return {...state, isActivated: true};
 		case "DEACTIVATE":
@@ -113,12 +113,10 @@ function timer(state = TIMER_STATE,action){
 							timer.seconds = String(--secondInt).padStart(2,"0");
 
 						timer.millisecondbyten = "100";
-						return timer;
 					}
 					else if (!(timer.hours === "00" && timer.minutes === "00" && timer.seconds === "00")){
 						let millisecondbytenInt = parseInt(timer.millisecondbyten);
 						timer.millisecondbyten = String(--millisecondbytenInt).padStart(2,"0");
-						return timer;
 					}
 					else{
 						let copy = [...state.clocks];
@@ -127,14 +125,13 @@ function timer(state = TIMER_STATE,action){
 								return {timer: JSON.parse(localStorage.getItem(value.id))};
 							}
 						}
-						return timer;
 					}
 				}
+				return clock;
 			})
 			return {...state, clocks};
 		case "RESET_COUNTER":
 			const copy = [...state.clocks]
-			let object = {};
 
 			if (action?.identifier){
 				copy.map(clock => {
@@ -143,8 +140,8 @@ function timer(state = TIMER_STATE,action){
 						let secondsInt = parseInt(clock.timer.seconds);
 						clock.timer.seconds = String(--secondsInt).padStart(2,"0");
 						clock.timer.millisecondbyten = "100";
-						return clock;
 					}
+					return clock;
 				})
 			}
 			return {...state, clocks: copy};

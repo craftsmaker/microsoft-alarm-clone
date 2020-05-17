@@ -1,10 +1,13 @@
 import React from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import {Link,useLocation} from "react-router-dom";
 import Notification from "../../components/Notification";
+import {BsListCheck} from "react-icons/bs";
 import "./styles.css";
 
 export default function Clock(){
+	const {pathname} = useLocation();
 	return(
 		<div className="container">
 			<Header/>
@@ -15,7 +18,11 @@ export default function Clock(){
 					<Alarm/>
 				</div>
 			</main>
-			<Footer right/>
+			<Footer right>
+				<Link  id="plus" to={{pathname:"/Add", state:{screen: pathname}}}><button className="button"><p>+</p></button></Link>
+				<BsListCheck className="button"/>
+				<button className="button">...</button>
+			</Footer>
 		</div>
 	)
 }

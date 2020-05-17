@@ -10,9 +10,7 @@ import {IoMdResize} from "react-icons/io";
 function Timer(){
 	const dispatch = useDispatch();
 	const {timer} = useSelector(state => state);
-	// const {timer} = getState();
-	
-	// console.log(timer)
+
 	useEffect(() => {
 		if (localStorage.length > timer.clocks.length){
 			function getDataFromLocalStorage(){
