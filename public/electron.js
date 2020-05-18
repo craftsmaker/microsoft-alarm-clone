@@ -5,7 +5,7 @@ function createWindow() {
     mainWindow = new BrowserWindow({ 
         width: 1200, 
         height: 800,
-        icon: ""
+        icon: "",
     });
      
     const path = require("path");
@@ -19,7 +19,7 @@ function createWindow() {
     mainWindow.on("closed", () => (mainWindow = null));
 }
 
-Menu.setApplicationMenu(null);
+// Menu.setApplicationMenu(null);
 app.on("ready", createWindow);
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {

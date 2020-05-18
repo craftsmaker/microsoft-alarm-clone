@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {FaPlay} from "react-icons/fa";
 import {MdClose} from "react-icons/md";
 import {RiArrowUpSLine,RiArrowDownSLine} from "react-icons/ri";
+import {IoIosSave} from "react-icons/io";
 import WindowMenu from "../../components/WindowMenu";
 import Footer from "../../components/Footer";
 import Notification from "../../components/Notification";
@@ -27,7 +28,8 @@ function Add({modules,dispatch}){
 
 		hoursReference.current.scrollIntoView({block: "center", inline: "nearest"})
 		minutesReference.current.scrollIntoView({block: "center", inline: "nearest"})
-		secondsReference.current.scrollIntoView({block: "center", inline: "nearest"})
+		if (state?.screen === "/Timer")
+			secondsReference.current.scrollIntoView({block: "center", inline: "nearest"})
 	})
 
 	function handleMouse(e){
@@ -296,20 +298,24 @@ function Add({modules,dispatch}){
 								<div id="minutesMiddleBar" className="middle-bar" onClick={() => console.log("HELLO")}/>
 								<RiArrowDownSLine id="minutesArrowDown" className="arrowDown" onClick={() => handleMinutes(minutes+1)} onPointerOver={pointerOver} onPointerOut={pointerOut}	/>
 							</div>
-							<div>
-								<RiArrowUpSLine id="secondsArrowUp" className="arrowUp" onClick={() => handleSeconds(seconds-1)} onPointerOver={pointerOver} onPointerOut={pointerOut} />
+							{
+								state?.screen === "/Timer" &&
 								<div>
-									{secondsList.map(value => {
-										const stringValue = String(value);
-										if(stringValue === String(seconds)){
-											return <p  ref={secondsReference} key={"1"+ stringValue} id={"2"+stringValue}>{stringValue}</p>
-										}
-										return <p key={"2"+stringValue} id={"2"+stringValue}>{stringValue}</p>
-									})}
+									<RiArrowUpSLine id="secondsArrowUp" className="arrowUp" onClick={() => handleSeconds(seconds-1)} onPointerOver={pointerOver} onPointerOut={pointerOut} />
+									<div>
+										{secondsList.map(value => {
+											const stringValue = String(value);
+											if(stringValue === String(seconds)){
+												return <p  ref={secondsReference} key={"1"+ stringValue} id={"2"+stringValue}>{stringValue}</p>
+											}
+											return <p key={"2"+stringValue} id={"2"+stringValue}>{stringValue}</p>
+										})}
+									</div>
+									<div className="middle-bar"/>
+									<RiArrowDownSLine id="secondsArrowDown" className="arrowDown" onClick={() => handleSeconds(seconds + 1)} onPointerOver={pointerOver} onPointerOut={pointerOut}/>
 								</div>
-								<div className="middle-bar"/>
-								<RiArrowDownSLine id="secondsArrowDown" className="arrowDown" onClick={() => handleSeconds(seconds + 1)} onPointerOver={pointerOver} onPointerOut={pointerOut}/>
-							</div>
+							}
+							
 						</form>
 					</div>
 					<ul id="timer-footer">
@@ -324,11 +330,25 @@ function Add({modules,dispatch}){
 				</div>
 				<div style={{height: "180px"}}/>
 			</main>
-			<Footer right>
-				<FaPlay className="button" size={12} onClick={handleSubmit}/>
-				<MdClose className="button" color="white" onClick={() => history.push("/")}/>
-				<button className="button">...</button>
-			</Footer>
+			{
+				state?.screen === "/Timer" ?
+				<Footer right>
+					<FaPlay className="button" size={12} onClick={handleSubmit}/>
+					<MdClose className="button" color="white" onClick={() => history.push(state.screen)}/>
+					<button className="button">...</button>
+				</Footer>:
+				<Footer right>
+					<IoIosSave className="button" color="white"/>
+					{
+						state?.screen?
+						<MdClose className="button" color="white" onClick={() => history.push(state.screen)}/>:
+						<MdClose className="button" color="white" onClick={() => history.push("/")}/>
+					}
+						
+					<button className="button">...</button>
+				</Footer>
+			}
+			
 		</div>
 	)
 }
