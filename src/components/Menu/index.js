@@ -4,6 +4,7 @@ import {FaClock} from "react-icons/fa";
 import {FcAlarmClock} from "react-icons/fc";
 import {IoIosTimer} from "react-icons/io";
 import {RiTimerLine} from "react-icons/ri";
+import {useLocation} from "react-router-dom";
 import "./styles.css";
 
 const Menu = ({left,center,right}) => {
@@ -21,6 +22,7 @@ const Menu = ({left,center,right}) => {
 		marginLeft = "50%";
 		marginRight = "0";
 	}
+	const location = useLocation();
 	return (
 		<div id="alarm-menu">
 				<ul style={{
@@ -29,25 +31,25 @@ const Menu = ({left,center,right}) => {
 					marginRight: marginRight
 				}}>
 					<li>
-						<Link to="/Alarm" role="button" className="button">
+						<Link to={{pathname: "/Alarm",state: {actualScreen: location.pathname,screenIndex: 0}}} role="button" className="button">
 							<FaClock size={20}/>
 						 	Alarm
 						 </Link>
 					</li>
 					<li>
-						<Link to="/Clock" role="button" className="button">
+						<Link to={{pathname: "/Clock",state: {actualScreen: location.pathname,screenIndex: 1}}} role="button" className="button">
 							<FcAlarmClock size={20}/>
 								Clock
 						</Link>
 					</li>
 					<li>
-						<Link to="/" role="button" style={{color: "white"}} className="button">
+						<Link to={{pathname: "/Timer",state: {actualScreen: location.pathname,screenIndex: 2}}} role="button" style={{color: "white"}} className="button">
 							<IoIosTimer size={20}/>
 							Timer
 						</Link>
 					</li>
 					<li>
-						<Link to="/Stopwatch" role="button" className="button">
+						<Link to={{pathname:"/Stopwatch",state: {actualScreen: location.pathname,screenIndex: 3}}} role="button" className="button">
 							<RiTimerLine size={20}/>
 							Stopwatch
 						</Link>

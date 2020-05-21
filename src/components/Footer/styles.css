@@ -1,8 +1,9 @@
 footer {
-	display: flex;
-	flex-direction: column;
-	flex: 1;
+	height: 40px;
+	position: "absolute";
 	background-color: rgb(30,30,30);
+	bottom: 0;
+	width: 100vw;
 }
 footer ul {
 	display: flex;

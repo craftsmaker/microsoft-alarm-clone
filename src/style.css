@@ -2,6 +2,11 @@
 	margin: 0;
 	padding: 0;
 	cursor: default;
+	
+}
+
+body{
+	background-color: black;
 }
 
 li {
@@ -44,8 +49,6 @@ body{
 }
 
 .container {
-	display: flex;
-	flex-direction: column;
 	height: 100vh;
 	color: white;
 	position: relative;
@@ -54,10 +57,9 @@ body{
 
 main {
 	background-color: black;
-	display: flex;
-	flex-direction: column;
-	flex: 16;
+	height: 100vh;
 	padding: 10px;
+	
 }
 
 main .button {

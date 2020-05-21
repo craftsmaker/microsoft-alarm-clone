@@ -1,12 +1,7 @@
 import React,{useState, useRef, useEffect} from "react";
 import {useHistory,useLocation} from "react-router-dom";
 import {connect} from "react-redux";
-import {FaPlay} from "react-icons/fa";
-import {MdClose} from "react-icons/md";
 import {RiArrowUpSLine,RiArrowDownSLine} from "react-icons/ri";
-import {IoIosSave} from "react-icons/io";
-import WindowMenu from "../../components/WindowMenu";
-import Footer from "../../components/Footer";
 import Notification from "../../components/Notification";
 import "./styles.css";
 
@@ -259,11 +254,7 @@ function Add({modules,dispatch}){
 	}
 
 	return (
-		<div className="container">
-			<header>
-				<WindowMenu/>
-			</header>
-			<main id="add-container">
+		<main id="add-container">
 				<Notification/>
 				<div id="timer-container">
 					<h1>NEW TIMER</h1>
@@ -330,26 +321,6 @@ function Add({modules,dispatch}){
 				</div>
 				<div style={{height: "180px"}}/>
 			</main>
-			{
-				state?.screen === "/Timer" ?
-				<Footer right>
-					<FaPlay className="button" size={12} onClick={handleSubmit}/>
-					<MdClose className="button" color="white" onClick={() => history.push(state.screen)}/>
-					<button className="button">...</button>
-				</Footer>:
-				<Footer right>
-					<IoIosSave className="button" color="white"/>
-					{
-						state?.screen?
-						<MdClose className="button" color="white" onClick={() => history.push(state.screen)}/>:
-						<MdClose className="button" color="white" onClick={() => history.push("/")}/>
-					}
-						
-					<button className="button">...</button>
-				</Footer>
-			}
-			
-		</div>
 	)
 }
 

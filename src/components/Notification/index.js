@@ -6,7 +6,7 @@ const Notification = () => {
 		<div className="notification">
 			<p>
 				The notifications will only show up if the computer is active.
-				<a href="#">More info</a>
+				<a href="https://youtube.com">More info</a>
 			</p>
 		</div>
 	)

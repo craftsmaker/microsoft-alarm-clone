@@ -1,8 +1,6 @@
 import React,{useEffect} from "react";
 import {useDispatch,useSelector} from "react-redux";
 import "./styles.css";
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
 import Notification from "../../components/Notification";
 import {MdPlayArrow,MdRefresh} from "react-icons/md";
 import {IoMdResize} from "react-icons/io";
@@ -33,41 +31,32 @@ function Timer(){
 
 	if (timer.clocks.length !== 0){
 		return (
-			<div className="container">
-				<Header/>
-				<main>
-					<Notification/>
-					<div className="clocks">
-						{timer.clocks.map(clock => 
-							<Clock key={clock.id} identifier={clock.id} timer={clock.timer}/>
-						)}
-					</div>
-				</main>
-				<Footer right/>
-			</div>
+			<main>
+				<Notification/>
+				<div className="clocks">
+					{timer.clocks.map(clock => 
+						<Clock key={clock.id} identifier={clock.id} timer={clock.timer}/>
+					)}
+				</div>
+			</main>
 		);
 	}
 
 	return (
-		<div className="container">
-			<Header/>
-			<main>
-				<Notification/>
-				<div className="clocks">
-					
-				</div>
-			</main>
-			<Footer right/>
-		</div>
+		<main>
+			<Notification/>
+			<div className="clocks">
+				
+			</div>
+		</main>
 	);
 }
 
 function Clock({timer, identifier}){
-	// dispathc (type:decrement_clock,id:1,hour,second,minute,micro)
 	const {activeClocksIDs} = useSelector(state => state.timer);
 	const dispatch = useDispatch();
 	let isRunning = false;
-	// console.log(activeClocksIDs)
+
 	for (let x of activeClocksIDs){
 		if (x.id === identifier){
 			isRunning = true;

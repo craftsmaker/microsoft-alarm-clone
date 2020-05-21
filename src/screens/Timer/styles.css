@@ -5,10 +5,9 @@
 .clocks button{
 	width: 100%;
 }
-
 main .clocks{
 	display: flex;
-	flex: 1 0 50px;
+	flex: 1 0 100px;
 	padding: 0 5vw;
 	flex-wrap: wrap;
 	overflow: auto;
@@ -43,4 +42,3 @@ main .clocks{
 .clock ul svg:hover{
 	background-color: rgba(50,50,50,5);
 }
-

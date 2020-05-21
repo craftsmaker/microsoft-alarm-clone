@@ -1,6 +1,6 @@
 #stopwatch-container{
 	display: flex;
-	flex: 1;
+	height: 80%;
 	justify-content: center;
 	align-items: center;
 }

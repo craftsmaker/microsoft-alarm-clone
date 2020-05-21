@@ -1,10 +1,8 @@
 import React,{useEffect} from "react";
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
-import {FaPlay,FaShareSquare} from "react-icons/fa";
+import {FaPlay} from "react-icons/fa";
 import {IoMdResize,IoMdRefresh} from "react-icons/io";
 import {useSelector,useDispatch} from "react-redux";
-import {AiFillFlag,AiFillPushpin} from "react-icons/ai";
+import {AiFillFlag} from "react-icons/ai";
 
 import "./styles.css";
 
@@ -68,61 +66,53 @@ export default function Clock(){
 		dispatch({type: "RESET_STOPWATCH"})
 	}
 	const reversedStopwatch =[...stopWatch.marks].reverse();
-	console.log(`1:${reversedStopwatch[0]?.second}, 2:${reversedStopwatch[1]?.second}, 3:${reversedStopwatch[2]?.second}`)
+	
 	return(
-		<div className="container">
-			<Header/>
-			<main>
-				<div id="stopwatch-container">
-					<div id="stopwatch-selection">
-						<div id="stopwatch">
-							<h1>{stopWatch.hour}:{stopWatch.minute}:{stopWatch.second}<p style={{fontSize: "0.5em", display: "inline"}}>,{stopWatch.millisecondbyten}</p></h1>
-							<div id="stopwatch-buttons">
-								{
-									stopWatch.isActivated ?
-									<AiFillFlag onClick={handleMark}/> :
-									<IoMdRefresh onClick={stopPlay}/>
-								}
-								<FaPlay size={30} onClick={handlePlay}/>
-								<IoMdResize/>
-							</div>
-						</div>
-						<div id="stopwatch-stops">
-							<div id="stopwatch-stops-header">
-								<h1>Voltas</h1>
-								<h2>Parciais</h2>
-							</div>
-							{reversedStopwatch.map((mark,index,array) => (
-
-								<div key={array.length - index} id="stopwatch-stop">
-									<h3>{array.length - index}</h3>
-									<div>
-										{console.log(array[index+1])}
-										{
-											reversedStopwatch[index+1]?
-											<p>
-												{String(parseInt(mark.hour) - parseInt(reversedStopwatch[index+1].hour)).padStart(2, "0")}:
-												{String(parseInt(mark.minute) - parseInt(reversedStopwatch[index+1].minute)).padStart(2,"0")}:
-												{String(parseInt(mark.second) - parseInt(reversedStopwatch[index+1].second)).padStart(2,"0")},
-												<p style={{display: "inline"}}>{String(parseInt(mark.millisecondbyten) - parseInt(reversedStopwatch[index+1].millisecondbyten)).padStart(2,"0")}</p>
-											</p>:
-											<p>00:00:{mark.second},<p style={{display: "inline"}}>{mark.millisecondbyten}</p></p>
-
-										}
-										<p>{mark.hour}:{mark.minute}:{mark.second}<p style={{fontSize: "0.8em", display: "inline"}}>,{mark.millisecondbyten}</p></p>
-									</div>
-								</div>			
-							))}
-							
+		<main>
+			<div id="stopwatch-container">
+				<div id="stopwatch-selection">
+					<div id="stopwatch">
+						<h1>{stopWatch.hour}:{stopWatch.minute}:{stopWatch.second}<p style={{fontSize: "0.5em", display: "inline"}}>,{stopWatch.millisecondbyten}</p></h1>
+						<div id="stopwatch-buttons">
+							{
+								stopWatch.isActivated ?
+								<AiFillFlag onClick={handleMark}/> :
+								<IoMdRefresh onClick={stopPlay}/>
+							}
+							<FaPlay size={30} onClick={handlePlay}/>
+							<IoMdResize/>
 						</div>
 					</div>
+					<div id="stopwatch-stops">
+						<div id="stopwatch-stops-header">
+							<h1>Voltas</h1>
+							<h2>Parciais</h2>
+						</div>
+						{reversedStopwatch.map((mark,index,array) => (
+
+							<div key={array.length - index} id="stopwatch-stop">
+								<h3>{array.length - index}</h3>
+								<div>
+									
+									{
+										reversedStopwatch[index+1]?
+										<p>
+											{String(parseInt(mark.hour) - parseInt(reversedStopwatch[index+1].hour)).padStart(2, "0")}:
+											{String(parseInt(mark.minute) - parseInt(reversedStopwatch[index+1].minute)).padStart(2,"0")}:
+											{String(parseInt(mark.second) - parseInt(reversedStopwatch[index+1].second)).padStart(2,"0")},
+											<p style={{display: "inline"}}>{String(parseInt(mark.millisecondbyten) - parseInt(reversedStopwatch[index+1].millisecondbyten)).padStart(2,"0")}</p>
+										</p>:
+										<p>00:00:{mark.second},<p style={{display: "inline"}}>{mark.millisecondbyten}</p></p>
+
+									}
+									<p>{mark.hour}:{mark.minute}:{mark.second}<p style={{fontSize: "0.8em", display: "inline"}}>,{mark.millisecondbyten}</p></p>
+								</div>
+							</div>			
+						))}
+						
+					</div>
 				</div>
-			</main>
-			<Footer right>
-				<AiFillPushpin className="button" color="white"/>
-				<FaShareSquare className="button" color="white"/>
-				<button className="button">...</button>
-			</Footer>
-		</div>
+			</div>
+		</main>
 	)
 }
