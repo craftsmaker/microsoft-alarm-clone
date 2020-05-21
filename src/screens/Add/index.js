@@ -9,6 +9,7 @@ function Add({modules,dispatch}){
 	const {log} = console;
 	const {state} = useLocation();
 
+	log(modules);
 	if (state?.screen)
 		log(`This is Add with state:${state.screen}`)	
 
@@ -19,12 +20,17 @@ function Add({modules,dispatch}){
 	let hoursReference = useRef(null)	
 	let minutesReference = useRef(null)
 	let secondsReference = useRef(null)
+	// everytime a new value is selected, the redux get it
+	// the 'play' button will only make it official
 	useEffect(() => {
 
 		hoursReference.current.scrollIntoView({block: "center", inline: "nearest"})
 		minutesReference.current.scrollIntoView({block: "center", inline: "nearest"})
+
 		if (state?.screen === "/Timer")
 			secondsReference.current.scrollIntoView({block: "center", inline: "nearest"})
+		
+		
 	})
 
 	function handleMouse(e){
@@ -52,6 +58,24 @@ function Add({modules,dispatch}){
 		}else{
 			setHours(60);
 		}
+
+		let newHours = String(hours);
+		let newMinutes = String(minutes);
+		let newSeconds = String(seconds);
+
+		if (hours < 10){
+			newHours = newHours.padStart(2, "0");
+		}
+
+		if (minutes < 10){
+			newMinutes = newMinutes.padStart(2, "0");
+		}
+
+		if (seconds < 10){
+			newSeconds = newSeconds.padStart(2, "0");
+		}
+
+		dispatch({type: "SET_PLACEHOLDER",hour: newHours,minute: newMinutes,second: newSeconds});
 	}
 
 	function handleMinutes(value){
@@ -62,6 +86,25 @@ function Add({modules,dispatch}){
 		}else{
 			setMinutes(60);
 		}
+		console.log("Handling minutes")
+
+		let newHours = String(hours);
+		let newMinutes = String(minutes);
+		let newSeconds = String(seconds);
+
+		if (hours < 10){
+			newHours = newHours.padStart(2, "0");
+		}
+
+		if (minutes < 10){
+			newMinutes = newMinutes.padStart(2, "0");
+		}
+
+		if (seconds < 10){
+			newSeconds = newSeconds.padStart(2, "0");
+		}
+
+		dispatch({type: "SET_PLACEHOLDER",hour: newHours,minute: newMinutes,second: newSeconds});
 	}
 
 	function handleSeconds(value){
@@ -72,6 +115,23 @@ function Add({modules,dispatch}){
 		}else{
 			setSeconds(60);
 		}
+		let newHours = String(hours);
+		let newMinutes = String(minutes);
+		let newSeconds = String(seconds);
+
+		if (hours < 10){
+			newHours = newHours.padStart(2, "0");
+		}
+
+		if (minutes < 10){
+			newMinutes = newMinutes.padStart(2, "0");
+		}
+
+		if (seconds < 10){
+			newSeconds = newSeconds.padStart(2, "0");
+		}
+		
+		dispatch({type: "SET_PLACEHOLDER", hour: newHours,minute: newMinutes,second: newSeconds});
 	}
 
 	function pointerOver(e){

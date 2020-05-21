@@ -3,7 +3,7 @@ import "./style.css";
 import store from "./store"
 import {HashRouter,Route,Redirect,useLocation,Switch,useHistory,Link} from "react-router-dom"
 import {useTransition,animated} from "react-spring";
-import {Provider} from "react-redux";
+import {Provider,useDispatch} from "react-redux";
 import Add from "./screens/Add"
 import Stopwatch from "./screens/Stopwatch"
 import Clock from "./screens/Clock"
@@ -98,6 +98,7 @@ function AnimatedRoute(){
 }
 
 function InFooter(){
+	const dispatch = useDispatch();
 	const location = useLocation();
 	const history = useHistory();
 
@@ -110,7 +111,10 @@ function InFooter(){
 		case "/Add":
 			return(
 				<Footer right>
-					<FaPlay className="button" size={12}/>
+					<FaPlay className="button" size={12} onClick={() => {
+						dispatch({type: "ADD_TIMER"});
+						history.push("/Timer");
+					}}/>
 					<MdClose className="button" color="white" onClick={() => history.push(fromScreen)}/>
 					<button className="button">...</button>
 				</Footer>

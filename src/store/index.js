@@ -36,6 +36,7 @@ function stopWatch(state = STOPWATCH_STATE,action){
 
 const TIMER_STATE = {
 	activeClocksIDs: [],
+	placeholderTimer: {},
 	timer: {},
 	clocks: [],
 }
@@ -46,7 +47,7 @@ function timer(state = TIMER_STATE,action){
 	switch(action.type)
 	{
 		case "ADD_TIMER":
-			const timer = {...action.timer,millisecondbyten: "00"};
+			const timer = {...state.placeholderTimer,millisecondbyten: "00"};
 			const parsedClocks = 
 			[
 				...state.clocks,
@@ -145,6 +146,8 @@ function timer(state = TIMER_STATE,action){
 				})
 			}
 			return {...state, clocks: copy};
+		case "SET_PLACEHOLDER":
+			return {...state, placeholderTimer: {hours: action.hour,minutes: action.minute, seconds: action.second}}
 		default:
 			return {...state,timer: {}, clocks: [...state.clocks]};
 	}
