@@ -12,7 +12,7 @@ const Menu = ({left,center,right}) => {
 	let position = "flex-start";
 	let marginLeft = 0;
 	let marginRight = "50%";
-	console.log(center);
+
 	if (center){
 		position = "center";
 		marginLeft = "25%";
@@ -24,15 +24,18 @@ const Menu = ({left,center,right}) => {
 		marginRight = "0";
 	}
 	const location = useLocation();
-	const screenIndex = location?.state?.screenIndex;
+
 	let [animatedChange,setAnimatedChange,stopAnimatedChange] = useSpring( () => ({left: 0,width: 0}));
 
-	if (screenIndex)
+	console.log(location.pathname);
+
+	const screenIndex = ["/Alarm", "/Clock", "/Timer", "/Stopwatch"].indexOf(location.pathname);
+	if (screenIndex && animatedChange.left !== screenIndex)
 	{
 		setAnimatedChange({left: screenIndex,width: screenIndex});
 		stopAnimatedChange();
 	}
-	else if (screenIndex === 0){
+	else if (screenIndex === 0 && animatedChange.left !== screenIndex){
 		setAnimatedChange({left: screenIndex,width: screenIndex});
 		stopAnimatedChange();
 	}
@@ -43,7 +46,6 @@ const Menu = ({left,center,right}) => {
 					justifyContent: position,
 					marginLeft: marginLeft,
 					marginRight: marginRight,
-					border: "1px solid blue",
 					position: "relative"
 				}}>
 					<li>
@@ -76,8 +78,8 @@ const Menu = ({left,center,right}) => {
 							range: [0,1,2,3],
 							output: ["15%","13%","13%","20%"]
 						}), // 15 -> 12 -> 10 -> 18
-						height: "5px",
-						backgroundColor: "red",
+						height: "2px",
+						backgroundColor: "blue",
 						bottom: "5px",
 						left: animatedChange.left.interpolate({
 							range: [0,1,2,3],

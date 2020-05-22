@@ -1,9 +1,6 @@
 import React from "react";
+import ph from "./map_ms_placeholder.png";
 
 export default function Clock(){
-	return(
-		<main>
-			<p>Clock Screen</p>
-		</main>
-	)
+	return <img src={ph}/>
 }
