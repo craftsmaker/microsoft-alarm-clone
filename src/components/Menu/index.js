@@ -1,4 +1,5 @@
 import React from "react";
+import {animated,useSpring} from "react-spring";
 import {Link} from "react-router-dom";
 import {FaClock} from "react-icons/fa";
 import {FcAlarmClock} from "react-icons/fc";
@@ -23,12 +24,27 @@ const Menu = ({left,center,right}) => {
 		marginRight = "0";
 	}
 	const location = useLocation();
+	const screenIndex = location?.state?.screenIndex;
+	let [animatedChange,setAnimatedChange,stopAnimatedChange] = useSpring( () => ({left: 0,width: 0}));
+
+	if (screenIndex)
+	{
+		setAnimatedChange({left: screenIndex,width: screenIndex});
+		stopAnimatedChange();
+	}
+	else if (screenIndex === 0){
+		setAnimatedChange({left: screenIndex,width: screenIndex});
+		stopAnimatedChange();
+	}
+
 	return (
 		<div id="alarm-menu">
 				<ul style={{
 					justifyContent: position,
 					marginLeft: marginLeft,
-					marginRight: marginRight
+					marginRight: marginRight,
+					border: "1px solid blue",
+					position: "relative"
 				}}>
 					<li>
 						<Link to={{pathname: "/Alarm",state: {actualScreen: location.pathname,screenIndex: 0}}} role="button" className="button">
@@ -54,6 +70,20 @@ const Menu = ({left,center,right}) => {
 							Stopwatch
 						</Link>
 					</li>
+					<animated.li style={{
+						position: "absolute",
+						width: animatedChange.width.interpolate({
+							range: [0,1,2,3],
+							output: ["15%","13%","13%","20%"]
+						}), // 15 -> 12 -> 10 -> 18
+						height: "5px",
+						backgroundColor: "red",
+						bottom: "5px",
+						left: animatedChange.left.interpolate({
+							range: [0,1,2,3],
+							output: ["5%","29%","52%","76%"]
+						}), // 5 - > 30 -> 55 -> 78
+					}}/>
 				</ul>
 			</div>
 	)

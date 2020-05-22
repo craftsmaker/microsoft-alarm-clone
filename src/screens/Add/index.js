@@ -1,17 +1,13 @@
 import React,{useState, useRef, useEffect} from "react";
 import {useHistory,useLocation} from "react-router-dom";
-import {connect} from "react-redux";
+import {useDispatch} from "react-redux";
 import {RiArrowUpSLine,RiArrowDownSLine} from "react-icons/ri";
 import Notification from "../../components/Notification";
 import "./styles.css";
 
-function Add({modules,dispatch}){
-	const {log} = console;
+function Add(){
+	const dispatch = useDispatch();
 	const {state} = useLocation();
-
-	log(modules);
-	if (state?.screen)
-		log(`This is Add with state:${state.screen}`)	
 
 	const [hours,setHours] = useState(5);
 	const [minutes,setMinutes] = useState(5);
@@ -86,7 +82,6 @@ function Add({modules,dispatch}){
 		}else{
 			setMinutes(60);
 		}
-		console.log("Handling minutes")
 
 		let newHours = String(hours);
 		let newMinutes = String(minutes);
@@ -384,6 +379,4 @@ function Add({modules,dispatch}){
 	)
 }
 
-export default connect(state => ({
-	modules: state
-}))(Add)
+export default Add;

@@ -13,7 +13,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import WindowMenu from "./components/WindowMenu";
 import {FaPlay,FaShareSquare} from "react-icons/fa";
-import {AiFillFlag,AiFillPushpin} from "react-icons/ai";
+import {AiFillPushpin} from "react-icons/ai";
 import {MdClose} from "react-icons/md";
 import {BsListCheck} from "react-icons/bs";
 
@@ -35,8 +35,6 @@ function AnimatedRoute(){
 	let toScreenIndex = location?.state?.screenIndex;
 	let fromScreen = location?.state?.actualScreen;
 
-	console.log("screen:" + location?.pathname);
-
 	let fromScreenIndex = 0;
 	ORDER.forEach((value,index) => {
 		if (value === fromScreen){
@@ -56,7 +54,7 @@ function AnimatedRoute(){
 		leave: {transform: "translate3d(100%,0%,0)"} // fim da transição
 	}
 	let transitionConfig = transitionLeft;
-	console.log(`toScreenIndex:${toScreenIndex},fromScreenIndex;${fromScreenIndex}`)
+
 	if (toScreenIndex < fromScreenIndex)
 		transitionConfig = transitionRight;
 
