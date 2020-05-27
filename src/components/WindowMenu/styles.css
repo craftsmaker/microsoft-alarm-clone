@@ -1,5 +1,6 @@
 header div#window-menu{
 	display: flex;
+	-webkit-app-region: drag;
 }
 
 header div#window-menu > div{
@@ -26,4 +27,8 @@ header div#window-menu ul li button:hover{
 
 header div#window-menu ul li button#close:hover{
 	background-color: red;
+}
+
+header .button{
+	-webkit-app-region: no-drag;
 }

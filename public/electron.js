@@ -7,6 +7,7 @@ function createWindow() {
         height: 800,
         frame: false,
         icon: "",
+        movable: true,
         webPreferences: {
             nodeIntegration: true
         }

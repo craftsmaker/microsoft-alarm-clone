@@ -2,11 +2,19 @@
 	<img src=".github/logo.svg" width="200px"/>
 </h4>
 
-# Microsoft Clone Alarm
+<h1 align="center">
+ Microsoft Clone Alarm
+</h1>
+
 Its a recriation of the Microsoft Windows Alarm using React.
 
+Was used the following technologies:
+ - [React](https://reactjs.org)
+ - [Node](https://nodejs.org/en/)
+ - [Electron](https://www.electronjs.org/)
+
 <p>
-	<img src=".github/example01.png" width="100%"/>
+ <img src=".github/example01.png" width="100%"/>
 </p>
 
 ## Installation
