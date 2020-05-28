@@ -47,6 +47,7 @@ function timer(state = TIMER_STATE,action){
 	switch(action.type)
 	{
 		case "ADD_TIMER":
+			console.log(state.placeholderTimer)
 			const timer = {...state.placeholderTimer,millisecondbyten: "00"};
 			const parsedClocks = 
 			[
@@ -62,7 +63,7 @@ function timer(state = TIMER_STATE,action){
 				...state,
 				timer: timer,
 				clocks: parsedClocks
-		}
+			}
 		case "RESET_TIMER":
 			return {...state,timer: {}, clocks: [...state.clocks]};
 		case "ACTIVATE_TIMER":

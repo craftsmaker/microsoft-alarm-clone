@@ -100,7 +100,7 @@ function InFooter(){
 	const location = useLocation();
 	const history = useHistory();
 
-	let fromScreen = location?.state?.actualScreen;
+	let fromScreen = location?.state?.fromScreen;
 	
 	if(!fromScreen)
 		fromScreen = "/Timer"
@@ -110,8 +110,9 @@ function InFooter(){
 			return(
 				<Footer right>
 					<FaPlay className="button" size={12} onClick={() => {
-						dispatch({type: "ADD_TIMER"});
-						history.push("/Timer");
+						if(fromScreen === "/Timer")
+							dispatch({type: "ADD_TIMER"})
+						history.push(fromScreen,{fromScreen: "/Timer"});
 					}}/>
 					<MdClose className="button" color="white" onClick={() => history.push(fromScreen)}/>
 					<button className="button">...</button>

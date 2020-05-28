@@ -1,6 +1,6 @@
 import React,{useState, useRef, useEffect} from "react";
 import {useHistory,useLocation} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch,useSelector} from "react-redux";
 import {RiArrowUpSLine,RiArrowDownSLine} from "react-icons/ri";
 import Notification from "../../components/Notification";
 import "./styles.css";
@@ -18,6 +18,8 @@ function Add(){
 	let secondsReference = useRef(null)
 	// everytime a new value is selected, the redux get it
 	// the 'play' button will only make it official
+	const store = useSelector(state => state.timer);
+	console.log(store)
 	useEffect(() => {
 
 		hoursReference.current.scrollIntoView({block: "center", inline: "nearest"})
@@ -288,23 +290,8 @@ function Add(){
 		e.preventDefault();
 		console.log("Submited");
 
-		let newHours = String(hours);
-		let newMinutes = String(minutes);
-		let newSeconds = String(seconds);
 
-		if (hours < 10){
-			newHours = newHours.padStart(2, "0");
-		}
-
-		if (minutes < 10){
-			newMinutes = newMinutes.padStart(2, "0");
-		}
-
-		if (seconds < 10){
-			newSeconds = newSeconds.padStart(2, "0");
-		}
-
-		dispatch({type:"ADD_TIMER", timer: {hours: newHours,minutes: newMinutes,seconds: newSeconds}});
+		dispatch({type:"ADD_TIMER"});
 		history.push(`/Timer`);
 	}
 

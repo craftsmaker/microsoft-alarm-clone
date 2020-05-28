@@ -23,22 +23,11 @@ const Menu = ({left,center,right}) => {
 		marginLeft = "50%";
 		marginRight = "0";
 	}
+	
 	const location = useLocation();
 
-	let [animatedChange,setAnimatedChange,stopAnimatedChange] = useSpring( () => ({left: 0,width: 0}));
-
-	console.log(location.pathname);
-
 	const screenIndex = ["/Alarm", "/Clock", "/Timer", "/Stopwatch"].indexOf(location.pathname);
-	if (screenIndex && animatedChange.left !== screenIndex)
-	{
-		setAnimatedChange({left: screenIndex,width: screenIndex});
-		stopAnimatedChange();
-	}
-	else if (screenIndex === 0 && animatedChange.left !== screenIndex){
-		setAnimatedChange({left: screenIndex,width: screenIndex});
-		stopAnimatedChange();
-	}
+	let animatedChange = useSpring({left: screenIndex,width: screenIndex});
 
 	return (
 		<div id="alarm-menu">
