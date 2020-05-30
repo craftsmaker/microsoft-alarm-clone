@@ -1,5 +1,5 @@
-import React,{useState, useRef, useEffect} from "react";
-import {useHistory,useLocation} from "react-router-dom";
+import React,{useRef, useEffect} from "react";
+import {useLocation} from "react-router-dom";
 import {useDispatch,useSelector} from "react-redux";
 import {RiArrowUpSLine,RiArrowDownSLine} from "react-icons/ri";
 import Notification from "../../components/Notification";
@@ -9,291 +9,190 @@ function Add(){
 	const dispatch = useDispatch();
 	const {state} = useLocation();
 
-	const [hours,setHours] = useState(5);
-	const [minutes,setMinutes] = useState(5);
-	const [seconds,setSeconds] = useState(5);
-
 	let hoursReference = useRef(null)	
 	let minutesReference = useRef(null)
 	let secondsReference = useRef(null)
 	// everytime a new value is selected, the redux get it
 	// the 'play' button will only make it official
 	const store = useSelector(state => state.timer);
-	console.log(store)
-	useEffect(() => {
+	console.log(store);
 
+	useEffect(() => {
 		hoursReference.current.scrollIntoView({block: "center", inline: "nearest"})
 		minutesReference.current.scrollIntoView({block: "center", inline: "nearest"})
 
 		if (state?.screen === "/Timer")
-			secondsReference.current.scrollIntoView({block: "center", inline: "nearest"})
-		
-		
+			secondsReference.current.scrollIntoView({block: "center", inline: "nearest"})	
 	})
 
-	function handleMouse(e){
-		// if (e.clientY > 115 && e.clientY < 358){
-		// 	const distance = e.clientY - 115;
-
-		// 	const number = parseInt(String(distance / e.target.offsetHeight)) - 6
-
-		// 	const value = hours+number;
-		// 	if (value >= 0)
-		// 	{
-		// 		setHours(value);
-		// 	}
-		// 	else{
-		// 		setHours(60);
-		// 	}
-		// }
-	}
-
 	function handleHours(value){
-		if (value >= 0 && value <= 60){
-			setHours(value);
-		}else if(value === 61){
-			setHours(0);
-		}else{
-			setHours(60);
-		}
+		const {hours,minutes,seconds} = store.placeholderTimer;
 
-		let newHours = String(hours);
-		let newMinutes = String(minutes);
-		let newSeconds = String(seconds);
-
-		if (hours < 10){
-			newHours = newHours.padStart(2, "0");
-		}
-
-		if (minutes < 10){
-			newMinutes = newMinutes.padStart(2, "0");
-		}
-
-		if (seconds < 10){
-			newSeconds = newSeconds.padStart(2, "0");
-		}
-
-		dispatch({type: "SET_PLACEHOLDER",hour: newHours,minute: newMinutes,second: newSeconds});
+		console.log("HandleHours:",hours)
+		if (value >= 0 && value <= 60)
+			dispatch({type: "SET_PLACEHOLDER",hours: String(value).padStart(2,"0"),minutes,seconds});
+		else if(value === 61)
+			dispatch({type: "SET_PLACEHOLDER",hours: String(0).padStart(2,"0"),minutes,seconds});
+		else
+			dispatch({type: "SET_PLACEHOLDER",hours: String(60),minutes,seconds});;
 	}
 
 	function handleMinutes(value){
-		if (value >= 0 && value <= 60){
-			setMinutes(value);
-		}else if(value === 61){
-			setMinutes(0);
-		}else{
-			setMinutes(60);
-		}
+		const {hours,seconds} = store.placeholderTimer;
 
-		let newHours = String(hours);
-		let newMinutes = String(minutes);
-		let newSeconds = String(seconds);
-
-		if (hours < 10){
-			newHours = newHours.padStart(2, "0");
-		}
-
-		if (minutes < 10){
-			newMinutes = newMinutes.padStart(2, "0");
-		}
-
-		if (seconds < 10){
-			newSeconds = newSeconds.padStart(2, "0");
-		}
-
-		dispatch({type: "SET_PLACEHOLDER",hour: newHours,minute: newMinutes,second: newSeconds});
+		if (value >= 0 && value <= 60)
+			dispatch({type: "SET_PLACEHOLDER",hours,minutes: String(value).padStart(2,"0"),seconds});
+		else if(value === 61)
+			dispatch({type: "SET_PLACEHOLDER",hours,minutes: String(0).padStart(2,"0"),seconds});
+		else
+			dispatch({type: "SET_PLACEHOLDER",hours,minutes:  String(60),seconds});;
 	}
 
 	function handleSeconds(value){
-		if (value >= 0 && value <= 60){
-			setSeconds(value);
-		}else if(value === 61){
-			setSeconds(0);
-		}else{
-			setSeconds(60);
-		}
-		let newHours = String(hours);
-		let newMinutes = String(minutes);
-		let newSeconds = String(seconds);
-
-		if (hours < 10){
-			newHours = newHours.padStart(2, "0");
-		}
-
-		if (minutes < 10){
-			newMinutes = newMinutes.padStart(2, "0");
-		}
-
-		if (seconds < 10){
-			newSeconds = newSeconds.padStart(2, "0");
-		}
+		const {hours,minutes} = store.placeholderTimer;
 		
-		dispatch({type: "SET_PLACEHOLDER", hour: newHours,minute: newMinutes,second: newSeconds});
+		if (value >= 0 && value <= 60)
+			dispatch({type: "SET_PLACEHOLDER",hours,minutes,seconds: String(value).padStart(2,"0")});
+		else if(value === 61)
+			dispatch({type: "SET_PLACEHOLDER",hours,minutes,seconds: String(0).padStart(2,"0")});
+		else
+			dispatch({type: "SET_PLACEHOLDER",hours,minutes,seconds: String(60)});;
 	}
 
 	function pointerOver(e){
+		let secondsArrowDown = document.getElementById("secondsArrowDown");
+		let secondsArrowUp = document.getElementById("secondsArrowUp");
 		
-		if (e.target.id === "secondsArrowUp"){
-			let secondsArrowDown = document.getElementById("secondsArrowDown");
-			secondsArrowDown.style.backgroundColor = "rgba(40,40,40,1)";
-			secondsArrowDown.style.color = "rgba(255,255,255,1)";
-			e.target.style.backgroundColor = "rgba(40,40,40,1)";
-			e.target.style.color = "rgba(255,255,255,1)";
-		}
+		let hoursArrowUp = document.getElementById("hoursArrowUp");
+		let hoursArrowDown = document.getElementById("hoursArrowDown");
+		
+		let minutesArrowDown = document.getElementById("minutesArrowDown");
+		let minutesArrowUp = document.getElementById("minutesArrowUp");
 
-		if (e.target.id === "secondsArrowDown"){
-			let secondsArrowUp = document.getElementById("secondsArrowUp");
-			secondsArrowUp.style.backgroundColor = "rgba(40,40,40,1)";
-			secondsArrowUp.style.color = "rgba(255,255,255,1)";
-			e.target.style.backgroundColor = "rgba(40,40,40,1)";
-			e.target.style.color = "rgba(255,255,255,1)";
+		let newStyle = {
+			backgroundColor: "rgba(40,40,40,1)",
+			color: "rgba(255,255,255,1)",
 		}
-
-		if (e.target.id === "minutesArrowUp"){
-			let minutesArrowDown = document.getElementById("minutesArrowDown");
-			minutesArrowDown.style.backgroundColor = "rgba(40,40,40,1)";
-			minutesArrowDown.style.color = "rgba(255,255,255,1)";
-			e.target.style.backgroundColor = "rgba(40,40,40,1)";
-			e.target.style.color = "rgba(255,255,255,1)";
-		}
-
-		if (e.target.id === "minutesArrowDown"){
-			let minutesArrowUp = document.getElementById("minutesArrowUp");
-			minutesArrowUp.style.backgroundColor = "rgba(40,40,40,1)";
-			minutesArrowUp.style.color = "rgba(255,255,255,1)";
-			e.target.style.backgroundColor = "rgba(40,40,40,1)";
-			e.target.style.color = "rgba(255,255,255,1)";
-		}
-
-		if (e.target.id === "hoursArrowUp"){
-			let hoursArrowDown = document.getElementById("hoursArrowDown");
-			hoursArrowDown.style.backgroundColor = "rgba(40,40,40,1)";
-			hoursArrowDown.style.color = "rgba(255,255,255,1)";
-			e.target.style.backgroundColor = "rgba(40,40,40,1)";
-			e.target.style.color = "rgba(255,255,255,1)";
-		}
-
-		if (e.target.id === "hoursArrowDown"){
-			let hoursArrowUp = document.getElementById("hoursArrowUp");
-			hoursArrowUp.style.backgroundColor = "rgba(40,40,40,1)";
-			hoursArrowUp.style.color = "rgba(255,255,255,1)";
-			e.target.style.backgroundColor = "rgba(40,40,40,1)";
-			e.target.style.color = "rgba(255,255,255,1)";
-		}
-
-		if (e.target.id === "minutesMiddleBar"){
-			let minutesArrowDown = document.getElementById("minutesArrowDown");
-			minutesArrowDown.style.backgroundColor = "rgba(40,40,40,1)";
-			minutesArrowDown.style.color = "rgba(255,255,255,1)";
-			let minutesArrowUp = document.getElementById("minutesArrowUp");
-			minutesArrowUp.style.backgroundColor = "rgba(40,40,40,1)";
-			minutesArrowUp.style.color = "rgba(255,255,255,1)";
+		switch(e.target.id){
+			case "secondsArrowUp":
+				Object.assign(secondsArrowDown.style,newStyle)				
+				Object.assign(e.target.style,newStyle)
+				break;
+			case "secondsArrowDown":
+				Object.assign(secondsArrowUp.style,newStyle);
+				Object.assign(e.target.style,newStyle);
+				break;
+			case "minutesArrowUp":
+				Object.assign(minutesArrowUp.style,newStyle);
+				Object.assign(e.target.style,newStyle);		
+				break;
+			case "minutesArrowDown":
+				Object.assign(minutesArrowUp.style,newStyle);
+				Object.assign(e.target.style,newStyle);	
+				break;
+			case "hoursArrowUp":
+				Object.assign(hoursArrowDown.style,newStyle)
+				Object.assign(e.target.style,newStyle);		
+				break;
+			case "hoursArrowDown":
+				Object.assign(hoursArrowUp.style,newStyle)
+				Object.assign(e.target.style,newStyle);				
+				break;
+			case "minutesMiddleBar":
+				Object.assign(minutesArrowDown.style,newStyle);
+				Object.assign(minutesArrowUp.style,newStyle);
+				break;
+			default:
+				break;
 		}
 	}
 
 	function pointerOut(e){
-		if (e.target.id === "secondsArrowUp" && (e.clientX < 450 || e.clientX > 460)){
-			let secondsArrowDown = document.getElementById("secondsArrowDown");
-			secondsArrowDown.style.backgroundColor = "rgba(30,30,30,0)";
-			secondsArrowDown.style.color = "rgba(255,255,255,0)";
-			e.target.style.backgroundColor = "rgba(30,30,30,0)";
-			e.target.style.color = "rgba(255,255,255,0)";
-		}
+		if (!(e.clientX < 450 || e.clientX > 460))
+			return;
+		
+		let secondsArrowDown = document.getElementById("secondsArrowDown");
+		let secondsArrowUp = document.getElementById("secondsArrowUp");
+		
+		let hoursArrowUp = document.getElementById("hoursArrowUp");
+		let hoursArrowDown = document.getElementById("hoursArrowDown");
+		
+		let minutesArrowDown = document.getElementById("minutesArrowDown");
+		let minutesArrowUp = document.getElementById("minutesArrowUp");
 
-		if (e.target.id === "secondsArrowDown" && (e.clientX < 450 || e.clientX > 460)){
-			let secondsArrowUp = document.getElementById("secondsArrowUp");
-			secondsArrowUp.style.backgroundColor = "rgba(30,30,30,0)";
-			secondsArrowUp.style.color = "rgba(255,255,255,0)";
-			e.target.style.backgroundColor = "rgba(30,30,30,0)";
-			e.target.style.color = "rgba(255,255,255,0)";
+		let newStyle = {
+			backgroundColor: "rgba(30,30,30,0)",
+			color: "rgba(255,255,255,0)",
 		}
-
-		if (e.target.id === "minutesArrowUp" && (e.clientX < 450 || e.clientX > 460)){
-			let minutesArrowDown = document.getElementById("minutesArrowDown");
-			minutesArrowDown.style.backgroundColor = "rgba(30,30,30,0)";
-			minutesArrowDown.style.color = "rgba(255,255,255,0)";
-			e.target.style.backgroundColor = "rgba(30,30,30,0)";
-			e.target.style.color = "rgba(255,255,255,0)";
-		}
-
-		if (e.target.id === "minutesArrowDown" && (e.clientX < 450 || e.clientX > 460)){
-			let minutesArrowUp = document.getElementById("minutesArrowUp");
-			minutesArrowUp.style.backgroundColor = "rgba(30,30,30,0)";
-			minutesArrowUp.style.color = "rgba(255,255,255,0)";
-			e.target.style.backgroundColor = "rgba(30,30,30,0)";
-			e.target.style.color = "rgba(255,255,255,0)";
-		}
-
-		if (e.target.id === "hoursArrowUp" && (e.clientX < 450 || e.clientX > 460)){
-			let hoursArrowDown = document.getElementById("hoursArrowDown");
-			hoursArrowDown.style.backgroundColor = "rgba(30,30,30,0)";
-			hoursArrowDown.style.color = "rgba(255,255,255,0)";
-			e.target.style.backgroundColor = "rgba(30,30,30,0)";
-			e.target.style.color = "rgba(255,255,255,0)";
-		}
-
-		if (e.target.id === "hoursArrowDown" && (e.clientX < 450 || e.clientX > 460)){
-			let hoursArrowUp = document.getElementById("hoursArrowUp");
-			hoursArrowUp.style.backgroundColor = "rgba(30,30,30,0)";
-			hoursArrowUp.style.color = "rgba(255,255,255,0)";
-			e.target.style.backgroundColor = "rgba(30,30,30,0)";
-			e.target.style.color = "rgba(255,255,255,0)";
+		switch(e.target.id){
+			case "secondsArrowUp":
+				Object.assign(secondsArrowDown.style, newStyle)
+				Object.assign(e.target.style, newStyle)
+				break;
+			case "secondsArrowDown":
+				Object.assign(secondsArrowUp.style, newStyle);
+				Object.assign(e.target.style, newStyle);
+				break;
+			case "minutesArrowUp":
+				Object.assign(minutesArrowDown.style, newStyle);
+				Object.assign(e.target.style, newStyle);			
+				break;
+			case "minutesArrowDown":
+				Object.assign(minutesArrowUp.style, newStyle);
+				Object.assign(e.target.style, newStyle);	
+				break;
+			case "hoursArrowUp":
+				Object.assign(hoursArrowDown.style, newStyle)
+				Object.assign(e.target.style, newStyle);		
+				break;
+			case "hoursArrowDown":
+				Object.assign(hoursArrowUp.style,newStyle)
+				Object.assign(e.target.style, newStyle);				
+				break;
+			default:
+				break;
 		}
 	}
 	
 	let i = 0,hoursList = [], minutesList = [], secondsList = [];
 	const exibited = 10;
 
-	for (i = minutes - exibited; i < minutes + exibited; i++){
-	    if (i <= 60 && i >= 0){
-	    	minutesList.push(i)
-	    } else if(i < 0){
-	    	minutesList.push(61+i)
-	    } else {
-	    	minutesList.push(i-60)
-	    }
-	    if (i === 60){
-    		minutesList.push(0);
-    	}
+	const intHours = parseInt(store.placeholderTimer.hours);
+	const intMinutes = parseInt(store.placeholderTimer.minutes);
+	const intSeconds = parseInt(store.placeholderTimer.seconds);
+
+	for (i = intMinutes - exibited; i < intMinutes + exibited; i++){
+		if (i <= 60 && i >= 0)
+			minutesList.push(i)
+		else if(i < 0)
+			minutesList.push(61+i)
+		else
+			minutesList.push(i-60)
+		if (i === 60)
+			minutesList.push(0);
     }
 
-    for (i = seconds - exibited; i < seconds + exibited; i++){
-	    if (i <= 60 && i >= 0){
-	    	secondsList.push(i)
-	    } else if(i < 0){
-	    	secondsList.push(61+i)
-	    } else {
-	    	secondsList.push(i-60)
-	    }
-
-	    if (i === 60){
-    		secondsList.push(0);
-    	}
+    for (i = intSeconds - exibited; i < intSeconds + exibited; i++){
+		if (i <= 60 && i >= 0)
+			secondsList.push(i)
+		else if(i < 0)
+			secondsList.push(61+i)
+		else
+			secondsList.push(i-60)
+		if (i === 60)
+			secondsList.push(0);
     }
 
-    for (i = hours - exibited; i < hours + exibited; i++){
-	    if (i <= 60 && i >= 0){
-	    	hoursList.push(i);
-	    } else if(i < 0){
-	    	hoursList.push(61+i);
-	    } else {
-	    	hoursList.push(i-60);
-	    }
-	    if (i === 60){
-    		hoursList.push(0);
-    	}
+    for (i = intHours - exibited; i < intHours + exibited; i++){
+		if (i <= 60 && i >= 0)
+			hoursList.push(i);
+		else if(i < 0)
+			hoursList.push(61+i);
+		else
+			hoursList.push(i-60);
+		if (i === 60)
+			hoursList.push(0);
     }
-
-	const history = useHistory();
-
-	function handleSubmit(e){
-		e.preventDefault();
-		console.log("Submited");
-
-
-		dispatch({type:"ADD_TIMER"});
-		history.push(`/Timer`);
-	}
 
 	return (
 		<main id="add-container">
@@ -301,55 +200,51 @@ function Add(){
 				<div id="timer-container">
 					<h1>NEW TIMER</h1>
 					<div id="timer-childContainer">
-
-						<form onSubmit={handleSubmit} onClick={handleMouse}>
+						<div>
+							<RiArrowUpSLine id="hoursArrowUp" className="arrowUp" onClick={() => handleHours(intHours-1)} onPointerOver={pointerOver} onPointerOut={pointerOut}/>
 							<div>
-								<RiArrowUpSLine id="hoursArrowUp" className="arrowUp" onClick={() => handleHours(hours-1)} onPointerOver={pointerOver} onPointerOut={pointerOut}/>
+								{hoursList.map(value => {
+									const stringValue = String(value);
+									if (stringValue === String(intHours)){
+										return <p ref={hoursReference} key={"0"+stringValue} id={"0"+stringValue}>{stringValue}</p>
+									}
+									return <p key={"0"+stringValue} id={"0"+stringValue}>{stringValue}</p>
+								})}
+							</div>
+							<div className="middle-bar"/>
+							<RiArrowDownSLine id="hoursArrowDown" className="arrowDown" onClick={() => handleHours(intHours+1)} onPointerOver={pointerOver} onPointerOut={pointerOut}/>
+						</div>
+						<div>
+							<RiArrowUpSLine id="minutesArrowUp" className="arrowUp" onClick={() => handleMinutes(intMinutes-1)} onPointerOver={pointerOver} onPointerOut={pointerOut}/>
+							<div>
+								{minutesList.map(value =>{
+									const stringValue = String(value);
+									if (stringValue=== String(intMinutes)){
+										return <p ref={minutesReference} key={"1" + stringValue} id={"1"+stringValue} >{stringValue}</p>
+									}
+									return (<p key={"1" + stringValue} id={"1"+stringValue}>{stringValue}</p>)
+								})}
+							</div>
+							<div id="minutesMiddleBar" className="middle-bar" onClick={() => console.log("HELLO")}/>
+							<RiArrowDownSLine id="minutesArrowDown" className="arrowDown" onClick={() => handleMinutes(intMinutes+1)} onPointerOver={pointerOver} onPointerOut={pointerOut}	/>
+						</div>
+						{
+							state?.screen === "/Timer" &&
+							<div>
+								<RiArrowUpSLine id="secondsArrowUp" className="arrowUp" onClick={() => handleSeconds(intSeconds-1)} onPointerOver={pointerOver} onPointerOut={pointerOut} />
 								<div>
-									{hoursList.map(value => {
+									{secondsList.map(value => {
 										const stringValue = String(value);
-										if (stringValue === String(hours)){
-											return <p ref={hoursReference} key={"0"+stringValue} id={"0"+stringValue}>{stringValue}</p>
+										if(stringValue === String(intSeconds)){
+											return <p  ref={secondsReference} key={"1"+ stringValue} id={"2"+stringValue}>{stringValue}</p>
 										}
-										return <p key={"0"+stringValue} id={"0"+stringValue}>{stringValue}</p>
+										return <p key={"2"+stringValue} id={"2"+stringValue}>{stringValue}</p>
 									})}
 								</div>
 								<div className="middle-bar"/>
-								<RiArrowDownSLine id="hoursArrowDown" className="arrowDown" onClick={() => handleHours(hours+1)} onPointerOver={pointerOver} onPointerOut={pointerOut}/>
+								<RiArrowDownSLine id="secondsArrowDown" className="arrowDown" onClick={() => handleSeconds(intSeconds + 1)} onPointerOver={pointerOver} onPointerOut={pointerOut}/>
 							</div>
-							<div>
-								<RiArrowUpSLine id="minutesArrowUp" className="arrowUp" onClick={() => handleMinutes(minutes-1)} onPointerOver={pointerOver} onPointerOut={pointerOut}/>
-								<div>
-									{minutesList.map(value =>{
-										const stringValue = String(value);
-										if (stringValue=== String(minutes)){
-											return <p ref={minutesReference} key={"1" + stringValue} id={"1"+stringValue} >{stringValue}</p>
-										}
-										return (<p key={"1" + stringValue} id={"1"+stringValue}>{stringValue}</p>)
-									})}
-								</div>
-								<div id="minutesMiddleBar" className="middle-bar" onClick={() => console.log("HELLO")}/>
-								<RiArrowDownSLine id="minutesArrowDown" className="arrowDown" onClick={() => handleMinutes(minutes+1)} onPointerOver={pointerOver} onPointerOut={pointerOut}	/>
-							</div>
-							{
-								state?.screen === "/Timer" &&
-								<div>
-									<RiArrowUpSLine id="secondsArrowUp" className="arrowUp" onClick={() => handleSeconds(seconds-1)} onPointerOver={pointerOver} onPointerOut={pointerOut} />
-									<div>
-										{secondsList.map(value => {
-											const stringValue = String(value);
-											if(stringValue === String(seconds)){
-												return <p  ref={secondsReference} key={"1"+ stringValue} id={"2"+stringValue}>{stringValue}</p>
-											}
-											return <p key={"2"+stringValue} id={"2"+stringValue}>{stringValue}</p>
-										})}
-									</div>
-									<div className="middle-bar"/>
-									<RiArrowDownSLine id="secondsArrowDown" className="arrowDown" onClick={() => handleSeconds(seconds + 1)} onPointerOver={pointerOver} onPointerOut={pointerOut}/>
-								</div>
-							}
-							
-						</form>
+						}	
 					</div>
 					<ul id="timer-footer">
 						<li>hours</li>
