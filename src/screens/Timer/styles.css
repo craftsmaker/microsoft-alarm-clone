@@ -1,29 +1,19 @@
-.clocks li{
-	flex: 1;
-}
-
-.clocks button{
-	width: 100%;
-}
 main .clocks{
 	display: flex;
-	flex: 1 0 100px;
-	padding: 0 5vw;
+	padding: 0 3vw;
 	flex-wrap: wrap;
 	overflow: auto;
+	height: 79.5%;
 }
 
-.clock {
+div.clock {
 	display: flex;
-	flex: 0 0 220px;
+	flex-direction: column;
+	flex: 0 0 250px;
 	height: 140px;
 	justify-content: center;
 	align-items: center;
 	padding: 20px;
-}
-
-.clock:hover{
-	background-color: rgb(30,30,30);
 }
 
 .clock p {
@@ -37,8 +27,26 @@ main .clocks{
 
 .clock ul{
 	display: flex;
+	flex: 1 1 0;
+	width: 100%;
+	align-items: center;
+}
+
+.clock ul li{
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 0;
+	align-items: center;
+}
+
+.clock ul svg{
+	font-size: 1.6em;
 }
 
 .clock ul svg:hover{
 	background-color: rgba(50,50,50,5);
+}
+
+.clock:hover{
+	background-color: rgb(30,30,30);
 }

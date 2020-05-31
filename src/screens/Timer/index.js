@@ -4,6 +4,7 @@ import "./styles.css";
 import Notification from "../../components/Notification";
 import {MdPlayArrow,MdRefresh} from "react-icons/md";
 import {IoMdResize} from "react-icons/io";
+import sound from "./test.mp3";
 
 function Timer(){
 	const dispatch = useDispatch();
@@ -45,9 +46,7 @@ function Timer(){
 	return (
 		<main>
 			<Notification/>
-			<div className="clocks">
-				
-			</div>
+			<div className="clocks"/>
 		</main>
 	);
 }
@@ -69,21 +68,32 @@ function Clock({timer, identifier}){
 
 	const handlePlay = () => {
 		// console.log(isRunning);
-		isRunning?
-		dispatch({type: "DEACTIVATE_TIMER", identifier}):
-		dispatch({type: "ACTIVATE_TIMER", identifier})
+		isRunning
+		?dispatch({type: "DEACTIVATE_TIMER", identifier})
+		:dispatch({type: "ACTIVATE_TIMER", identifier})
 	}
 
 	return(
 		<div className="clock">
-			<div id="clock-childContainer">
-				<p>{timer.hours}:{timer.minutes}:{timer.seconds}</p>
-				<ul>
-					<li><MdRefresh onClick={handleRefresh} style={{position:"relative",top:0, padding: 20}}/></li>
-					<li><MdPlayArrow onClick={handlePlay} style={{fontSize: 60, color: "white", borderRadius: "100%", marginLeft: 50, marginRight: 50}}/></li>
-					<li><IoMdResize style={{position:"relative",top:0, padding: 20}}/></li>
-				</ul>
-			</div>
+			<p>{timer.hours}:{timer.minutes}:{timer.seconds}</p>
+			<ul>
+				<li><MdRefresh onClick={handleRefresh} style={{
+					position:"relative",
+					top:0,
+					padding: 20
+				}}/></li>
+				<li><MdPlayArrow onClick={handlePlay} style={{
+					color: "white",
+					borderRadius: "100%",
+					padding: 20,
+					border: "1px solid gray"
+				}}/></li>
+				<li><IoMdResize style={{
+					position:"relative",
+					top:0,
+					padding: 20
+				}}/></li>
+			</ul>
 		</div>
 	);
 }
