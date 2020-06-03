@@ -10,7 +10,6 @@ const STOPWATCH_STATE = {
 }
 
 function stopWatch(state = STOPWATCH_STATE,action){
-	// console.log(action.type);
 	switch(action.type)
 	{
 		case "INCREMENT_HOUR":
@@ -42,13 +41,15 @@ const TIMER_STATE = {
 		seconds: "00",
 		millisecondbytens: "00"
 	},
-	timer: {},
 	clocks: [],
 }
 
 function timer(state = TIMER_STATE,action){
-	
 	let sizeOfClocks = String([...state.clocks].length + 1)
+	let activeClocksIDs = [...state.activeClocksIDs];
+	let identifier = action.identifier;
+	let clocks = [...state.clocks];
+
 	switch(action.type)
 	{
 		case "ADD_TIMER":
@@ -69,89 +70,77 @@ function timer(state = TIMER_STATE,action){
 				timer: timer,
 				clocks: parsedClocks
 			}
-		case "RESET_TIMER":
-			return {...state,timer: {}, clocks: [...state.clocks]};
 		case "ACTIVATE_TIMER":
 			//Ad id in list
-			return {...state, activeClocksIDs: [...state.activeClocksIDs,{id:action.identifier}]}
+			return {...state, activeClocksIDs: [...state.activeClocksIDs,action.identifier]}
 		case "DEACTIVATE_TIMER":
 			// remove spefic id from list
-			let activeClocksIDs = [...state.activeClocksIDs],newCopy = [],x = 0;
-			const identifier = action.identifier;
+			let newCopy = [];
 			// console.log("DEACTIVATED:",activeClocksIDs)
-			for (x of activeClocksIDs){
-				if (x.id !== identifier){
-					newCopy.push(x)
-				}
-			}
+			identifier = activeClocksIDs.findIndex(id => id === identifier);
+			if (identifier !== -1)
+				newCopy.push(identifier)
+
 			return {...state, activeClocksIDs: [...newCopy]}
 		case "ADD_CLOCKS":
 			return {...state, timer: {}, clocks: action.clocks}
-		case "DECREMENT_COUNTER":
-			let clocks = [...state.clocks];
-
+		case "DECREMENT_COUNTER":			
 			clocks.map(clock => {
-				if([...state.activeClocksIDs].some(value => clock?.id === value?.id)){
+				if(activeClocksIDs.some(ID => clock?.id === ID)){
+					console.log(activeClocksIDs)
+					let hasEnded= false;
 					let {timer} = clock;
-					if(timer.millisecondbyten === "00" && !(timer.hours === "00" && timer.minutes === "00" && timer.seconds === "00")){
-						let secondInt = parseInt(timer.seconds);
-						let hourInt = parseInt(timer.hours);
-						let minuteInt = parseInt(timer.minutes);
-						const {log} = console;
-						log(`${hourInt}:${minuteInt}:${secondInt}`)
-
-						if (secondInt < 1 && minuteInt > 0){
-							secondInt = 60;
-
-							if (minuteInt < 1 && hourInt > 0){
-								minuteInt = 60
-
-								if (hourInt < 1)
-									hourInt = 24;
-
-								timer.hours = String(--hourInt).padStart(2,"0");
-							}
-
-
-							timer.minutes = String(--minuteInt).padStart(2, "0");
-
-						}
-						else if (secondInt !== 0)
-							timer.seconds = String(--secondInt).padStart(2,"0");
-
-						timer.millisecondbyten = "100";
-					}
-					else if (!(timer.hours === "00" && timer.minutes === "00" && timer.seconds === "00")){
-						let millisecondbytenInt = parseInt(timer.millisecondbyten);
-						timer.millisecondbyten = String(--millisecondbytenInt).padStart(2,"0");
-					}
+					let millisecondsbytenInt = parseInt(timer.millisecondsbyten);
+					let secondInt = parseInt(timer.seconds);
+					let minuteInt = parseInt(timer.minutes);
+					let hourInt = parseInt(timer.hours);
+					// 1hr 60min 60s
+					console.log(`hours:${hourInt} minutes:${minuteInt} seconds:${secondInt} millisecondsbyten: ${millisecondsbytenInt}`);
+					if(millisecondsbytenInt > 0)
+						--millisecondsbytenInt;
 					else{
-						let copy = [...state.clocks];
-						for (let value of copy){
-							if (value.hours === "00" && value.minutes === "00" && value.seconds === "00" && value.millisecondbyten === "00"){
-								return {timer: JSON.parse(localStorage.getItem(value.id))};
+						if(secondInt > 0){
+							--secondInt;
+							millisecondsbytenInt = 100;
+						}
+						else{
+							
+							if (minuteInt > 0){
+								--minuteInt
+								secondInt = 60;
+							}
+							else{
+								if (hourInt > 0){
+									--hourInt
+									minuteInt = 60;
+								}else
+									hasEnded = true;
 							}
 						}
+						
+					}
+					
+					if (hasEnded){
+						identifier = activeClocksIDs.findIndex(ID => ID === clock.id);
+						if(identifier !== -1){
+							activeClocksIDs.splice(identifier,identifier + 1);
+							Object.assign(timer,JSON.parse(localStorage.getItem(clock.id)));
+						}
+					} else{
+						timer.hours = String(hourInt).padStart(2,"0");
+						timer.minutes = String(minuteInt).padStart(2,"0");
+						timer.seconds = String(secondInt).padStart(2,"0");
+						timer.millisecondsbyten = String(millisecondsbytenInt).padStart(2,"0");
 					}
 				}
 				return clock;
 			})
-			return {...state, clocks};
+			
+			return {...state, clocks,activeClocksIDs};
 		case "RESET_COUNTER":
-			const copy = [...state.clocks]
-
-			if (action?.identifier){
-				copy.map(clock => {
-					if (clock.id === action.identifier){
-						clock.timer = JSON.parse(localStorage.getItem(action.identifier))
-						let secondsInt = parseInt(clock.timer.seconds);
-						clock.timer.seconds = String(--secondsInt).padStart(2,"0");
-						clock.timer.millisecondbyten = "100";
-					}
-					return clock;
-				})
-			}
-			return {...state, clocks: copy};
+			let id = clocks.findIndex(clock => clock.id === identifier);
+			clocks[id] = {id: identifier,timer: JSON.parse(localStorage.getItem(identifier))}
+			return {...state, clocks};
 		case "SET_PLACEHOLDER":
 			return {...state, placeholderTimer: {
 				hours: action.hours,
@@ -164,6 +153,6 @@ function timer(state = TIMER_STATE,action){
 }
 
 
-const store = createStore(combineReducers({timer,stopWatch}),window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(combineReducers({timer,stopWatch}));
 
 export default store;

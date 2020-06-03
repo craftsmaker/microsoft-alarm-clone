@@ -4,38 +4,36 @@ import "./styles.css";
 import Notification from "../../components/Notification";
 import {MdPlayArrow,MdRefresh} from "react-icons/md";
 import {IoMdResize} from "react-icons/io";
-import sound from "./test.mp3";
 
 function Timer(){
 	const dispatch = useDispatch();
-	const {timer} = useSelector(state => state);
+	const {timer: {clocks, activeClocksIDs}} = useSelector(state => state);
 
 	useEffect(() => {
-		if (localStorage.length > timer.clocks.length){
+		if (localStorage.length > clocks.length){
 			function getDataFromLocalStorage(){
 				return Object.keys(localStorage)
-					.map((value,index) => {
-						return {id: index + 1, timer: JSON.parse(localStorage[index + 1])}
-					})
-				
+					.map((value,index) =>
+						({id: index + 1, timer: JSON.parse(localStorage[index + 1])})
+					)		
 			}
-			let clocks = getDataFromLocalStorage();
-			dispatch({type: "ADD_CLOCKS", clocks: clocks})
+			let newClocks = getDataFromLocalStorage();
+			dispatch({type: "ADD_CLOCKS", clocks: newClocks})
 		}
 		// Compare timer.clock with values in storage
-		if (timer.clocks.length > 0 && timer.activeClocksIDs.length > 0){
+		if (clocks.length > 0 && activeClocksIDs.length > 0){
 			setTimeout(() => {
 				dispatch({type: "DECREMENT_COUNTER"});
 			},10)
 		}
 	})
 
-	if (timer.clocks.length !== 0){
+	if (clocks.length !== 0){
 		return (
 			<main>
 				<Notification/>
 				<div className="clocks">
-					{timer.clocks.map(clock => 
+					{clocks.map(clock => 
 						<Clock key={clock.id} identifier={clock.id} timer={clock.timer}/>
 					)}
 				</div>
@@ -56,11 +54,8 @@ function Clock({timer, identifier}){
 	const dispatch = useDispatch();
 	let isRunning = false;
 
-	for (let x of activeClocksIDs){
-		if (x.id === identifier){
-			isRunning = true;
-		}
-	}
+	if (activeClocksIDs.findIndex(ID => ID === identifier) !== -1)
+		isRunning = true;
 
 	const handleRefresh = () => {
 		dispatch({type: "RESET_COUNTER", identifier: identifier});
