@@ -1,5 +1,5 @@
 import React from 'react';
-import "./style.css";
+import "./main.css";
 import store from "./store"
 import {HashRouter,Route,Redirect,useLocation,Switch,useHistory,Link} from "react-router-dom"
 import {useTransition,animated} from "react-spring";

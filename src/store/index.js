@@ -39,7 +39,7 @@ const TIMER_STATE = {
 		hours: "00",
 		minutes: "00",
 		seconds: "00",
-		millisecondbytens: "00"
+		millisecondsbyten: "00"
 	},
 	clocks: [],
 }
@@ -53,7 +53,6 @@ function timer(state = TIMER_STATE,action){
 	switch(action.type)
 	{
 		case "ADD_TIMER":
-			console.log(state.placeholderTimer)
 			const timer = {...state.placeholderTimer,millisecondbyten: "00"};
 			const parsedClocks = 
 			[
@@ -71,23 +70,18 @@ function timer(state = TIMER_STATE,action){
 				clocks: parsedClocks
 			}
 		case "ACTIVATE_TIMER":
-			//Ad id in list
 			return {...state, activeClocksIDs: [...state.activeClocksIDs,action.identifier]}
 		case "DEACTIVATE_TIMER":
-			// remove spefic id from list
-			let newCopy = [];
-			// console.log("DEACTIVATED:",activeClocksIDs)
 			identifier = activeClocksIDs.findIndex(id => id === identifier);
 			if (identifier !== -1)
-				newCopy.push(identifier)
+				activeClocksIDs.splice(identifier,identifier + 1);
 
-			return {...state, activeClocksIDs: [...newCopy]}
+			return {...state, activeClocksIDs}
 		case "ADD_CLOCKS":
 			return {...state, timer: {}, clocks: action.clocks}
 		case "DECREMENT_COUNTER":			
 			clocks.map(clock => {
 				if(activeClocksIDs.some(ID => clock?.id === ID)){
-					console.log(activeClocksIDs)
 					let hasEnded= false;
 					let {timer} = clock;
 					let millisecondsbytenInt = parseInt(timer.millisecondsbyten);
@@ -95,7 +89,7 @@ function timer(state = TIMER_STATE,action){
 					let minuteInt = parseInt(timer.minutes);
 					let hourInt = parseInt(timer.hours);
 					// 1hr 60min 60s
-					console.log(`hours:${hourInt} minutes:${minuteInt} seconds:${secondInt} millisecondsbyten: ${millisecondsbytenInt}`);
+					// console.log(`hours:${hourInt} minutes:${minuteInt} seconds:${secondInt} millisecondsbyten: ${millisecondsbytenInt}`);
 					if(millisecondsbytenInt > 0)
 						--millisecondsbytenInt;
 					else{
@@ -136,6 +130,7 @@ function timer(state = TIMER_STATE,action){
 				return clock;
 			})
 			
+			console.log(`The final clocks state:`,clocks)
 			return {...state, clocks,activeClocksIDs};
 		case "RESET_COUNTER":
 			let id = clocks.findIndex(clock => clock.id === identifier);
