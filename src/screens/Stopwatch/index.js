@@ -81,7 +81,7 @@ function StopWatchControl(){
 		<div id="stopwatch">
 			<h1>{stopWatch.hour}:{stopWatch.minute}:{stopWatch.second}<p style={{fontSize: "0.5em", display: "inline"}}>,{stopWatch.millisecondbyten}</p></h1>
 			<div id="stopwatch-buttons">
-				{
+				{	
 					stopWatch.isActivated ?
 					<AiFillFlag onClick={handleMark}/> :
 					<IoMdRefresh onClick={stopPlay}/>

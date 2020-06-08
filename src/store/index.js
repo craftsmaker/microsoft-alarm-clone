@@ -42,6 +42,7 @@ const TIMER_STATE = {
 		millisecondsbyten: "00"
 	},
 	clocks: [],
+	modal: [false,{}]
 }
 
 function timer(state = TIMER_STATE,action){
@@ -52,6 +53,8 @@ function timer(state = TIMER_STATE,action){
 
 	switch(action.type)
 	{
+		case "CHANGE_MODAL":
+			return {...state, modal: action.modal};
 		case "ADD_TIMER":
 			const timer = {...state.placeholderTimer,millisecondbyten: "00"};
 			const parsedClocks = 

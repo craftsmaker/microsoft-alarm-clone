@@ -4,11 +4,13 @@ import "./styles.css";
 import Notification from "../../components/Notification";
 import {MdPlayArrow,MdRefresh} from "react-icons/md";
 import {IoMdResize} from "react-icons/io";
+import Modal from "./Modal";
 
 function Timer(){
 	const dispatch = useDispatch();
-	const {timer: {clocks, activeClocksIDs}} = useSelector(state => state);
+	const {timer: {clocks, activeClocksIDs,modal}} = useSelector(state => state);
 
+	console.log(modal);
 	useEffect(() => {
 		if (localStorage.length > clocks.length){
 			function getDataFromLocalStorage(){
@@ -28,28 +30,34 @@ function Timer(){
 		}
 	})
 
-	if (clocks.length !== 0){
+	if(!modal[0]){
+		if (clocks.length !== 0){
+			return (
+				<main>
+					<Notification/>
+					<div className="clocks">
+						{clocks.map(clock => 
+							<ClockItem key={clock.id} identifier={clock.id} timer={clock.timer} setClock={timer => dispatch({type: "CHANGE_MODAL", modal: [true,timer]})}/>
+						)}
+					</div>
+				</main>
+			);
+		}
+	
 		return (
 			<main>
 				<Notification/>
-				<div className="clocks">
-					{clocks.map(clock => 
-						<Clock key={clock.id} identifier={clock.id} timer={clock.timer}/>
-					)}
-				</div>
+				<div className="clocks"/>
 			</main>
 		);
+	}else{
+		return(
+			<Modal timer={modal[1]}/>
+		)
 	}
-
-	return (
-		<main>
-			<Notification/>
-			<div className="clocks"/>
-		</main>
-	);
 }
 
-function Clock({timer, identifier}){
+function ClockItem({timer, identifier,setClock}){
 	const {activeClocksIDs} = useSelector(state => state.timer);
 	const dispatch = useDispatch();
 	let isRunning = false;
@@ -83,11 +91,15 @@ function Clock({timer, identifier}){
 					padding: 20,
 					border: "1px solid gray"
 				}}/></li>
-				<li><IoMdResize style={{
-					position:"relative",
-					top:0,
-					padding: 20
-				}}/></li>
+				<li>
+					<IoMdResize style={{
+							position:"relative",
+							top:0,
+							padding: 20
+						}}
+						onClick={() => setClock(timer)}
+					/>
+				</li>
 			</ul>
 		</div>
 	);

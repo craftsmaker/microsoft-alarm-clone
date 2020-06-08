@@ -3,7 +3,7 @@ import "./main.css";
 import store from "./store"
 import {HashRouter,Route,Redirect,useLocation,Switch,useHistory,Link} from "react-router-dom"
 import {useTransition,animated} from "react-spring";
-import {Provider,useDispatch} from "react-redux";
+import {Provider,useDispatch,useSelector} from "react-redux";
 import Add from "./screens/Add"
 import Stopwatch from "./screens/Stopwatch"
 import Clock from "./screens/Clock"
@@ -61,28 +61,22 @@ function AnimatedRoute(){
 	const transitions = useTransition(location, location => location.pathname, transitionConfig);
 	return(
 		<div className="container">
-			{
-				location.pathname === "/Add"?
-				<header>
-					<WindowMenu/>
-				</header>:
-				<Header/>
-			}
+			<InHeader/>
 			<div >
 				{
 					location.pathname !== "/Add" ?
-				transitions.map(({item:location,props,key}) => (
-					<animated.div key={key} style={props}>
-						<Switch location={location}>
-							<Route exact path="/">
-								<Redirect to="/Timer"/>
-							</Route>
-							<Route path="/Timer" component={Timer}/>
-							<Route path="/Clock" component={Clock}/>
-							<Route path="/Stopwatch" component={Stopwatch}/>
-							<Route path="/Alarm" component={Alarm}/>							
-						</Switch>
-					</animated.div>
+					transitions.map(({item:location,props,key}) => (
+						<animated.div key={key} style={props}>
+							<Switch location={location}>
+								<Route exact path="/">
+									<Redirect to="/Timer"/>
+								</Route>
+								<Route path="/Timer" component={Timer}/>
+								<Route path="/Clock" component={Clock}/>
+								<Route path="/Stopwatch" component={Stopwatch}/>
+								<Route path="/Alarm" component={Alarm}/>							
+							</Switch>
+						</animated.div>
 				)):
 				<Switch>
 					<Route path="/Add" component={Add}/>
@@ -99,12 +93,16 @@ function InFooter(){
 	const dispatch = useDispatch();
 	const location = useLocation();
 	const history = useHistory();
+	const {timer: {modal}} = useSelector(state => state);
 
 	let fromScreen = location?.state?.fromScreen;
 	
 	if(!fromScreen)
 		fromScreen = "/Timer"
 
+	if (modal[0])
+		return null;
+	
 	switch(location.pathname){
 		case "/Add":
 			return(
@@ -146,5 +144,23 @@ function InFooter(){
 			return(
 				<Footer right/>
 			)
+	}
+}
+
+function InHeader(){
+	const {timer: {modal}} = useSelector(state => state);
+	const location = useLocation();
+	if (location.pathname === "/Add"){
+		return(
+			<header>
+				<WindowMenu/>
+			</header>
+		)
+	}else if(modal[0]){
+		return null;
+	} else{
+		return(
+			<Header/>
+		)
 	}
 }

@@ -1,17 +1,9 @@
-main .clocks{
-	display: flex;
-	padding: 0 3vw;
-	flex-wrap: wrap;
-	overflow: auto;
-	height: 88%;
-}
-
 div.clock {
 	display: flex;
 	flex-direction: column;
-	flex: 0 0 250px;
+    flex: 1;
+    justify-content: flex-start;
 	height: 140px;
-	justify-content: center;
 	align-items: center;
 	padding: 20px;
 }
@@ -28,7 +20,7 @@ div.clock {
 .clock ul{
 	display: flex;
 	flex: 1 1 0;
-	width: 100%;
+	width: auto;
 	align-items: center;
 }
 
@@ -48,5 +40,20 @@ div.clock {
 }
 
 .clock:hover{
-	background-color: rgb(30,30,30);
+	background-color: unset;
+}
+
+main p{ 
+    flex: 1;
+}
+
+.clock h2{
+    display: inline;
+
+}
+
+@media (min-height: 700px){
+    main {
+        height: 80.6vh;
+    }
 }

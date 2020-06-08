@@ -3,6 +3,7 @@
 	height: 75.5vh;
 	justify-content: center;
 	align-items: center;
+	overflow: hidden;
 }
 
 #stopwatch-selection{
@@ -15,7 +16,7 @@
 	display: flex;
 	flex: 1;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-start;
 }
 
 #stopwatch-buttons svg{
