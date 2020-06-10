@@ -5,7 +5,7 @@ import {FaClock} from "react-icons/fa";
 import {FcAlarmClock} from "react-icons/fc";
 import {IoIosTimer} from "react-icons/io";
 import {RiTimerLine} from "react-icons/ri";
-import {useLocation} from "react-router-dom";
+import {useLocation} from "react-router-dom";	
 import "./styles.css";
 
 const Menu = ({left,center,right}) => {

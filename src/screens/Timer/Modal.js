@@ -1,11 +1,31 @@
 import React from "react";
 import {MdPlayArrow,MdRefresh} from "react-icons/md";
 import {FiMinimize2} from "react-icons/fi";
-import {useDispatch} from "react-redux";
+import {useDispatch,useSelector} from "react-redux";
 import styles from "./modal.module.css";
 
-export default function Modal({timer}){
-    const dispatch = useDispatch();
+export default function Modal({identifier}){
+    const {activeClocksIDs,clocks} = useSelector(state => state.timer);
+	const dispatch = useDispatch();
+	let isRunning = false;  
+
+    const {timer} = clocks.find(clock => clock.id === identifier);
+
+	if (activeClocksIDs.findIndex(ID => ID === identifier) !== -1)
+		isRunning = true;
+
+	const handleRefresh = () => {
+		dispatch({type: "RESET_COUNTER", identifier: identifier});
+	}
+
+	const handlePlay = () => {
+		// console.log(isRunning);
+		isRunning
+		?dispatch({type: "DEACTIVATE_TIMER", identifier})
+		:dispatch({type: "ACTIVATE_TIMER", identifier})
+	}
+
+
     return(
         <main className={styles.main}>
             <p className={styles.mainParagraph}>
@@ -13,35 +33,22 @@ export default function Modal({timer}){
             </p>
             <div className={styles.mainClock}>
                 <h2 style={{alignItems: "flex-end"}}>Temporizador(7)</h2>
-                <ul  style={{display: "flex",alignItems: "flex-start",justifyContent: "center",paddingTop: "10px"}}>
+                <ul className={styles.clockButtons}>
                     <li>
-                        <MdRefresh className={styles.clockButton} style={{
-                                position:"relative",
-                                fontSize: "25px",
-                                top:0,
-                                padding: 20
-                            }}
+                        <MdRefresh
+                            className={styles.clockButtonRefresh}
+                            onClick={handleRefresh}
                         />
                     </li>
                     <li>
-                        <MdPlayArrow  className={styles.clockButton} style={{
-                                color: "white",
-                                borderRadius: "100%",
-                                padding: 20,
-                                margin: "0 15px",
-                                border: "1px solid gray"
-                            }}
+                        <MdPlayArrow  
+                            className={styles.clockButtonPlay}
+                            onClick={handlePlay}
                         />
                     </li>
                     <li>
                         <FiMinimize2 
-                            className={styles.clockButton}
-                            style={{
-                                fontSize: "25px",
-                                position:"relative",
-                                top:0,
-                                padding: 20
-                            }}
+                            className={styles.clockButtonMinimize}
                             onClick={() => dispatch({type: "CHANGE_MODAL", modal: [false,{}]})}
                         />
                     </li>

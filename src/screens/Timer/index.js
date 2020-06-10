@@ -1,16 +1,15 @@
 import React,{useEffect} from "react";
 import {useDispatch,useSelector} from "react-redux";
-import "./styles.css";
 import Notification from "../../components/Notification";
 import {MdPlayArrow,MdRefresh} from "react-icons/md";
 import {IoMdResize} from "react-icons/io";
 import Modal from "./Modal";
+import styles from "./styles.module.css";
 
 function Timer(){
 	const dispatch = useDispatch();
 	const {timer: {clocks, activeClocksIDs,modal}} = useSelector(state => state);
 
-	console.log(modal);
 	useEffect(() => {
 		if (localStorage.length > clocks.length){
 			function getDataFromLocalStorage(){
@@ -35,9 +34,9 @@ function Timer(){
 			return (
 				<main>
 					<Notification/>
-					<div className="clocks">
+					<div className={styles.clocks}>
 						{clocks.map(clock => 
-							<ClockItem key={clock.id} identifier={clock.id} timer={clock.timer} setClock={timer => dispatch({type: "CHANGE_MODAL", modal: [true,timer]})}/>
+							<ClockItem key={clock.id} identifier={clock.id} timer={clock.timer} setClock={(timer,identifier) => dispatch({type: "CHANGE_MODAL", modal: [true,timer,identifier]})}/>
 						)}
 					</div>
 				</main>
@@ -52,7 +51,7 @@ function Timer(){
 		);
 	}else{
 		return(
-			<Modal timer={modal[1]}/>
+			<Modal identifier={modal[2]}/>
 		)
 	}
 }
@@ -77,28 +76,17 @@ function ClockItem({timer, identifier,setClock}){
 	}
 
 	return(
-		<div className="clock">
-			<p>{timer.hours}:{timer.minutes}:{timer.seconds}</p>
-			<ul>
-				<li><MdRefresh onClick={handleRefresh} style={{
-					position:"relative",
-					top:0,
-					padding: 20
-				}}/></li>
-				<li><MdPlayArrow onClick={handlePlay} style={{
-					color: "white",
-					borderRadius: "100%",
-					padding: 20,
-					border: "1px solid gray"
-				}}/></li>
-				<li>
-					<IoMdResize style={{
-							position:"relative",
-							top:0,
-							padding: 20
-						}}
-						onClick={() => setClock(timer)}
-					/>
+		<div className={styles.clock}>
+			<p className={styles.clockParagraph}>{timer.hours}:{timer.minutes}:{timer.seconds}</p>
+			<ul className={styles.clockButtons}>
+				<li className={styles.listButton}>
+					<MdRefresh onClick={handleRefresh} className={styles.clockRefreshButton} />
+				</li>
+				<li className={styles.listButton}>
+					<MdPlayArrow className={styles.clockPlayButton} onClick={handlePlay}/>
+				</li>
+				<li className={styles.listButton}>
+					<IoMdResize className={styles.clockResizeButton} onClick={() => setClock(timer,identifier)} />
 				</li>
 			</ul>
 		</div>

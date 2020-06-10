@@ -19,7 +19,7 @@ function Add(){
 		hoursReference.current.scrollIntoView({block: "center", inline: "nearest"})
 		minutesReference.current.scrollIntoView({block: "center", inline: "nearest"})
 
-		if (state?.screen === "/Timer")
+		if (state?.fromScreen === "/Timer")
 			secondsReference.current.scrollIntoView({block: "center", inline: "nearest"})	
 	})
 
@@ -30,17 +30,22 @@ function Add(){
 				<div id="timer-container">
 					<h1>NEW TIMER</h1>
 					<div id="timer-childContainer">
-						<HoursControl ref={hoursReference}/>
-						<MinutesControl ref={minutesReference}/>
+						<HoursControl ref={hoursReference} location={state}/>
+						<MinutesControl ref={minutesReference} location={state}/>
 						{
-							state?.screen === "/Timer" &&
-							<SecondsControl ref={secondsReference}/>
+							state?.fromScreen === "/Timer"
+							?<SecondsControl ref={secondsReference}/>
+							:null
 						}	
 					</div>
 					<ul id="timer-footer">
 						<li>hours</li>
 						<li>minutes</li>
-						<li>seconds</li>
+						{
+							state?.fromScreen === "/Timer"
+							?<li>seconds</li>
+							:null
+						}
 					</ul>
 				</div>
 				<div id="name-container">

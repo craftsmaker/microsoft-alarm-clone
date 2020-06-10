@@ -17,7 +17,7 @@ const Footer = ({right,children }) => {
 		return (
 			<footer style={{position: "absolute", bottom: "0"}}>
 				<ul style={{justifyContent: position}}>
-					<li><Link className="button" id="plus" role="button" to={{pathname:"/Add", state:{screen: pathname}}}><p style={{margin:0,padding:0}}>+</p></Link></li>
+					<li><Link className="button" id="plus" role="button" to={{pathname:"/Add", state:{fromScreen: pathname}}}><p style={{margin:0,padding:0}}>+</p></Link></li>
 					<li><BsListCheck className="button"/></li>
 					<li><AiFillPushpin className="button"/></li>
 					<li><button className="button">...</button></li>

@@ -2,23 +2,26 @@ import React from "react";
 import {useDispatch,useSelector} from "react-redux";
 import {RiArrowUpSLine,RiArrowDownSLine} from "react-icons/ri";
 
-export default React.forwardRef((props,ref) => {
+export default React.forwardRef(({location},ref) => {
 
 	const dispatch = useDispatch();
 	// everytime a new value is selected, the redux get it
 	// the 'play' button will only make it official
-	const store = useSelector(state => state.timer);
+	const store = useSelector(state => state);
 
+	const type = location === "/Timer" ? "SET_PLACEHOLDER" : "SET_ALARM_PLACEHOLDER";
 
+	const reducer = location === "/Timer" ? store.timer.placeholderTimer : store.alarm.placeholderAlarm;
+	
 	function handleMinutes(value){
-		const {hours,seconds} = store.placeholderTimer;
+		const {hours,seconds} = reducer;
 
 		if (value >= 0 && value <= 60)
-			dispatch({type: "SET_PLACEHOLDER",hours,minutes: String(value).padStart(2,"0"),seconds});
+			dispatch({type,hours,minutes: String(value).padStart(2,"0"),seconds});
 		else if(value === 61)
-			dispatch({type: "SET_PLACEHOLDER",hours,minutes: String(0).padStart(2,"0"),seconds});
+			dispatch({type,hours,minutes: String(0).padStart(2,"0"),seconds});
 		else
-			dispatch({type: "SET_PLACEHOLDER",hours,minutes:  String(60),seconds});;
+			dispatch({type,hours,minutes:  String(60),seconds});;
 	}
 
 
@@ -67,7 +70,7 @@ export default React.forwardRef((props,ref) => {
 	const exibited = 10;
 
 	
-	const intMinutes = parseInt(store.placeholderTimer.minutes);
+	const intMinutes = parseInt(reducer.minutes);
 
 	for (i = intMinutes - exibited; i < intMinutes + exibited; i++){
 		if (i <= 60 && i >= 0)

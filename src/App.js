@@ -9,13 +9,9 @@ import Stopwatch from "./screens/Stopwatch"
 import Clock from "./screens/Clock"
 import Alarm from "./screens/Alarm"
 import Timer from "./screens/Timer"
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import WindowMenu from "./components/WindowMenu";
-import {FaPlay,FaShareSquare} from "react-icons/fa";
-import {AiFillPushpin} from "react-icons/ai";
-import {MdClose} from "react-icons/md";
-import {BsListCheck} from "react-icons/bs";
+import Footer from "./Footers";
+import Header from "./Headers";
+import "./responsive.css";
 
 const ORDER = ["/Alarm","/Clock","/Timer","/Stopwatch"]
 
@@ -61,7 +57,7 @@ function AnimatedRoute(){
 	const transitions = useTransition(location, location => location.pathname, transitionConfig);
 	return(
 		<div className="container">
-			<InHeader/>
+			<Header/>
 			<div >
 				{
 					location.pathname !== "/Add" ?
@@ -84,83 +80,7 @@ function AnimatedRoute(){
 				}
 				
 			</div>
-			<InFooter/>
+			<Footer/>
 		</div>
 	)
-}
-
-function InFooter(){
-	const dispatch = useDispatch();
-	const location = useLocation();
-	const history = useHistory();
-	const {timer: {modal}} = useSelector(state => state);
-
-	let fromScreen = location?.state?.fromScreen;
-	
-	if(!fromScreen)
-		fromScreen = "/Timer"
-
-	if (modal[0])
-		return null;
-	
-	switch(location.pathname){
-		case "/Add":
-			return(
-				<Footer right>
-					<FaPlay className="button" size={12} onClick={() => {
-						if(fromScreen === "/Timer")
-							dispatch({type: "ADD_TIMER"})
-						history.push(fromScreen,{fromScreen: "/Timer"});
-					}}/>
-					<MdClose className="button" color="white" onClick={() => history.push(fromScreen)}/>
-					<button className="button">...</button>
-				</Footer>
-			)
-		case "/Stopwatch":
-			return(
-				<Footer right>
-					<AiFillPushpin className="button" color="white"/>
-					<FaShareSquare className="button" color="white"/>
-					<button className="button">...</button>
-				</Footer>
-			)
-		case "/Alarm":
-			return(
-				<Footer right>
-					<Link  id="plus" to={{pathname:"/Add", state:{fromScreen: location.pathname}}}><button className="button"><p>+</p></button></Link>
-					<BsListCheck className="button"/>
-					<button className="button">...</button>
-				</Footer>
-			)
-		case "/Clock":
-			return(
-				<Footer right>
-					<button id="plus" className="button"><p>+</p></button>
-					<BsListCheck className="button"/>
-					<button className="button">...</button>
-				</Footer>
-			)
-		default:
-			return(
-				<Footer right/>
-			)
-	}
-}
-
-function InHeader(){
-	const {timer: {modal}} = useSelector(state => state);
-	const location = useLocation();
-	if (location.pathname === "/Add"){
-		return(
-			<header>
-				<WindowMenu/>
-			</header>
-		)
-	}else if(modal[0]){
-		return null;
-	} else{
-		return(
-			<Header/>
-		)
-	}
 }

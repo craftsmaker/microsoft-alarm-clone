@@ -1,22 +1,26 @@
 import React,{useState} from "react";
 import Notification from "../../components/Notification";
 import {Switch} from "@material-ui/core";
-import "./styles.css";
+import styles from "./styles.module.css";
+import {useSelector} from "react-redux";
 
 export default function Clock(){
+	const {alarms} = useSelector(state => state.alarm);
+	
 	return(
 		<main>
 			<Notification/>
 			<div id="alarm-list" style={{display: "flex",flex:1,flexDirection: "column"}}>
-				<Alarm/>
-				<Alarm/>
+				{alarms.map((alarm,index) => (
+					<Alarm key={index} alarm={alarm}/>
+				))}
 			</div>
 		</main>
 	)
 }
 
-function Alarm() {
-	let alarmTime = "20:00";
+function Alarm({alarm}) {	
+	let alarmTime = alarm.hours + ":" + alarm.minutes;
 	let alarmName = "Hello Honey";
 	let alarmFrequency = "Everyday";
 	// let alarmRepetition = "10 minutes";
@@ -28,13 +32,13 @@ function Alarm() {
 		alarmNameColor = "blue";
 
 	return(
-		<div className="alarm" style={{display:"flex",flex:1, maxHeight: "100px",flexBasis: "200px"}}>
-			<div style={{display: "flex", flexDirection: "column" ,flex:1, justifyContent: "center",paddingLeft: "10px"}}>
-				<h1 style={{fontSize: "1.6em", marginBottom: "3px"}}>{alarmTime}</h1>
+		<div className={styles.alarm}>
+			<div className={styles.alarmInformation}>
+				<h1 className={styles.informationHeader}>{alarmTime}</h1>
 				<p style={{color: alarmNameColor, fontSize: "0.8em"}}>{alarmName}</p>
 				<p>{alarmFrequency}</p>
 			</div>
-			<div style={{display: "flex", flex:1, alignItems: "center", paddingRight: "40%"}}>
+			<div className={styles.alarmFuncionalities}>
 				<Switch checked={switcherChecked} onChange={() => setSwitcherChecked(prev => !prev)} color="default"/>
 				{
 					switcherChecked?

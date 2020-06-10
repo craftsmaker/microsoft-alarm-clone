@@ -2,22 +2,26 @@ import React from "react";
 import {useDispatch,useSelector} from "react-redux";
 import {RiArrowUpSLine,RiArrowDownSLine} from "react-icons/ri";
 
-export default React.forwardRef((props,ref) => {
+export default React.forwardRef(({location},ref) => {
 	const dispatch = useDispatch();
-	const store = useSelector(state => state.timer);
-	const intHours = parseInt(store.placeholderTimer.hours);
-
+	const store = useSelector(state => state);
+	
+	const type = location === "/Timer" ? "SET_PLACEHOLDER" : "SET_ALARM_PLACEHOLDER";
+	const reducer = location === "/Timer" ? store.timer.placeholderTimer : store.alarm.placeholderAlarm;
+	const intHours = parseInt(reducer.hours);
 	let i = 0,hoursList = [];
 	const exibited = 10;
-	function handleHours(value){
-		const {minutes,seconds} = store.placeholderTimer;
 
+	function handleHours(value){
+		const {minutes,seconds} = reducer;
+
+		
 		if (value >= 0 && value <= 60)
-			dispatch({type: "SET_PLACEHOLDER",hours: String(value).padStart(2,"0"),minutes,seconds});
+			dispatch({type,hours: String(value).padStart(2,"0"),minutes,seconds});
 		else if(value === 61)
-			dispatch({type: "SET_PLACEHOLDER",hours: String(0).padStart(2,"0"),minutes,seconds});
+			dispatch({type,hours: String(0).padStart(2,"0"),minutes,seconds});
 		else
-			dispatch({type: "SET_PLACEHOLDER",hours: String(60),minutes,seconds});;
+			dispatch({type,hours: String(60),minutes,seconds});;
 	}
 
 	for (i = intHours - exibited; i < intHours + exibited; i++){
