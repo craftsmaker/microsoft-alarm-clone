@@ -1,9 +1,9 @@
 import React from 'react';
 import "./main.css";
 import store from "./store"
-import {HashRouter,Route,Redirect,useLocation,Switch,useHistory,Link} from "react-router-dom"
+import {HashRouter,Route,Redirect,useLocation,Switch} from "react-router-dom"
 import {useTransition,animated} from "react-spring";
-import {Provider,useDispatch,useSelector} from "react-redux";
+import {Provider} from "react-redux";
 import Add from "./screens/Add"
 import Stopwatch from "./screens/Stopwatch"
 import Clock from "./screens/Clock"

@@ -1,5 +1,5 @@
 import React from "react";
-import maximizeIcon from "../../assets/m3.svg";
+import maximizeIcon from "../../assets/maximize.svg";
 import {remote} from "electron"; 
 import "./styles.css";
 

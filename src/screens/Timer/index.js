@@ -5,22 +5,15 @@ import {MdPlayArrow,MdRefresh} from "react-icons/md";
 import {IoMdResize} from "react-icons/io";
 import Modal from "./Modal";
 import styles from "./styles.module.css";
+import {transformListOfStringfiedObjectsIntoArray} from "../../utils";
 
 function Timer(){
 	const dispatch = useDispatch();
 	const {timer: {clocks, activeClocksIDs,modal}} = useSelector(state => state);
 
+	const timers = localStorage.getItem("timers");
+
 	useEffect(() => {
-		if (localStorage.length > clocks.length){
-			function getDataFromLocalStorage(){
-				return Object.keys(localStorage)
-					.map((value,index) =>
-						({id: index + 1, timer: JSON.parse(localStorage[index + 1])})
-					)		
-			}
-			let newClocks = getDataFromLocalStorage();
-			dispatch({type: "ADD_CLOCKS", clocks: newClocks})
-		}
 		// Compare timer.clock with values in storage
 		if (clocks.length > 0 && activeClocksIDs.length > 0){
 			setTimeout(() => {
@@ -29,14 +22,19 @@ function Timer(){
 		}
 	})
 
+	useEffect(() => {
+		let newClocks =  transformListOfStringfiedObjectsIntoArray(localStorage.getItem("timers"));;
+		dispatch({type: "ADD_CLOCKS", clocks: newClocks})
+	},[timers,dispatch])
+
 	if(!modal[0]){
 		if (clocks.length !== 0){
 			return (
 				<main>
 					<Notification/>
 					<div className={styles.clocks}>
-						{clocks.map(clock => 
-							<ClockItem key={clock.id} identifier={clock.id} timer={clock.timer} setClock={(timer,identifier) => dispatch({type: "CHANGE_MODAL", modal: [true,timer,identifier]})}/>
+						{clocks.map((timer,index) => 
+							<ClockItem key={index} identifier={index} timer={timer} setClock={(timer,identifier) => dispatch({type: "CHANGE_MODAL", modal: [true,timer,identifier]})}/>
 						)}
 					</div>
 				</main>
@@ -65,7 +63,7 @@ function ClockItem({timer, identifier,setClock}){
 		isRunning = true;
 
 	const handleRefresh = () => {
-		dispatch({type: "RESET_COUNTER", identifier: identifier});
+		dispatch({type: "RESET_COUNTER", identifier});
 	}
 
 	const handlePlay = () => {
@@ -89,7 +87,7 @@ function ClockItem({timer, identifier,setClock}){
 					<IoMdResize className={styles.clockResizeButton} onClick={() => setClock(timer,identifier)} />
 				</li>
 			</ul>
-		</div>
+		</div>	
 	);
 }
 

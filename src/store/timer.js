@@ -1,3 +1,5 @@
+import {transformListOfStringfiedObjectsIntoArray} from "../utils";
+
 const TIMER_STATE = {
 	activeClocksIDs: [],
 	placeholderTimer: {
@@ -11,7 +13,6 @@ const TIMER_STATE = {
 }
 
 export default function(state = TIMER_STATE,action){
-	let sizeOfClocks = String([...state.clocks].length + 1)
 	let activeClocksIDs = [...state.activeClocksIDs];
 	let identifier = action.identifier;
 	let clocks = [...state.clocks];
@@ -21,22 +22,25 @@ export default function(state = TIMER_STATE,action){
 		case "CHANGE_MODAL":
 			return {...state, modal: action.modal, identifier: action.identifier};
 		case "ADD_TIMER":
-			const timer = {...state.placeholderTimer,millisecondbyten: "00"};
-			const parsedClocks = 
-			[
-				...state.clocks,
-				{
-					id: sizeOfClocks ,
-					timer: timer
-				}
-			];
+			const timer = {...state.placeholderTimer,millisecondsbyten: "00"};
+
+			let timers = transformListOfStringfiedObjectsIntoArray(localStorage.getItem("timers"));
+
+			if (!timers){
+				localStorage.setItem("timers",  JSON.stringify(timer));
+			}
+			else{
+				
+				timers.push(timer);
+				let newTimers = timers.map(timer => JSON.stringify(timer));
+
+				localStorage.setItem("timers",  newTimers.join());
+			}
 			
-			localStorage.setItem(sizeOfClocks,JSON.stringify(timer))
 
 			return {
 				...state,
-				timer: timer,
-				clocks: parsedClocks
+				clocks: [...state.clocks, timer]
 			}
 		case "ACTIVATE_TIMER":
 			return {...state, activeClocksIDs: [...state.activeClocksIDs,action.identifier]}
@@ -47,12 +51,13 @@ export default function(state = TIMER_STATE,action){
 
 			return {...state, activeClocksIDs}
 		case "ADD_CLOCKS":
-			return {...state, timer: {}, clocks: action.clocks}
+			console.log("ADD CLOCKS")
+			return {...state, clocks: action.clocks}
 		case "DECREMENT_COUNTER":			
-			clocks.map(clock => {
-				if(activeClocksIDs.some(ID => clock?.id === ID)){
+			clocks.forEach((timer,clockID) => {
+				if(activeClocksIDs.some(ID => clockID === ID)){
 					let hasEnded= false;
-					let {timer} = clock;
+					
 					let millisecondsbytenInt = parseInt(timer.millisecondsbyten);
 					let secondInt = parseInt(timer.seconds);
 					let minuteInt = parseInt(timer.minutes);
@@ -84,10 +89,10 @@ export default function(state = TIMER_STATE,action){
 					}
 					
 					if (hasEnded){
-						identifier = activeClocksIDs.findIndex(ID => ID === clock.id);
+						identifier = activeClocksIDs.findIndex(ID => ID === clockID);
 						if(identifier !== -1){
 							activeClocksIDs.splice(identifier,identifier + 1);
-							Object.assign(timer,JSON.parse(localStorage.getItem(clock.id)));
+							Object.assign(timer,JSON.parse(localStorage.getItem(clockID)));
 						}
 					} else{
 						timer.hours = String(hourInt).padStart(2,"0");
@@ -96,14 +101,13 @@ export default function(state = TIMER_STATE,action){
 						timer.millisecondsbyten = String(millisecondsbytenInt).padStart(2,"0");
 					}
 				}
-				return clock;
 			})
 			
-			console.log(`The final clocks state:`,clocks)
+			// console.log(`The final clocks state:`,clocks)
 			return {...state, clocks,activeClocksIDs};
 		case "RESET_COUNTER":
-			let id = clocks.findIndex(clock => clock.id === identifier);
-			clocks[id] = {id: identifier,timer: JSON.parse(localStorage.getItem(identifier))}
+			// let id = clocks.findIndex((clock,clockID) => clockID === identifier);
+			clocks[action.identifier] = transformListOfStringfiedObjectsIntoArray(localStorage.getItem("timers"))[action.identifier];
 			return {...state, clocks};
 		case "SET_PLACEHOLDER":
 			return {...state, placeholderTimer: {

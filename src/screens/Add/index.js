@@ -10,7 +10,7 @@ import "./styles.css";
 function Add(){
 	useSelector(state => state);
 	const {state} = useLocation();
-
+	
 	let hoursReference = useRef(null)	
 	let minutesReference = useRef(null)
 	let secondsReference = useRef(null)
@@ -30,8 +30,8 @@ function Add(){
 				<div id="timer-container">
 					<h1>NEW TIMER</h1>
 					<div id="timer-childContainer">
-						<HoursControl ref={hoursReference} location={state}/>
-						<MinutesControl ref={minutesReference} location={state}/>
+						<HoursControl ref={hoursReference} location={state?.fromScreen}/>
+						<MinutesControl ref={minutesReference} location={state?.fromScreen}/>
 						{
 							state?.fromScreen === "/Timer"
 							?<SecondsControl ref={secondsReference}/>

@@ -9,7 +9,7 @@ export default function Modal({identifier}){
 	const dispatch = useDispatch();
 	let isRunning = false;  
 
-    const {timer} = clocks.find(clock => clock.id === identifier);
+    const timer = clocks[identifier];
 
 	if (activeClocksIDs.findIndex(ID => ID === identifier) !== -1)
 		isRunning = true;

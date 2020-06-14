@@ -8,6 +8,7 @@ export default React.forwardRef(({location},ref) => {
 	
 	const type = location === "/Timer" ? "SET_PLACEHOLDER" : "SET_ALARM_PLACEHOLDER";
 	const reducer = location === "/Timer" ? store.timer.placeholderTimer : store.alarm.placeholderAlarm;
+	
 	const intHours = parseInt(reducer.hours);
 	let i = 0,hoursList = [];
 	const exibited = 10;
