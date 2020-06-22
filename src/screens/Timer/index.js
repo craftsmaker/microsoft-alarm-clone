@@ -1,40 +1,65 @@
 import React,{useEffect} from "react";
 import {useDispatch,useSelector} from "react-redux";
 import Notification from "../../components/Notification";
-import {MdPlayArrow,MdRefresh} from "react-icons/md";
-import {IoMdResize} from "react-icons/io";
 import Modal from "./Modal";
 import styles from "./styles.module.css";
+import {useSprings} from "react-spring";
 import {transformListOfStringfiedObjectsIntoArray} from "../../utils";
+import TimerItem from "./TimerItem";
 
-function Timer(){
+export default () => {
 	const dispatch = useDispatch();
-	const {timer: {clocks, activeClocksIDs,modal}} = useSelector(state => state);
+	let {timer: {clocks, activeClocksIDs,modal,checkedTimerIDs}} = useSelector(state => state);
+	const [toggleAnimations,setToggleAnimations] = useSprings(clocks?.length || 0, () => ({position: "absolute", left: "-100px"}))
+	console.log("this is the main entrance")
 
-	const timers = localStorage.getItem("timers");
+
+	useEffect(()=>{
+		dispatch({type: "SET_TIMER_TOGGLER", setter: (isVisible = false) => {
+			isVisible
+			? (() => {
+				setToggleAnimations(() => ({left: "-100px"}))
+			})()
+			: (() => {
+				setToggleAnimations(() => ({left: "5px"}))
+			})()
+		}})
+
+	},[dispatch,setToggleAnimations])
 
 	useEffect(() => {
 		// Compare timer.clock with values in storage
-		if (clocks.length > 0 && activeClocksIDs.length > 0){
+		if (clocks?.length > 0 && activeClocksIDs?.length > 0){
 			setTimeout(() => {
 				dispatch({type: "DECREMENT_COUNTER"});
 			},10)
 		}
 	})
 
+	let storedTimers = localStorage.getItem("timers");
+
 	useEffect(() => {
-		let newClocks =  transformListOfStringfiedObjectsIntoArray(localStorage.getItem("timers"));;
+		let newClocks =  transformListOfStringfiedObjectsIntoArray(storedTimers);;
+		if (!newClocks)
+			newClocks = []
 		dispatch({type: "ADD_CLOCKS", clocks: newClocks})
-	},[timers,dispatch])
+	},[storedTimers,dispatch])
 
 	if(!modal[0]){
-		if (clocks.length !== 0){
+		if (clocks?.length !== 0){
 			return (
 				<main>
 					<Notification/>
 					<div className={styles.clocks}>
-						{clocks.map((timer,index) => 
-							<ClockItem key={index} identifier={index} timer={timer} setClock={(timer,identifier) => dispatch({type: "CHANGE_MODAL", modal: [true,timer,identifier]})}/>
+						{clocks?.map((timer,index) => 
+							<TimerItem 
+								key={index}
+								identifier={index}
+								checkedTimerIDs={checkedTimerIDs} 
+								style={toggleAnimations[index]} 
+								timer={timer} 
+								setClock={(timer,identifier) => dispatch({type: "CHANGE_MODAL", modal: [true,timer,identifier]})}
+							/>
 						)}
 					</div>
 				</main>
@@ -53,43 +78,3 @@ function Timer(){
 		)
 	}
 }
-
-function ClockItem({timer, identifier,setClock}){
-	const {activeClocksIDs} = useSelector(state => state.timer);
-	const dispatch = useDispatch();
-	let isRunning = false;
-
-	if (activeClocksIDs.findIndex(ID => ID === identifier) !== -1)
-		isRunning = true;
-
-	const handleRefresh = () => {
-		dispatch({type: "RESET_COUNTER", identifier});
-	}
-
-	const handlePlay = () => {
-		// console.log(isRunning);
-		isRunning
-		?dispatch({type: "DEACTIVATE_TIMER", identifier})
-		:dispatch({type: "ACTIVATE_TIMER", identifier})
-	}
-
-	return(
-		<div className={styles.clock}>
-			<p className={styles.clockParagraph}>{timer.hours}:{timer.minutes}:{timer.seconds}</p>
-			<ul className={styles.clockButtons}>
-				<li className={styles.listButton}>
-					<MdRefresh onClick={handleRefresh} className={styles.clockRefreshButton} />
-				</li>
-				<li className={styles.listButton}>
-					<MdPlayArrow className={styles.clockPlayButton} onClick={handlePlay}/>
-				</li>
-				<li className={styles.listButton}>
-					<IoMdResize className={styles.clockResizeButton} onClick={() => setClock(timer,identifier)} />
-				</li>
-			</ul>
-		</div>	
-	);
-}
-
-
-export default Timer;

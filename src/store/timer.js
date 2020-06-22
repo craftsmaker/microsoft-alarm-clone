@@ -1,4 +1,4 @@
-import {transformListOfStringfiedObjectsIntoArray} from "../utils";
+import {transformListOfStringfiedObjectsIntoArray,deleteItemLOILS} from "../utils";
 
 const TIMER_STATE = {
 	activeClocksIDs: [],
@@ -9,13 +9,17 @@ const TIMER_STATE = {
 		millisecondsbyten: "00"
 	},
 	clocks: [],
-	modal: [false,{},0]
+	modal: [false,{},0],
+	toggleDeleteTimers: {isVisible: false, toggle: () => {}},
+	checkedTimerIDs: []
 }
 
 export default function(state = TIMER_STATE,action){
 	let activeClocksIDs = [...state.activeClocksIDs];
 	let identifier = action.identifier;
 	let clocks = [...state.clocks];
+	let toggleDeleteTimers = {...state.toggleDeleteTimers};
+	let checkedTimerIDs = [...state.checkedTimerIDs];
 
 	switch(action.type)
 	{
@@ -89,11 +93,11 @@ export default function(state = TIMER_STATE,action){
 					}
 					
 					if (hasEnded){
-						identifier = activeClocksIDs.findIndex(ID => ID === clockID);
-						if(identifier !== -1){
-							activeClocksIDs.splice(identifier,identifier + 1);
-							Object.assign(timer,JSON.parse(localStorage.getItem(clockID)));
-						}
+						let identifier = activeClocksIDs.indexOf(clockID);
+						activeClocksIDs.splice(identifier,identifier + 1);
+						let test = transformListOfStringfiedObjectsIntoArray(localStorage.getItem("timers"));
+						
+						Object.assign(timer,test[clockID]);
 					} else{
 						timer.hours = String(hourInt).padStart(2,"0");
 						timer.minutes = String(minuteInt).padStart(2,"0");
@@ -102,8 +106,6 @@ export default function(state = TIMER_STATE,action){
 					}
 				}
 			})
-			
-			// console.log(`The final clocks state:`,clocks)
 			return {...state, clocks,activeClocksIDs};
 		case "RESET_COUNTER":
 			// let id = clocks.findIndex((clock,clockID) => clockID === identifier);
@@ -115,7 +117,26 @@ export default function(state = TIMER_STATE,action){
 				minutes: action.minutes,
 				seconds: action.seconds
 			}}
+		case "SET_TIMER_TOGGLER":
+			return {...state,toggleDeleteTimers: {isVisible: false, toggle: action.setter}}
+		case "TOGGLE_TIMER_DELETE_LIST":
+			toggleDeleteTimers.toggle(toggleDeleteTimers.isVisible);
+			return {...state, toggleDeleteTimers: {isVisible: !toggleDeleteTimers.isVisible, toggle: toggleDeleteTimers.toggle}}
+		case "TOGGLE_TIMER_CHECK":
+				if (checkedTimerIDs.some(id => id === action.identifier)){
+					const id = checkedTimerIDs.indexOf(action.identifier)
+					checkedTimerIDs.splice(id, id + 1);
+				}else{
+					checkedTimerIDs.push(action.identifier)    
+				}
+				
+				return {...state, checkedTimerIDs};
+		case "DELETE_SELECTED_TIMERS":
+			checkedTimerIDs.forEach(ID => deleteItemLOILS("timers",ID))
+            checkedTimerIDs = [];
+            toggleDeleteTimers.toggle(true);
+            return {...state,checkedTimerIDs,toggleDeleteTimers:{...toggleDeleteTimers, isVisible: !toggleDeleteTimers.isVisible}}
 		default:
-			return {...state,timer: {}, clocks: [...state.clocks]};
+			return {...state,timer: {}, clocks: [...state.clocks]}; 
 	}
 }

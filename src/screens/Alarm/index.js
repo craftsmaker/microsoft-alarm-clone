@@ -5,40 +5,50 @@ import styles from "./styles.module.css";
 import {useSpring,animated} from "react-spring";
 import {useSelector,useDispatch} from "react-redux";
 import {transformListOfStringfiedObjectsIntoArray} from "../../utils";
+import CustomCheckbox from "../../components/Checkbox";
 
 export default function(){
-	const {alarms} = useSelector(state => state.alarm);
+	const {alarms,checkedAlarmIDs} = useSelector(state => state.alarm);
 	const dispatch = useDispatch();
 
-	const [checkboxAnimation,setCheckboxAnimation,stopCheckboxAnimation] = useSpring(() => ({position: "relative",left: "-48px"}));
+	const [checkboxAnimation,setCheckboxAnimation] = useSpring(() => ({position: "relative",left: "-38px"}));
 
 	React.useEffect(() => {
 		dispatch({type: "SET_TOGGLER", setter: (isVisible = false) => {
 			isVisible
 			? (() => {
-				setCheckboxAnimation({left: "-48px"});
-				stopCheckboxAnimation();}
-			)()
+				setCheckboxAnimation({left: "-38px"});
+			})()
 			: (() => {
-				setCheckboxAnimation({left: "5px"});
-				stopCheckboxAnimation();
+				setCheckboxAnimation({left: "0px"});
 			})()
 		}})	
-	},[dispatch])
+	},[dispatch,setCheckboxAnimation])
 
 	let storedAlarms = localStorage.getItem("alarms");
 
 	React.useEffect(() => {
-		dispatch({type: "ADD_ALARMS", alarms: transformListOfStringfiedObjectsIntoArray(storedAlarms)})
+		dispatch({type: "ADD_ALARMS", alarms: transformListOfStringfiedObjectsIntoArray(storedAlarms) || []})
 	},[storedAlarms,dispatch])
 
+	if(!alarms){		
+		return(
+			<main>
+				<Notification/>
+				<div>
+
+				</div>
+			</main>
+		)
+	}
+		
 	return(
-		<main>
+		<main style={{paddingLeft: 0,paddingRight: 0}}>
 			<Notification/>
 			<animated.div style={checkboxAnimation}>
 				<div style={{display: "flex",flex:1,flexDirection: "column"}}>
 					{alarms.map((alarm,index) => (
-						<Alarm key={index} alarm={alarm}/>
+						<Alarm key={index} alarm={alarm} identifier={index} checkedAlarmIDs={checkedAlarmIDs}/>
 					))}
 				</div>
 			</animated.div>
@@ -46,33 +56,23 @@ export default function(){
 	)
 }
 
-function Alarm({alarm}) {	
-	const dispatch = useDispatch();
+function Alarm({alarm,identifier,checkedAlarmIDs}) {	
 	let alarmTime = alarm.hours + ":" + alarm.minutes;
 	let alarmName = "Hello Honey";
 	let alarmFrequency = "Everyday";
+	const dispatch = useDispatch();
 	// let alarmRepetition = "10 minutes";
 	// let alarmSound = "Alarmes";
+	const checked = checkedAlarmIDs.some(id => identifier === id);
 	const [switcherChecked,setSwitcherChecked] = useState(false)
-	const [checked,setChecked] = useState(false);
-
+	
 	let alarmNameColor = "white";
 	if (switcherChecked)
 		alarmNameColor = "blue";
 
-	console.log(checked)
 	return(
-		<div className={styles.alarm}>
-			<div style={{display: "flex",flexGrow:0,alignItems: "center"}} onClick={e => setChecked(checked => !checked)}>
-				<input type="checkbox" className={styles.checkboxInput} defaultChecked={checked}/>
-				<span className={styles.checkboxCustomizedInput}>
-					<span className={styles.check} style={{
-						display: checked? "block": "none",
-					}}>
-
-					</span>
-				</span>
-			</div>
+		<div className={styles.alarm} style={{backgroundColor: checked ? "#004881" : "black"}}>
+			<CustomCheckbox checked={checked} onClick={e => dispatch({type: "TOGGLE_ALARM_CHECK",identifier})}/>
 			<div className={styles.alarmInformation}>
 				<h1 className={styles.informationHeader}>{alarmTime}</h1>
 				<p style={{color: alarmNameColor, fontSize: "0.8em"}}>{alarmName}</p>

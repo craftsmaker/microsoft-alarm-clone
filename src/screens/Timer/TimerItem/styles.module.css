@@ -1,0 +1,63 @@
+
+.clock{
+    display: flex;
+	flex: 0 0 260px;
+	height: 140px;
+	justify-content: center;
+	align-items: center;
+	padding: 20px;
+	overflow: hidden;
+	position: relative;
+}
+
+.clock:hover{
+	background-color: rgb(30,30,30);
+}
+
+.clockParagraph{
+    text-align: center;
+	font-family: "Roboto";
+	font-weight: bolder;
+	color: white;
+	background-color: inherit;
+	font-size: 2.4em;
+}
+
+.clockButtons{
+    display: flex;
+	flex: 1 1 0;
+	width: 100%;
+    align-items: center;
+    font-size: 1.6em;
+}
+
+.listButton{
+    display: flex;
+	flex-direction: column;
+	flex: 1 1 0;
+	align-items: center;
+}
+
+
+.clockButtons svg:hover{
+	background-color: rgba(50,50,50,5);
+}
+
+.clockPlayButton{
+    color: white;
+    border-radius: 100%;
+    padding: 20px;
+    border: 1px solid gray;
+}
+
+.clockResizeButton{
+    position: relative;
+    top:0;
+    padding: 20px;
+}
+
+.clockRefreshButton{
+    position: relative;
+    top:0;
+    padding: 20px;
+}

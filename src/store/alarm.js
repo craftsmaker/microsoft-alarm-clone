@@ -1,4 +1,4 @@
-import {transformListOfStringfiedObjectsIntoArray} from "../utils";
+import {transformListOfStringfiedObjectsIntoArray,deleteItemLOILS} from "../utils";
 
 const INITIAL_STATE = {
     placeholderAlarm: {
@@ -8,13 +8,16 @@ const INITIAL_STATE = {
         millisecondsbyten: "00"
     },
     alarms: [],
+    checkedAlarmIDs: [],
     toggleDeleteList: {isVisible:false,toggle: () => {}}
 }
 
 export default function(state=INITIAL_STATE,action){
-    const alarm = {...state.placeholderAlarm,millisecondbyten: "00"};
-    const toggleDeleteList = {...state.toggleDeleteList};
+    let alarm = {...state.placeholderAlarm,millisecondbyten: "00"};
+    let toggleDeleteList = {...state.toggleDeleteList};
+    let checkedAlarmIDs = [...state.checkedAlarmIDs];
 
+    console.log(action.type);
     switch(action.type){
         case "SET_ALARM_PLACEHOLDER":
 			return {...state, placeholderAlarm: {
@@ -24,6 +27,7 @@ export default function(state=INITIAL_STATE,action){
             }}
         case "ADD_ALARM":        
             let alarms = transformListOfStringfiedObjectsIntoArray(localStorage.getItem("alarms"));
+            
             if(alarms){
                 alarms.push(alarm);
                 alarms = alarms.map(alarm => JSON.stringify(alarm));
@@ -38,9 +42,23 @@ export default function(state=INITIAL_STATE,action){
         case "SET_TOGGLER":
             return {...state,toggleDeleteList: {isVisible: false,toggle: action.setter}};
         case "TOGGLE_DELETE_LIST":
-            console.log(toggleDeleteList.toggle)
             toggleDeleteList.toggle(toggleDeleteList.isVisible);
-            return {...state, toggleDeleteList: {isVisible: !toggleDeleteList.isVisible, toggle: toggleDeleteList.toggle}}
+            checkedAlarmIDs = [];
+            return {...state,checkedAlarmIDs, toggleDeleteList: {isVisible: !toggleDeleteList.isVisible, toggle: toggleDeleteList.toggle}}
+        case "TOGGLE_ALARM_CHECK":
+            if (checkedAlarmIDs.some(id => id === action.identifier)){
+                const id = checkedAlarmIDs.indexOf(action.identifier)
+                checkedAlarmIDs.splice(id, id + 1);
+            }else{
+                checkedAlarmIDs.push(action.identifier)    
+            }
+            
+            return {...state, checkedAlarmIDs};
+        case "DELETE_SELECTED_ALARMS":
+            checkedAlarmIDs.forEach(ID => deleteItemLOILS("alarms",ID))
+            checkedAlarmIDs = [];
+            toggleDeleteList.toggle(true);
+            return {...state,checkedAlarmIDs,toggleDeleteList: {...toggleDeleteList, isVisible: !toggleDeleteList.isVisible}}
         default:
             return state;
     }

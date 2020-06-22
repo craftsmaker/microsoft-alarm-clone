@@ -4,6 +4,7 @@
     max-height: 100px;
     flex-basis: 200px;
     padding-left: 5px;
+    transition: background-color 50ms;
 }
 
 .alarm:hover{
@@ -30,32 +31,3 @@
     padding-right: 40%;
 }
 
-.checkboxInput{
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-}
-
-.checkboxCustomizedInput{
-    position: relative;
-    height: 25px;
-    width: 25px;
-    background-color: black;
-    border: 3px solid white;
-}
-
-.check{
-    position: absolute;
-    display: none;
-    left: 9px;
-    top: 5px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
