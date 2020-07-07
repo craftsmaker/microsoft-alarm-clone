@@ -7,14 +7,13 @@ import {IoMdResize} from "react-icons/io";
 import styles from "./styles.module.css";
 
 export default ({timer, identifier,setClock,style,checkedTimerIDs}) => {
-    console.log("This is the dock entrances")
     const {activeClocksIDs} = useSelector(state => state.timer);
 	const dispatch = useDispatch();
 	let isRunning = false;
 
 	const checked = checkedTimerIDs.some(id => identifier === id);
 
-	if (activeClocksIDs.findIndex(ID => ID === identifier) !== -1)
+	if (activeClocksIDs.indexOf(identifier) !== -1)
 		isRunning = true;
 
 	const handleRefresh = () => {
@@ -22,7 +21,6 @@ export default ({timer, identifier,setClock,style,checkedTimerIDs}) => {
 	}
 
 	const handlePlay = () => {
-		// console.log(isRunning);
 		isRunning
 		?dispatch({type: "DEACTIVATE_TIMER", identifier})
 		:dispatch({type: "ACTIVATE_TIMER", identifier})
@@ -36,17 +34,35 @@ export default ({timer, identifier,setClock,style,checkedTimerIDs}) => {
 			<div style={{display: "flex",flexDirection: "column"}}>
 				<p className={styles.clockParagraph}>{timer.hours}:{timer.minutes}:{timer.seconds}</p>
 				<ul className={styles.clockButtons}>
-					<li className={styles.listButton}>
-						<MdRefresh onClick={handleRefresh} className={styles.clockRefreshButton} />
-					</li>
-					<li className={styles.listButton}>
-						<MdPlayArrow className={styles.clockPlayButton} onClick={handlePlay}/>
-					</li>
-					<li className={styles.listButton}>
-						<IoMdResize className={styles.clockResizeButton} onClick={() => setClock(timer,identifier)} />
-					</li>
+					<ButtonRefresh onClick={handleRefresh}/>
+					<PlayButton onClick={handlePlay}/>
+					<ResizeButton onClick={() => setClock(timer,identifier)}/>
 				</ul>
 			</div>
 		</div>
 	)
 }
+
+const ButtonRefresh = React.memo(({onClick}) => {
+	return(
+		<li className={styles.listButton}>
+			<MdRefresh onClick={onClick} className={styles.clockRefreshButton} />
+		</li>
+	)
+})
+
+const PlayButton = React.memo(({onClick}) => {
+	return(
+	<li className={styles.listButton}>
+		<MdPlayArrow className={styles.clockPlayButton} onClick={onClick}/>
+	</li>
+	)
+})
+
+const ResizeButton = React.memo(({onClick}) => {
+	return(
+		<li className={styles.listButton}>
+			<IoMdResize className={styles.clockResizeButton} onClick={onClick}/>
+		</li>
+	)
+})

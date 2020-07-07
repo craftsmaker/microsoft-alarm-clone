@@ -1,86 +1,99 @@
-import React from 'react';
+import React from "react";
 import "./main.css";
-import store from "./store"
-import {HashRouter,Route,Redirect,useLocation,Switch} from "react-router-dom"
-import {useTransition,animated} from "react-spring";
-import {Provider} from "react-redux";
-import Add from "./screens/Add"
-import Stopwatch from "./screens/Stopwatch"
-import Clock from "./screens/Clock"
-import Alarm from "./screens/Alarm"
-import Timer from "./screens/Timer"
+import store from "./store";
+import {
+  HashRouter,
+  Route,
+  Redirect,
+  useLocation,
+  Switch,
+} from "react-router-dom";
+import { useTransition, animated } from "react-spring";
+import { Provider } from "react-redux";
 import Footer from "./Footers";
 import Header from "./Headers";
 import "./responsive.css";
 
-const ORDER = ["/Alarm","/Clock","/Timer","/Stopwatch"]
+const Alarm = React.lazy(() => import("./screens/Alarm"));
+const Timer = React.lazy(() => import("./screens/Timer"));
+const Clock = React.lazy(() => import("./screens/Clock"));
+const Stopwatch = React.lazy(() => import("./screens/Stopwatch"));
+const Add = React.lazy(() => import("./screens/Add"));
+
+const ORDER = ["/Alarm", "/Clock", "/Timer", "/Stopwatch"];
 
 export default function App() {
-  return(
-   		<Provider store={store}> 
-			<HashRouter>
-				<AnimatedRoute/>
-			</HashRouter>
-		</Provider>
-	)
+  return (
+    <Provider store={store}>
+      <HashRouter>
+        <AnimatedRoute />
+      </HashRouter>
+    </Provider>
+  );
 }
 
-function AnimatedRoute(){
-	let location = useLocation();
+function AnimatedRoute() {
+  let location = useLocation();
 
-	let toScreenIndex = location?.state?.screenIndex;
-	let fromScreen = location?.state?.actualScreen;
+  let toScreenIndex = location?.state?.screenIndex;
+  let fromScreen = location?.state?.actualScreen;
 
-	let fromScreenIndex = 0;
-	ORDER.forEach((value,index) => {
-		if (value === fromScreen){
-			fromScreenIndex = index;
-		}
-	})
+  let fromScreenIndex = 0;
+  ORDER.forEach((value, index) => {
+    if (value === fromScreen) {
+      fromScreenIndex = index;
+    }
+  });
 
-	const transitionLeft = {
-		from: {transform: "translate3d(0%,0%,0)"}, // primeira transição
-		enter: {transform: "tranlate3d(0%,0%,0)"},
-		leave: {transform: "translate3d(-100%,0%,0)"} 
-	};
+  const transitionLeft = {
+    from: { transform: "translate3d(0%,0%,0)" }, // primeira transição
+    enter: { transform: "tranlate3d(0%,0%,0)" },
+    leave: { transform: "translate3d(-100%,0%,0)" },
+  };
 
-	const transitionRight = {
-		from: {transform: "translate3d(0%,0%,0)"}, // primeira transição
-		enter: {transform: "translate3d(0%,0%,0)"}, // natural state
-		leave: {transform: "translate3d(100%,0%,0)"} // fim da transição
-	}
-	let transitionConfig = transitionLeft;
+  const transitionRight = {
+    from: { transform: "translate3d(0%,0%,0)" }, // primeira transição
+    enter: { transform: "translate3d(0%,0%,0)" }, // natural state
+    leave: { transform: "translate3d(100%,0%,0)" }, // fim da transição
+  };
+  let transitionConfig = transitionLeft;
 
-	if (toScreenIndex < fromScreenIndex)
-		transitionConfig = transitionRight;
+  if (toScreenIndex < fromScreenIndex) transitionConfig = transitionRight;
 
-	const transitions = useTransition(location, location => location.pathname, transitionConfig);
-	return(
-		<div className="container">
-			<Header/>
-			<div >
-				{
-					location.pathname !== "/Add" ?
-					transitions.map(({item:location,props,key}) => (
-						<animated.div key={key} style={props}>
-							<Switch location={location}>
-								<Route exact path="/">
-									<Redirect to="/Timer"/>
-								</Route>
-								<Route path="/Timer" component={Timer}/>
-								<Route path="/Clock" component={Clock}/>
-								<Route path="/Stopwatch" component={Stopwatch}/>
-								<Route path="/Alarm" component={Alarm}/>							
-							</Switch>
-						</animated.div>
-				)):
-				<Switch>
-					<Route path="/Add" component={Add}/>
-				</Switch>
-				}
-				
-			</div>
-			<Footer/>
-		</div>
-	)
+  const transitions = useTransition(
+    location,
+    (location) => location.pathname,
+    transitionConfig
+  );
+  return (
+    <div className="container">
+      <Header />
+      <div>
+        {location.pathname !== "/Add" ? (
+          transitions.map(({ item: location, props, key }) => (
+            <animated.div key={key} style={props}>
+              <React.Suspense fallback={<div>Loading...</div>}>
+                <Switch location={location}>
+                  <Route exact path="/">
+                    <Redirect to="/Timer" />
+                  </Route>
+                  <Route path="/Timer" component={Timer} />
+                  <Route path="/Clock" component={Clock} />
+                  <Route path="/Stopwatch" component={Stopwatch} />
+                  <Route path="/Alarm" component={Alarm} />
+                </Switch>
+              </React.Suspense>
+            </animated.div>
+          ))
+        ) : (
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <Switch>
+              <Route path="/Add" component={Add} />
+            </Switch>
+          </React.Suspense>
+        )}
+      </div>
+      <Footer />
+    </div>
+  );
 }

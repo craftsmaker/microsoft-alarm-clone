@@ -5,8 +5,7 @@ import {RiArrowUpSLine,RiArrowDownSLine} from "react-icons/ri";
 
 export default React.forwardRef((props,ref) => {
     const dispatch = useDispatch();
-	// everytime a new value is selected, the redux get it
-	// the 'play' button will only make it official
+
 	const store = useSelector(state => state.timer);
 
 	function handleSeconds(value){

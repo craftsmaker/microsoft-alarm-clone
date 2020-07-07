@@ -12,10 +12,11 @@
   "main": "public/electron.js",
   "homepage": "./",
   "private": true,
+  "license": "MIT",
   "dependencies": {
     "@material-ui/core": "^4.9.14",
     "cross-env": "5.0.0",
-    "electron-is-dev": "^1.1.0",
+    "electron-is-dev": "^1.1.0",  
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-icons": "^3.10.0",

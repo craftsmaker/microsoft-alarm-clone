@@ -11,14 +11,12 @@ export default () => {
 	const dispatch = useDispatch();
 	let {timer: {clocks, activeClocksIDs,modal,checkedTimerIDs}} = useSelector(state => state);
 	const [toggleAnimations,setToggleAnimations] = useSprings(clocks?.length || 0, () => ({position: "absolute", left: "-100px"}))
-	console.log("this is the main entrance")
-
 
 	useEffect(()=>{
 		dispatch({type: "SET_TIMER_TOGGLER", setter: (isVisible = false) => {
 			isVisible
 			? (() => {
-				setToggleAnimations(() => ({left: "-100px"}))
+				setToggleAnimations(() => ({left: "-100pax"}))
 			})()
 			: (() => {
 				setToggleAnimations(() => ({left: "5px"}))

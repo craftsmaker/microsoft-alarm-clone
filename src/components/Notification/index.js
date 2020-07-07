@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.css";
 
-const Notification = () => {
+export default React.memo( () => {
 	return(
 		<div className="notification">
 			<p>
@@ -10,6 +10,4 @@ const Notification = () => {
 			</p>
 		</div>
 	)
-}
-
-export default Notification;
+})

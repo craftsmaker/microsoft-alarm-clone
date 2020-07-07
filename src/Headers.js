@@ -1,27 +1,32 @@
 import React from "react";
-import {useSelector} from "react-redux";
-import {useLocation} from "react-router-dom";
-import Header from "./components/Header";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import WindowMenu from "./components/WindowMenu";
+const Header = React.lazy(() => import("./components/Header"));
 
-export default function(){
-	const {timer: {modal}} = useSelector(state => state);
-	const location = useLocation();
-	if (location.pathname === "/Add"){
-		return(
-			<header>
-				<WindowMenu/>
-			</header>
-		)
-	}else if(modal[0]){
-		return (
-			<header style={{backgroundColor: "unset"}}>
-				<WindowMenu/>
-			</header>
-		);
-	} else{
-		return(
-			<Header/>
-		)
-	}
-}
+export default () => {
+  const modal = useSelector((state) => state.timer.modal);
+  const location = useLocation();
+
+  if (location.pathname === "/Add") {
+    return (
+      <header>
+        <WindowMenu />
+      </header>
+    );
+  }
+
+  if (modal[0]) {
+    return (
+      <header style={{ backgroundColor: "unset" }}>
+        <WindowMenu />
+      </header>
+    );
+  }
+
+  return (
+    <React.Suspense fallback={<div>Loading..</div>}>
+      <Header />
+    </React.Suspense>
+  );
+};
