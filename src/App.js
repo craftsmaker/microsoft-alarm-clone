@@ -46,15 +46,15 @@ function AnimatedRoute() {
   });
 
   const transitionLeft = {
-    from: { transform: "translate3d(0%,0%,0)" }, // primeira transição
+    from: { transform: "translate3d(0%,0%,0)" },
     enter: { transform: "tranlate3d(0%,0%,0)" },
     leave: { transform: "translate3d(-100%,0%,0)" },
   };
 
   const transitionRight = {
-    from: { transform: "translate3d(0%,0%,0)" }, // primeira transição
-    enter: { transform: "translate3d(0%,0%,0)" }, // natural state
-    leave: { transform: "translate3d(100%,0%,0)" }, // fim da transição
+    from: { transform: "translate3d(0%,0%,0)" },
+    enter: { transform: "translate3d(0%,0%,0)" },
+    leave: { transform: "translate3d(100%,0%,0)" },
   };
   let transitionConfig = transitionLeft;
 
