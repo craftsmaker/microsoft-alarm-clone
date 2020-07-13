@@ -1,5 +1,5 @@
 import React from "react";
-import { useSpring, animated } from "react-spring";
+import { useSpring } from "react-spring";
 import { useSelector, useDispatch } from "react-redux";
 import Notification from "../../components/Notification";
 import { transformListOfStringfiedObjectsIntoArray } from "../../utils";
