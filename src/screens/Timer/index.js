@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useSprings } from "react-spring";
 import Notification from "../../components/Notification";
 import Modal from "./Modal";
-import styles from "./styles.module.css";
-import { useSprings } from "react-spring";
 import { transformListOfStringfiedObjectsIntoArray } from "../../utils";
 import TimerItem from "./TimerItem";
+import Main from "../../components/Main";
+import {TimerList} from "./styles";
 
 export default () => {
   const dispatch = useDispatch();
@@ -52,9 +53,9 @@ export default () => {
   if (!modal[0]) {
     if (clocks?.length !== 0) {
       return (
-        <main>
+        <Main>
           <Notification />
-          <div className={styles.clocks}>
+          <TimerList>
             {clocks?.map((timer, index) => (
               <TimerItem
                 key={index}
@@ -62,26 +63,20 @@ export default () => {
                 checkedTimerIDs={checkedTimerIDs}
                 style={toggleAnimations[index]}
                 timer={timer}
-                setClock={(timer, identifier) =>
-                  dispatch({
-                    type: "CHANGE_MODAL",
-                    modal: [true, timer, identifier],
-                  })
-                }
               />
             ))}
-          </div>
-        </main>
+          </TimerList>
+        </Main>
       );
     }
 
     return (
-      <main>
+      <Main>
         <Notification />
         <div className="clocks" />
-      </main>
+      </Main>
     );
-  } else {
-    return <Modal identifier={modal[2]} />;
   }
+
+  return <Modal identifier={modal[2]} />;
 };

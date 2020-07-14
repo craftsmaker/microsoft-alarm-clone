@@ -17,7 +17,6 @@ export default function(state=INITIAL_STATE,action){
     let toggleDeleteList = {...state.toggleDeleteList};
     let checkedAlarmIDs = [...state.checkedAlarmIDs];
 
-    console.log(action.type);
     switch(action.type){
         case "SET_ALARM_PLACEHOLDER":
 			return {...state, placeholderAlarm: {

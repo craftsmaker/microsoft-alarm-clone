@@ -60,7 +60,6 @@ export default function (state = TIMER_STATE, action) {
 
       return { ...state, activeClocksIDs };
     case "ADD_CLOCKS":
-      console.log("ADD CLOCKS");
       return { ...state, clocks: action.clocks };
     case "DECREMENT_COUNTER":
       clocks.forEach((timer, clockID) => {

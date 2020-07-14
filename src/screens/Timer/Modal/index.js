@@ -2,17 +2,32 @@ import React from "react";
 import {MdPlayArrow,MdRefresh} from "react-icons/md";
 import {FiMinimize2} from "react-icons/fi";
 import {useDispatch,useSelector} from "react-redux";
-import styles from "./modal.module.css";
+import {Container,FooterWrapper,Buttons} from "./styles";
 
 export default function Modal({identifier}){
     const {activeClocksIDs,clocks} = useSelector(state => state.timer);
-	const dispatch = useDispatch();
 	let isRunning = false;  
+    
+    if (activeClocksIDs.findIndex(ID => ID === identifier) !== -1)
+        isRunning = true;
+    
+    const timer = clocks[identifier];	
 
-    const timer = clocks[identifier];
+    return(
+        <Container>
+            <p>
+                {timer.hours}:{timer.minutes}:{timer.seconds}
+            </p>
+            <Footer isRunning={isRunning} identifier={identifier}/>
+        </Container>
+    )
+}
 
-	if (activeClocksIDs.findIndex(ID => ID === identifier) !== -1)
-		isRunning = true;
+
+const Footer = React.memo(function ({isRunning,identifier}){
+    const dispatch = useDispatch();
+    
+    console.log("InFooter");
 
 	const handleRefresh = () => {
 		dispatch({type: "RESET_COUNTER", identifier: identifier});
@@ -24,36 +39,30 @@ export default function Modal({identifier}){
 		?dispatch({type: "DEACTIVATE_TIMER", identifier})
 		:dispatch({type: "ACTIVATE_TIMER", identifier})
 	}
-
-
+    
     return(
-        <main className={styles.main}>
-            <p className={styles.mainParagraph}>
-                {timer.hours}:{timer.minutes}:{timer.seconds}
-            </p>
-            <div className={styles.mainClock}>
+        <FooterWrapper>
                 <h2 style={{alignItems: "flex-end"}}>Temporizador(7)</h2>
-                <ul className={styles.clockButtons}>
+                <Buttons>
                     <li>
                         <MdRefresh
-                            className={styles.clockButtonRefresh}
+                            className="refreshButton"
                             onClick={handleRefresh}
                         />
                     </li>
                     <li>
                         <MdPlayArrow  
-                            className={styles.clockButtonPlay}
+                            className="playButton"
                             onClick={handlePlay}
                         />
                     </li>
                     <li>
                         <FiMinimize2 
-                            className={styles.clockButtonMinimize}
+                            className="minimizeButton"
                             onClick={() => dispatch({type: "CHANGE_MODAL", modal: [false,{}]})}
                         />
                     </li>
-                </ul>
-            </div>
-        </main>
+                </Buttons>
+        </FooterWrapper>
     )
-}
+})
