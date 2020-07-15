@@ -35,7 +35,7 @@ export default React.forwardRef(({location},ref) => {
 			color: "rgba(255,255,255,1)",
 		}
 
-		if(e.target.id){
+		if(e.target.id === "minuterArrowUp"){
 			Object.assign(minutesArrowDown.style, newStyle);
 			Object.assign(e.target.style, newStyle);	
 		}else{
@@ -57,7 +57,7 @@ export default React.forwardRef(({location},ref) => {
 			color: "rgba(255,255,255,0)",
 		}
 
-		if(e.target.id){
+		if(e.target.id === "minutesArrowUp"){
 			Object.assign(minutesArrowDown.style, newStyle);
 			Object.assign(e.target.style, newStyle);	
 		}else{

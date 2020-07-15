@@ -1,19 +1,16 @@
 import React from "react";
 import { animated } from "react-spring";
 import Checkbox from "../../../components/Checkbox";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { MdPlayArrow, MdRefresh } from "react-icons/md";
 import { IoMdResize } from "react-icons/io";
 import {TimerWrapper,ButtonsWrapper} from "./styles";
 
-export default function Timer({ timer, identifier, style, checkedTimerIDs }) {
-  console.log("TIMERITEM_RENDERED:", identifier);
-  const { activeClocksIDs } = useSelector((state) => state.timer);
-  let isRunning = false;
+export default function Timer({ timer, identifier, style, checkedTimerIDs, isRunning }) {
+
+  console.log("TimerChild")
 
   const checked = checkedTimerIDs.some((id) => identifier === id);
-
-  if (activeClocksIDs.indexOf(identifier) !== -1) isRunning = true;
 
   return (
     <TimerWrapper>

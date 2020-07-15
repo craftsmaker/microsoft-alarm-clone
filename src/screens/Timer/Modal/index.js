@@ -26,8 +26,6 @@ export default function Modal({identifier}){
 
 const Footer = React.memo(function ({isRunning,identifier}){
     const dispatch = useDispatch();
-    
-    console.log("InFooter");
 
 	const handleRefresh = () => {
 		dispatch({type: "RESET_COUNTER", identifier: identifier});

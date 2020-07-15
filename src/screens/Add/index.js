@@ -5,9 +5,19 @@ import Notification from "../../components/Notification";
 import HoursControl from "./HoursControl";
 import MinutesControl from "./MinutesControl";
 import SecondsControl from "./SecondsControl";
-import "./styles.css";
+import {AddWrapper,TimeControllerWrapper,TimeControllerFooter,TargetNameWrapper,TimerControllerControlls} from "./styles";
 
 function Add(){
+	return (
+		<AddWrapper>
+			<Notification/>
+			<TimeController/>
+			<TargetInformation/>
+		</AddWrapper>
+	)
+}
+
+function TimeController() {
 	useSelector(state => state);
 	const {state} = useLocation();
 	
@@ -22,38 +32,41 @@ function Add(){
 		if (state?.fromScreen === "/Timer")
 			secondsReference.current.scrollIntoView({block: "center", inline: "nearest"})	
 	})
+	
+	return(
+		<TimeControllerWrapper>
+			<h1>NEW TIMER</h1>
+			<TimerControllerControlls>
+				<HoursControl ref={hoursReference} location={state?.fromScreen}/>
+				<MinutesControl ref={minutesReference} location={state?.fromScreen}/>
+				{
+					state?.fromScreen === "/Timer"
+					?<SecondsControl ref={secondsReference}/>
+					:null
+				}	
+			</TimerControllerControlls>
+			<TimeControllerFooter>
+				<li>hours</li>
+				<li>minutes</li>
+				{
+					state?.fromScreen === "/Timer"
+					?<li>seconds</li>
+					:null
+				}
+			</TimeControllerFooter>
+		</TimeControllerWrapper>
+	)
+}
 
-
-	return (
-		<main id="add-container">
-				<Notification/>
-				<div id="timer-container">
-					<h1>NEW TIMER</h1>
-					<div id="timer-childContainer">
-						<HoursControl ref={hoursReference} location={state?.fromScreen}/>
-						<MinutesControl ref={minutesReference} location={state?.fromScreen}/>
-						{
-							state?.fromScreen === "/Timer"
-							?<SecondsControl ref={secondsReference}/>
-							:null
-						}	
-					</div>
-					<ul id="timer-footer">
-						<li>hours</li>
-						<li>minutes</li>
-						{
-							state?.fromScreen === "/Timer"
-							?<li>seconds</li>
-							:null
-						}
-					</ul>
-				</div>
-				<div id="name-container">
-					<h2>Timer name</h2>
-					<h1>Timer (x)</h1>
-				</div>
-				<div style={{height: "180px"}}/>
-			</main>
+function TargetInformation(){
+	return(
+		<>
+			<TargetNameWrapper>
+				<h2>Timer name</h2>
+				<h1>Timer (x)</h1>
+			</TargetNameWrapper>
+			<div style={{height: "180px"}}/>
+		</>
 	)
 }
 

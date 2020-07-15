@@ -62,9 +62,9 @@ export default () => {
                 identifier={index}
                 checkedTimerIDs={checkedTimerIDs}
                 style={toggleAnimations[index]}
+                isRunning={activeClocksIDs.indexOf(index)? true : false}
                 timer={timer}
-              />
-            ))}
+              />))}
           </TimerList>
         </Main>
       );
