@@ -1,40 +1,30 @@
 import React from "react";
-import { animated } from "react-spring";
-import Checkbox from "../../../components/Checkbox";
 import { useDispatch } from "react-redux";
 import { MdPlayArrow, MdRefresh } from "react-icons/md";
 import { IoMdResize } from "react-icons/io";
 import {TimerWrapper,ButtonsWrapper} from "./styles";
+import AnimatedCheckbox from './AnimatedCheckbox';
 
-export default function Timer({ timer, identifier, style, checkedTimerIDs, isRunning }) {
-
-  console.log("TimerChild")
+export default function ({ timer, identifier, style, checkedTimerIDs, isRunning }) {
 
   const checked = checkedTimerIDs.some((id) => identifier === id);
 
   return (
     <TimerWrapper>
       <AnimatedCheckbox style={style} identifier={identifier} checked={checked}/>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <p>
-          {timer.hours}:{timer.minutes}:{timer.seconds}
-        </p>
-        <Buttons isRunning={isRunning} identifier={identifier}/>
-      </div>
+      <TimerView hours={timer.hours} minutes={timer.minutes} seconds={timer.seconds} isRunning={isRunning} identifier={identifier}/>
     </TimerWrapper>
   );
 };
 
-const AnimatedCheckbox = React.memo(function({style, identifier, checked}){
-  console.log("THIS IS ACB")
-  const dispatch = useDispatch();
+const TimerView = React.memo(function ({hours,minutes,seconds,isRunning,identifier}){
   return(
-      <animated.div style={style}>
-        <Checkbox
-          onClick={(e) => dispatch({ type: "TOGGLE_TIMER_CHECK", identifier })}
-          checked={checked}
-        />
-      </animated.div>
+    <div style={{ display: "flex", flexDirection: "column" }}>
+        <p>
+          {hours}:{minutes}:{seconds}
+        </p>
+        <Buttons isRunning={isRunning} identifier={identifier}/>
+      </div>
   )
 })
 

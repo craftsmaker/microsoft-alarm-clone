@@ -57,14 +57,15 @@ export default () => {
           <Notification />
           <TimerList>
             {clocks?.map((timer, index) => (
-              <TimerItem
-                key={index}
-                identifier={index}
-                checkedTimerIDs={checkedTimerIDs}
-                style={toggleAnimations[index]}
-                isRunning={activeClocksIDs.indexOf(index)? true : false}
-                timer={timer}
-              />))}
+                <TimerItem
+                  key={index}
+                  identifier={index}
+                  checkedTimerIDs={checkedTimerIDs}
+                  style={toggleAnimations[index]}
+                  isRunning={activeClocksIDs.indexOf(index) !== -1? true : false}
+                  timer={timer}
+                />
+              ))}
           </TimerList>
         </Main>
       );

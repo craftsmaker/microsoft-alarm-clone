@@ -45,18 +45,24 @@ function TimeController() {
 					:null
 				}	
 			</TimerControllerControlls>
-			<TimeControllerFooter>
-				<li>hours</li>
-				<li>minutes</li>
-				{
-					state?.fromScreen === "/Timer"
-					?<li>seconds</li>
-					:null
-				}
-			</TimeControllerFooter>
+			<Footer state={state}/>
 		</TimeControllerWrapper>
 	)
 }
+
+const Footer = React.memo(function ({state}){
+	return(
+		<TimeControllerFooter>
+			<li>hours</li>
+			<li>minutes</li>
+			{
+				state?.fromScreen === "/Timer"
+				?<li>seconds</li>
+				:null
+			}
+		</TimeControllerFooter>
+	)
+})
 
 function TargetInformation(){
 	return(

@@ -1,7 +1,7 @@
 import React from "react";
 import maximizeIcon from "../../assets/maximize.svg";
 import { remote } from "electron";
-import "./styles.css";
+import {WindowMenuWrapper} from "./styles";
 
 const WindowMenu = React.memo(() => {
   let mainWindow = remote.getCurrentWindow();
@@ -11,7 +11,7 @@ const WindowMenu = React.memo(() => {
   };
 
   return (
-    <div id="window-menu">
+    <WindowMenuWrapper>
       <div>
         <p>Alarmes e Relógio</p>
       </div>
@@ -36,7 +36,7 @@ const WindowMenu = React.memo(() => {
           </button>
         </li>
       </ul>
-    </div>
+    </WindowMenuWrapper>
   );
 });
 
