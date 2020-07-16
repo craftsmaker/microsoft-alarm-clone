@@ -1,5 +1,4 @@
 import React from "react";
-import "./main.css";
 import store from "./store";
 import {
   HashRouter,
@@ -12,7 +11,7 @@ import { useTransition, animated } from "react-spring";
 import { Provider } from "react-redux";
 import Footer from "./Footers";
 import Header from "./Headers";
-import "./responsive.css";
+import Global from "./globalStyles";
 
 const Alarm = React.lazy(() => import("./screens/Alarm"));
 const Timer = React.lazy(() => import("./screens/Timer"));
@@ -67,6 +66,7 @@ function AnimatedRoute() {
   );
   return (
     <div className="container">
+      <Global/>
       <Header />
       <div>
         {location.pathname !== "/Add" ? (

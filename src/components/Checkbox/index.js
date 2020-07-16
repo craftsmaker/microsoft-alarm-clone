@@ -1,25 +1,24 @@
 import React from "react";
-import styles from "./styles.module.css";
+import {CheckboxWrapper} from "./styles";
 
 export default React.memo(({ checked, onClick }) => {
   return (
-    <div
-      style={{ display: "flex", flexGrow: 0, alignItems: "center" }}
+    <CheckboxWrapper
       onClick={onClick}
     >
       <input
         type="checkbox"
-        className={styles.checkboxInput}
+        className="checkboxInput"
         defaultChecked={checked}
       />
-      <span className={styles.checkboxCustomizedInput}>
+      <span className="checkboxCustomizedInput">
         <span
-          className={styles.check}
+          className="check"
           style={{
             display: checked ? "block" : "none",
           }}
         ></span>
       </span>
-    </div>
+    </CheckboxWrapper>
   );
 });

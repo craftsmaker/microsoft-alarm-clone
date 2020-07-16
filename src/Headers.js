@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import WindowMenu from "./components/WindowMenu";
-const Header = React.lazy(() => import("./components/Header"));
+import Header from "./components/Header";
+const WindowMenu = React.lazy(() => import("./components/WindowMenu"));
 
 export default () => {
   const modal = useSelector((state) => state.timer.modal);
@@ -10,23 +10,19 @@ export default () => {
 
   if (location.pathname === "/Add") {
     return (
-      <header>
+      <Header>
         <WindowMenu />
-      </header>
+      </Header>
     );
   }
 
   if (modal[0]) {
     return (
-      <header style={{ backgroundColor: "unset" }}>
+      <Header>
         <WindowMenu />
-      </header>
+      </Header>
     );
   }
 
-  return (
-    <React.Suspense fallback={<div>Loading..</div>}>
-      <Header />
-    </React.Suspense>
-  );
+  return <Header />;
 };

@@ -11,14 +11,13 @@ export default function UntoggledAlarmFooter() {
     <Footer right>
       <Link
         id="plus"
+        className="button"
         to={{
           pathname: "/Add",
           state: { fromScreen: location.pathname },
         }}
       >
-        <button className="button">
-          <p>+</p>
-        </button>
+        <p>+</p>
       </Link>
       <BsListCheck
         className="button"

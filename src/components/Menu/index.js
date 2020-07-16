@@ -6,22 +6,13 @@ import { FcAlarmClock } from "react-icons/fc";
 import { IoIosTimer } from "react-icons/io";
 import { RiTimerLine } from "react-icons/ri";
 import { useLocation } from "react-router-dom";
-import "./styles.css";
+import {MenuWrapper} from "./styles";
 
-const Menu = ({ left, center, right }) => {
+const Menu = React.memo(() => {
+  console.log("menu")
   let position = "flex-start";
   let marginLeft = 0;
   let marginRight = "50%";
-
-  if (center) {
-    position = "center";
-    marginLeft = "25%";
-    marginRight = "25%";
-  } else if (right) {
-    position = "flex-end";
-    marginLeft = "50%";
-    marginRight = "0";
-  }
 
   const location = useLocation();
 
@@ -31,7 +22,7 @@ const Menu = ({ left, center, right }) => {
   let animatedChange = useSpring({ left: screenIndex, width: screenIndex });
 
   return (
-    <div id="alarm-menu">
+    <MenuWrapper>
       <ul
         style={{
           justifyContent: position,
@@ -93,7 +84,7 @@ const Menu = ({ left, center, right }) => {
             Stopwatch
           </Link>
         </li>
-        <animated.li
+        <animated.div
           style={{
             position: "absolute",
             width: animatedChange.width.interpolate({
@@ -110,8 +101,8 @@ const Menu = ({ left, center, right }) => {
           }}
         />
       </ul>
-    </div>
+    </MenuWrapper>
   );
-};
+});
 
 export default Menu;

@@ -1,15 +1,22 @@
 import React from "react";
 import WindowMenu from "../WindowMenu";
 import Menu from "../Menu";
-import "./styles.css";
+import {HeaderWrapper} from "./styles";
 
-const Header = React.memo(() => {
+function Header({children}){
+  if (children){
+    return(
+      <HeaderWrapper>
+        {children}
+      </HeaderWrapper>
+    )
+  }
   return (
-    <header>
+    <HeaderWrapper>
       <WindowMenu />
       <Menu />
-    </header>
+    </HeaderWrapper>
   );
-});
+};
 
 export default Header;

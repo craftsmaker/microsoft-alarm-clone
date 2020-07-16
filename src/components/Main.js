@@ -5,6 +5,7 @@ const Main = styled.main`
   height: 96vh;
   padding: 0.7vh 0.7vw;
   overflow: hidden;
+  color: white;
 `;
 
 export default Main;

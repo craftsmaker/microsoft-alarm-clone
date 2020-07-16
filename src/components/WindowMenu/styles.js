@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const WindowMenuWrapper = styled.div`
     display: flex;
     -webkit-app-region: drag;
+    color: white;
     
     & > div {
         display: flex;
