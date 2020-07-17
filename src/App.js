@@ -33,9 +33,9 @@ export default function App() {
 
 function AnimatedRoute() {
   let location = useLocation();
-
+  
   let toScreenIndex = location?.state?.screenIndex;
-  let fromScreen = location?.state?.actualScreen;
+  let fromScreen = location?.state?.fromScreen;
 
   let fromScreenIndex = 0;
   ORDER.forEach((value, index) => {

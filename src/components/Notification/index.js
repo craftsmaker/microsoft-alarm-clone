@@ -2,7 +2,6 @@ import React from "react";
 import {NotificationWrapper} from "./styles";
 
 export default React.memo( () => {
-	console.log("Testing Notification")
 	return(
 		<NotificationWrapper>
 			<p>

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {animated} from "react-spring";
 
 export const MenuWrapper = styled.nav`
     display: flex;
@@ -27,4 +28,11 @@ export const NavigationContent = styled.ul`
     margin-left: 0px;
     margin-right: 50%;
     position: relative;
+`
+
+export const AnimatedBarWrapper = styled(animated.div)`
+    position: absolute;
+    height: 4px;
+    background-color: #0078D7;
+    bottom: 5px;
 `
