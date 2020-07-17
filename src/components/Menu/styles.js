@@ -1,27 +1,30 @@
 import styled from "styled-components";
 
-export const MenuWrapper = styled.div`
+export const MenuWrapper = styled.nav`
     display: flex;
     flex-direction: row;
     flex-grow: 1;
     flex-basis: 50px;
     flex-shrink: 0;
 
-    ul {
-        display: flex;
-	    flex-grow: 1;
-    }
-
     li {
         display: flex;
-	    flex-grow: 1;
     }
 
     a {
         display: flex;
-        flex-grow: 1;
-        flex-shrink: 1;
+        width: 10rem;
         justify-content: center;
         align-items: center;
     }
+    
+`
+
+export const NavigationContent = styled.ul`
+    display: flex;
+    flex-grow: 0;
+    justify-content: flex-start;
+    margin-left: 0px;
+    margin-right: 50%;
+    position: relative;
 `
