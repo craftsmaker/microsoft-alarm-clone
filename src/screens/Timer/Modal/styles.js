@@ -6,6 +6,7 @@ export const Container = styled.main`
     height: calc(100vh - 55px);
     justify-content: flex-start;
     align-items: center;
+    color: white;
 
     p {
         display: flex;

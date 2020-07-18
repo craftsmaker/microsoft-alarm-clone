@@ -11,15 +11,19 @@ export default () => {
   if (location.pathname === "/Add") {
     return (
       <Header>
-        <WindowMenu />
+        <React.Suspense fallback={<div></div>}>
+          <WindowMenu />
+        </React.Suspense>
       </Header>
     );
   }
-
+  
   if (modal[0]) {
     return (
       <Header>
-        <WindowMenu />
+        <React.Suspense fallback={<div></div>}>
+          <WindowMenu backgroundColor="black"/>
+        </React.Suspense>
       </Header>
     );
   }

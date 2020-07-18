@@ -3,15 +3,15 @@ import maximizeIcon from "../../assets/maximize.svg";
 import { remote } from "electron";
 import {WindowMenuWrapper} from "./styles";
 
-const WindowMenu = React.memo(() => {
+const WindowMenu = React.memo(({backgroundColor}) => {
   let mainWindow = remote.getCurrentWindow();
 
   const handleMaximizeAndMinimize = () => {
     mainWindow.isMaximized() ? mainWindow.restore() : mainWindow.maximize();
   };
-
+  console.log("WMenu",backgroundColor)
   return (
-    <WindowMenuWrapper>
+    <WindowMenuWrapper backgroundColor={backgroundColor}>
       <div>
         <p>Alarmes e Relógio</p>
       </div>

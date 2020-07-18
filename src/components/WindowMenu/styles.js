@@ -4,6 +4,7 @@ export const WindowMenuWrapper = styled.div`
     display: flex;
     -webkit-app-region: drag;
     color: white;
+    background-color: ${(props) => props.backgroundColor};
     
     & > div {
         display: flex;
