@@ -9,7 +9,7 @@ const WindowMenu = React.memo(({backgroundColor}) => {
   const handleMaximizeAndMinimize = () => {
     mainWindow.isMaximized() ? mainWindow.restore() : mainWindow.maximize();
   };
-  console.log("WMenu",backgroundColor)
+  
   return (
     <WindowMenuWrapper backgroundColor={backgroundColor}>
       <div>

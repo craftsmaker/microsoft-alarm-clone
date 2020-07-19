@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { Alarm } from "./index";
 
-export const StyledAlarm = styled(Alarm)`
+export const AlarmWrapper = styled.div`
   display: flex;
   width: 110vw;
   padding-left: 5px;

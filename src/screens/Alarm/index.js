@@ -52,9 +52,10 @@ export default function () {
         {alarms.map((alarm, index) => (
           <Alarm
             key={index}
-            alarm={alarm}
+            hours={alarm.hours}
+            minutes={alarm.minutes}
             identifier={index}
-            checkedAlarmIDs={checkedAlarmIDs}
+            checked={checkedAlarmIDs.indexOf(index) !== -1? true : false}
           />
         ))}
       </Alarms>

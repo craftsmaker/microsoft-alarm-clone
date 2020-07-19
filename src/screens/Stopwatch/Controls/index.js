@@ -3,11 +3,12 @@ import {FaPlay} from "react-icons/fa";
 import {IoMdResize,IoMdRefresh} from "react-icons/io";
 import {useSelector,useDispatch} from "react-redux";
 import {AiFillFlag} from "react-icons/ai";
-import {Buttons,Stopwatch} from "./styles";
+import {ButtonsWrapper,Stopwatch} from "./styles";
 
 export default function Controls(){
+	const stopWatch = useSelector(state => state.stopWatch);
 	const dispatch = useDispatch();
-	const stopWatch = useSelector(state => state.stopWatch);	
+
 	const parseNumberAndString = (string) => {
 		let newNumber = parseInt(string);
 		newNumber++;
@@ -51,32 +52,40 @@ export default function Controls(){
 		}
 	})
 
+	return(
+		<Stopwatch>
+			<h1>{stopWatch.hour}:{stopWatch.minute}:{stopWatch.second}<p style={{fontSize: "0.5em", display: "inline"}}>,{stopWatch.millisecondbyten}</p></h1>
+			<Buttons isActivated={stopWatch.isActivated}/>
+		</Stopwatch>
+	)
+}
+
+
+const Buttons = React.memo(({isActivated}) => {
+	const dispatch = useDispatch();
+	
 	const handleMark = () => {
 		dispatch({type: "ADD_MARK"})
 	}
 
 	const handlePlay = () => {
-		stopWatch.isActivated ? dispatch({type: "DEACTIVATE"}) : dispatch({type: "ACTIVATE"})
+		isActivated ? dispatch({type: "DEACTIVATE"}) : dispatch({type: "ACTIVATE"})
 		
 	}
 
 	const stopPlay = () => {
 		dispatch({type: "RESET_STOPWATCH"})
 	}
-	
 
 	return(
-		<Stopwatch>
-			<h1>{stopWatch.hour}:{stopWatch.minute}:{stopWatch.second}<p style={{fontSize: "0.5em", display: "inline"}}>,{stopWatch.millisecondbyten}</p></h1>
-			<Buttons>
-				{	
-					stopWatch.isActivated ?
-					<AiFillFlag onClick={handleMark}/> :
-					<IoMdRefresh onClick={stopPlay}/>
-				}
-				<FaPlay size={30} onClick={handlePlay}/>
-				<IoMdResize/>
-			</Buttons>
-		</Stopwatch>
+		<ButtonsWrapper>
+			{	
+				isActivated ?
+				<AiFillFlag onClick={handleMark}/> :
+				<IoMdRefresh onClick={stopPlay}/>
+			}
+			<FaPlay size={30} onClick={handlePlay}/>
+			<IoMdResize/>
+		</ButtonsWrapper>
 	)
-}
+})

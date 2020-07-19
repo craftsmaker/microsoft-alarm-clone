@@ -15,7 +15,7 @@ const Footer = ({right,children }) => {
 	
 	if (!children){
 		return (
-			<FooterWrapper style={{position: "absolute", bottom: "0"}}>
+			<FooterWrapper>
 				<ul style={{justifyContent: position}}>
 					<li><Link className="button" id="plus" role="button" to={{pathname:"/Add", state:{fromScreen: pathname}}}><p style={{margin:0,padding:0}}>+</p></Link></li>
 					<li><BsListCheck className="button"/></li>
@@ -27,7 +27,7 @@ const Footer = ({right,children }) => {
 	}
 
 	return(
-		<FooterWrapper style={{position: "absolute", bottom: "0"}}>
+		<FooterWrapper>
 			<ul style={{justifyContent: position}}>
 				{
 					children.lenght ? 

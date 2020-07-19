@@ -2,25 +2,23 @@ import React, { useState } from "react";
 import { Switch } from "@material-ui/core";
 import CustomCheckbox from "../../../components/Checkbox";
 import { useDispatch } from "react-redux";
-import { Informations, SwitchSelection } from "./styles";
-export { StyledAlarm as default } from "./styles";
+import { Informations, SwitchSelection, AlarmWrapper } from "./styles";
 
-export function Alarm({ alarm, identifier, checkedAlarmIDs, className }) {
+export default React.memo(({ hours,minutes, identifier, checked }) => {
   const dispatch = useDispatch();
   
-  let alarmTime = alarm.hours + ":" + alarm.minutes;
+  let alarmTime = hours + ":" + minutes;
   let alarmName = "Hello Honey";
   let alarmFrequency = "Everyday";
   // let alarmRepetition = "10 minutes";
   // let alarmSound = "Alarmes";
-  const checked = checkedAlarmIDs.some((id) => identifier === id);
   const [switcherChecked, setSwitcherChecked] = useState(false);
 
   let alarmNameColor = "white";
   if (switcherChecked) alarmNameColor = "blue";
 
   return (
-    <div className={className}>
+    <AlarmWrapper>
       <CustomCheckbox
         checked={checked}
         onClick={(e) => dispatch({ type: "TOGGLE_ALARM_CHECK", identifier })}
@@ -38,6 +36,6 @@ export function Alarm({ alarm, identifier, checkedAlarmIDs, className }) {
         />
         {switcherChecked ? <p>Ativado</p> : <p>Desativado</p>}
       </SwitchSelection>
-    </div>
+    </AlarmWrapper>
   );
-}
+})
