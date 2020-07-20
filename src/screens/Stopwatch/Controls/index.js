@@ -4,6 +4,7 @@ import {IoMdResize,IoMdRefresh} from "react-icons/io";
 import {useSelector,useDispatch} from "react-redux";
 import {AiFillFlag} from "react-icons/ai";
 import {ButtonsWrapper,Stopwatch} from "./styles";
+import {activate,deactivate,addMark,incrementMinute,incrementSecond,incrementMillisecondByTen, resetStopWatch} from "../../../store/stopWatchActions";
 
 export default function Controls(){
 	const stopWatch = useSelector(state => state.stopWatch);
@@ -35,17 +36,17 @@ export default function Controls(){
 						const [,stringMinute] = parseNumberAndString(stopWatch.minute);
 
 						// setTime({...time, minute: stringMinute,second: "00", Millisecondbyten: "00"})
-						dispatch({type:"INCREMENT_MINUTE", minute:stringMinute})
+						dispatch(incrementMinute(stringMinute))
 					}
 					else{
 						// setTime({...time, second: stringSecond, Millisecondbyten: "00"})	
-						dispatch({type:"INCREMENT_SECOND", second: stringSecond})
+						dispatch(incrementSecond(stringSecond))
 					}
 					
 				}
 				else{
 					// setTime({...time, Millisecondbyten: stringMillisecondbyten})
-					dispatch({type:"INCREMENT_MILLISECONDBYTEN", millisecondbyten: stringMillisecondbyten})
+					dispatch(incrementMillisecondByTen(stringMillisecondbyten))
 				}
 				
 			}, 10)
@@ -65,16 +66,16 @@ const Buttons = React.memo(({isActivated}) => {
 	const dispatch = useDispatch();
 	
 	const handleMark = () => {
-		dispatch({type: "ADD_MARK"})
+		dispatch(addMark())
 	}
 
 	const handlePlay = () => {
-		isActivated ? dispatch({type: "DEACTIVATE"}) : dispatch({type: "ACTIVATE"})
+		isActivated ? dispatch(deactivate()) : dispatch(activate())
 		
 	}
 
 	const stopPlay = () => {
-		dispatch({type: "RESET_STOPWATCH"})
+		dispatch(resetStopWatch())
 	}
 
 	return(
