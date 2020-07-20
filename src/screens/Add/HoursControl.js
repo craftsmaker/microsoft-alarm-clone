@@ -16,7 +16,6 @@ export default React.forwardRef(({location},ref) => {
 	function handleHours(value){
 		const {minutes,seconds} = reducer;
 
-		
 		if (value >= 0 && value <= 60)
 			dispatch({type,hours: String(value).padStart(2,"0"),minutes,seconds});
 		else if(value === 61)

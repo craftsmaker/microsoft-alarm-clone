@@ -6,6 +6,7 @@ import { transformListOfStringfiedObjectsIntoArray } from "../../utils";
 import Main from "../../components/Main";
 import Alarm from "./AlarmItem";
 import { Alarms } from "./styles";
+import {setToggler,addAlarms} from "../../store/alarmActions";
 
 export default function () {
   const { alarms, checkedAlarmIDs } = useSelector((state) => state.alarm);
@@ -14,9 +15,8 @@ export default function () {
   const [checkboxAnimation, setCheckboxAnimation] = useSpring(() => ({ left: "-38px" }));
 
   React.useEffect(() => {
-    dispatch({
-      type: "SET_TOGGLER",
-      setter: (isVisible = false) => {
+    dispatch(setToggler(
+      (isVisible = false) => {
         isVisible
           ? (() => {
             setCheckboxAnimation({ left: "-38px" });
@@ -25,16 +25,13 @@ export default function () {
             setCheckboxAnimation({ left: "0px" });
           })();
       },
-    });
+    ))
   }, [dispatch, setCheckboxAnimation]);
 
   let storedAlarms = localStorage.getItem("alarms");
 
   React.useEffect(() => {
-    dispatch({
-      type: "ADD_ALARMS",
-      alarms: transformListOfStringfiedObjectsIntoArray(storedAlarms) || [],
-    });
+    dispatch(addAlarms(transformListOfStringfiedObjectsIntoArray(storedAlarms) || []));
   }, [storedAlarms, dispatch]);
 
   if (!alarms) {

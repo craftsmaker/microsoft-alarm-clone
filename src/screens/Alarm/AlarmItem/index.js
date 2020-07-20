@@ -3,6 +3,7 @@ import { Switch } from "@material-ui/core";
 import CustomCheckbox from "../../../components/Checkbox";
 import { useDispatch } from "react-redux";
 import { Informations, SwitchSelection, AlarmWrapper } from "./styles";
+import {toggleAlarmCheck} from "../../../store/alarmActions";
 
 export default React.memo(({ hours,minutes, identifier, checked }) => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ export default React.memo(({ hours,minutes, identifier, checked }) => {
     <AlarmWrapper>
       <CustomCheckbox
         checked={checked}
-        onClick={(e) => dispatch({ type: "TOGGLE_ALARM_CHECK", identifier })}
+        onClick={(e) => dispatch(toggleAlarmCheck(identifier))}
       />
       <Informations>
         <h1>{alarmTime}</h1>
