@@ -4,6 +4,20 @@ import {
   Notify,
 } from "../utils";
 import soundfile from "../assets/sounds/siren.mp3";
+import {
+  ACTIVATE_TIMER,
+  ADD_CLOCKS,
+  ADD_TIMER,
+  CHANGE_MODAL,
+  DEACTIVATE_TIMER,
+  DECREMENT_COUNTER,
+  DELETE_SELECTED_TIMERS,
+  RESET_COUNTER,
+  SET_PLACEHOLDER,
+  SET_TIMER_TOGGLER,
+  TOGGLE_TIMER_CHECK,
+  TOGGLE_TIMER_DELETE_LIST
+} from "./timerActionTypes";
 
 const TIMER_STATE = {
   activeClocksIDs: [],
@@ -27,9 +41,9 @@ export default function (state = TIMER_STATE, action) {
   let checkedTimerIDs = [...state.checkedTimerIDs];
 
   switch (action.type) {
-    case "CHANGE_MODAL":
+    case CHANGE_MODAL:
       return { ...state, modal: action.modal, identifier: action.identifier };
-    case "ADD_TIMER":
+    case ADD_TIMER:
       const timer = { ...state.placeholderTimer, millisecondsbyten: "00" };
 
       let timers = transformListOfStringfiedObjectsIntoArray(
@@ -49,19 +63,19 @@ export default function (state = TIMER_STATE, action) {
         ...state,
         clocks: [...state.clocks, timer],
       };
-    case "ACTIVATE_TIMER":
+    case ACTIVATE_TIMER:
       return {
         ...state,
         activeClocksIDs: [...state.activeClocksIDs, action.identifier],
       };
-    case "DEACTIVATE_TIMER":
+    case DEACTIVATE_TIMER:
       identifier = activeClocksIDs.findIndex((id) => id === identifier);
       if (identifier !== -1) activeClocksIDs.splice(identifier, identifier + 1);
 
       return { ...state, activeClocksIDs };
-    case "ADD_CLOCKS":
+    case ADD_CLOCKS:
       return { ...state, clocks: action.clocks };
-    case "DECREMENT_COUNTER":
+    case DECREMENT_COUNTER:
       clocks.forEach((timer, clockID) => {
         if (activeClocksIDs.some((ID) => clockID === ID)) {
           let hasEnded = false;
@@ -108,13 +122,13 @@ export default function (state = TIMER_STATE, action) {
         }
       });
       return { ...state, clocks, activeClocksIDs };
-    case "RESET_COUNTER":
+    case RESET_COUNTER:
       Notify.stop(String(identifier));
       clocks[action.identifier] = transformListOfStringfiedObjectsIntoArray(
         localStorage.getItem("timers")
       )[action.identifier];
       return { ...state, clocks };
-    case "SET_PLACEHOLDER":
+    case SET_PLACEHOLDER:
       return {
         ...state,
         placeholderTimer: {
@@ -123,12 +137,12 @@ export default function (state = TIMER_STATE, action) {
           seconds: action.seconds,
         },
       };
-    case "SET_TIMER_TOGGLER":
+    case SET_TIMER_TOGGLER:
       return {
         ...state,
         toggleDeleteTimers: { isVisible: false, toggle: action.setter },
       };
-    case "TOGGLE_TIMER_DELETE_LIST":
+    case TOGGLE_TIMER_DELETE_LIST:
       toggleDeleteTimers.toggle(toggleDeleteTimers.isVisible);
       return {
         ...state,
@@ -137,7 +151,7 @@ export default function (state = TIMER_STATE, action) {
           toggle: toggleDeleteTimers.toggle,
         },
       };
-    case "TOGGLE_TIMER_CHECK":
+    case TOGGLE_TIMER_CHECK:
       if (checkedTimerIDs.some((id) => id === action.identifier)) {
         const id = checkedTimerIDs.indexOf(action.identifier);
         checkedTimerIDs.splice(id, id + 1);
@@ -146,7 +160,7 @@ export default function (state = TIMER_STATE, action) {
       }
 
       return { ...state, checkedTimerIDs };
-    case "DELETE_SELECTED_TIMERS":
+    case DELETE_SELECTED_TIMERS:
       checkedTimerIDs.forEach((ID) => deleteItemLOILS("timers", ID));
       checkedTimerIDs = [];
       toggleDeleteTimers.toggle(true);

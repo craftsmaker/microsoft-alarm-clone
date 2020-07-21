@@ -4,6 +4,7 @@ import { MdPlayArrow, MdRefresh } from "react-icons/md";
 import { IoMdResize } from "react-icons/io";
 import {TimerWrapper,ButtonsWrapper} from "./styles";
 import AnimatedCheckbox from './AnimatedCheckbox';
+import {changeModal,activateTimer,deactivateTimer,resetCounter} from "../../../store/timerActions";
 
 export default function ({ timer, identifier, style, checkedTimerIDs, isRunning }) {
 
@@ -33,20 +34,20 @@ const Buttons = React.memo(function ({isRunning,identifier}) {
   const dispatch = useDispatch();
 
   const handleRefresh = () => {
-    dispatch({ type: "RESET_COUNTER", identifier });
+    dispatch(resetCounter(identifier));
   };
 
   const handlePlay = () => {
     isRunning
-      ? dispatch({ type: "DEACTIVATE_TIMER", identifier })
-      : dispatch({ type: "ACTIVATE_TIMER", identifier });
+      ? dispatch(deactivateTimer(identifier))
+      : dispatch(activateTimer(identifier));
   };
   
   return(
     <ButtonsWrapper>
       <ButtonRefresh onClick={handleRefresh} />
       <PlayButton onClick={handlePlay} />
-      <ResizeButton onClick={() => dispatch({type: "CHANGE_MODAL",modal: [true, {}, identifier]})}/>
+      <ResizeButton onClick={() => dispatch(changeModal([true, {}, identifier]))}/>
     </ButtonsWrapper>
   )
 })

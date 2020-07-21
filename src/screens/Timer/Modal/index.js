@@ -3,6 +3,7 @@ import {MdPlayArrow,MdRefresh} from "react-icons/md";
 import {FiMinimize2} from "react-icons/fi";
 import {useDispatch,useSelector} from "react-redux";
 import {Container,FooterWrapper,Buttons} from "./styles";
+import {changeModal,activateTimer,deactivateTimer,resetCounter} from "../../../store/timerActions";
 
 export default function Modal({identifier}){
     const {activeClocksIDs,clocks} = useSelector(state => state.timer);
@@ -28,14 +29,14 @@ const Footer = React.memo(function ({isRunning,identifier}){
     const dispatch = useDispatch();
 
 	const handleRefresh = () => {
-		dispatch({type: "RESET_COUNTER", identifier: identifier});
+		dispatch(resetCounter(identifier));
 	}
 
 	const handlePlay = () => {
 		// console.log(isRunning);
 		isRunning
-		?dispatch({type: "DEACTIVATE_TIMER", identifier})
-		:dispatch({type: "ACTIVATE_TIMER", identifier})
+		?dispatch(deactivateTimer(identifier))
+		:dispatch(activateTimer(identifier))
 	}
     
     return(
@@ -57,7 +58,7 @@ const Footer = React.memo(function ({isRunning,identifier}){
                     <li>
                         <FiMinimize2 
                             className="minimizeButton"
-                            onClick={() => dispatch({type: "CHANGE_MODAL", modal: [false,{}]})}
+                            onClick={() => dispatch(changeModal([false,{}]))}
                         />
                     </li>
                 </Buttons>

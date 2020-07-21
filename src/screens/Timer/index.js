@@ -7,6 +7,7 @@ import { transformListOfStringfiedObjectsIntoArray } from "../../utils";
 import TimerItem from "./TimerItem";
 import Main from "../../components/Main";
 import {TimerList} from "./styles";
+import {setTimerToggler,decrementCounter,addClocks} from "../../store/timerActions";
 
 export default () => {
   const dispatch = useDispatch();
@@ -19,25 +20,24 @@ export default () => {
   );
 
   useEffect(() => {
-    dispatch({
-      type: "SET_TIMER_TOGGLER",
-      setter: (isVisible = false) => {
+    dispatch(setTimerToggler(
+      (isVisible = false) => {
         isVisible
           ? (() => {
-              setToggleAnimations(() => ({ left: "-100pax" }));
+              setToggleAnimations(() => ({ left: "-100px" }));
             })()
           : (() => {
               setToggleAnimations(() => ({ left: "5px" }));
             })();
       },
-    });
+    ))
   }, [dispatch, setToggleAnimations]);
 
   useEffect(() => {
     // Compare timer.clock with values in storage
     if (clocks?.length > 0 && activeClocksIDs?.length > 0) {
       setTimeout(() => {
-        dispatch({ type: "DECREMENT_COUNTER" });
+        dispatch(decrementCounter());
       }, 10);
     }
   });
@@ -47,7 +47,7 @@ export default () => {
   useEffect(() => {
     let newClocks = transformListOfStringfiedObjectsIntoArray(storedTimers);
     if (!newClocks) newClocks = [];
-    dispatch({ type: "ADD_CLOCKS", clocks: newClocks });
+    dispatch(addClocks(newClocks));
   }, [storedTimers, dispatch]);
 
   if (!modal[0]) {
